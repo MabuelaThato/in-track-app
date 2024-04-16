@@ -3,14 +3,14 @@ import { initializeApp, getApp, getApps } from "firebase/app";
 import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyBxIwcnk2GLi3MTM1EUVTOYk9VJjTYqVHg",
-    authDomain: "learner-management-syste-afdbf.firebaseapp.com",
-    projectId: "learner-management-syste-afdbf",
-    storageBucket: "learner-management-syste-afdbf.appspot.com",
-    messagingSenderId: "761841546410",
-    appId: "1:761841546410:web:a32770ab1d029db6cb8cd3",
-    measurementId: "G-MNGT812XK3"
-  };
+  apiKey: "AIzaSyCAz-QMg1d3M-gP2BRR1vp0RLURKXNpYBk",
+  authDomain: "in-track-c09ce.firebaseapp.com",
+  projectId: "in-track-c09ce",
+  storageBucket: "in-track-c09ce.appspot.com",
+  messagingSenderId: "415495409378",
+  appId: "1:415495409378:web:465b3883e694c5632298bb",
+  measurementId: "G-ELLH1G9H1W"
+};
 
 // Initialize Firebase
 getApps().length ? getApp() : initializeApp(firebaseConfig);

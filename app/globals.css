@@ -91,10 +91,16 @@
   .form-bg .img{
     display: block;
     margin: auto;
-    width: 80px;
   }
   
   .input{
     padding-left: 12px;
     border-radius: 5px;
+  }
+
+  .title{
+    text-decoration: underline;
+    text-decoration-color: #A5BE00;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 2px;
   }

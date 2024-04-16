@@ -50,7 +50,7 @@ const SignIn = () => {
         } catch (error) {
           console.log(error);
           
-          updateSubmitting(false);
+          updateSubmitting(false); 
         }
       }
 
@@ -58,9 +58,9 @@ const SignIn = () => {
   <div className='form-bg text-center border border-slate-200 drop-shadow'>
     <div className=''>
       <Image 
-      src="/in-track-logo.png"
+      src="/logo.png"
       alt='in-track logo'
-      width={100}
+      width={130}
       height={100}
       className='img'
       />

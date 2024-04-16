@@ -41,7 +41,7 @@ export const AuthProvider: FC<Props> = ({ children }) => {
   };
 
   useEffect(() => {
-    const intID = setInterval(refreshToken, 5 * 60 * 1000);
+    const intID = setInterval(refreshToken, 120 * 60 * 1000);
     return () => clearInterval(intID);
   }, []);
 

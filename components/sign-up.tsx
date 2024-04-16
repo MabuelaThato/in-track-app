@@ -14,15 +14,14 @@ import {
 import { Input } from "@/components/ui/input"
 import { fireAuth } from "@/components/provider"
 import { createUserWithEmailAndPassword } from 'firebase/auth'
-import { redirectUser, registerUser } from '@/actions/actions'
-import { useRouter } from 'next/navigation'
+import {  registerUser } from '@/actions/actions'
 import Image from 'next/image'
 
 
 const formSchema = z.object({
     email: z.string().min(2, {
       message: "Please enter email.",
-    }),
+    }), 
     password: z.string().min(8, {
       message: "Password must be at least 8 characters.",
     }),
@@ -50,18 +49,15 @@ const SignUp = () => {
     });
 
     async function register(values: z.infer<typeof formSchema>) {
+      
       updateSubmitting(true);
 
       try {
         await createUserWithEmailAndPassword(fireAuth, values.email, values.password);
-        await registerUser(values);
-       
+        await registerUser(values);       
       } catch (error) {
-
         console.log(error);
-        
         updateSubmitting(false);
-
       }
     }
 
@@ -69,9 +65,9 @@ const SignUp = () => {
     <div className='form-bg border border-slate-200 drop-shadow'>
       <div className='text-center'>
       <Image
-      src="/in-track-logo.png"
+      src="/logo.png"
       alt='in-track logo'
-      width={100}
+      width={130}
       height={100}
       className='img'
       />

@@ -5,6 +5,9 @@ import AdminDashboard from "@/components/dashboard/adminDashboard";
 import LearnerDashboard from "@/components/dashboard/learnerDashboard";
 import { sql } from "@vercel/postgres";
 import firebaseAdmin from "@/components/firebaseAdmin";
+import { FaArrowRightLong } from "react-icons/fa6";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const Dashboard = async () => {
 
@@ -14,15 +17,30 @@ const Dashboard = async () => {
   if (!currentUser) redirect("/register");
 
   const userId = currentUser.uid
-  console.log(userId);
+ 
   const { rows } = await sql`SELECT * from users where userid=${userId}`;
-  console.log("Rows: ", rows)
+  
   const userRole = rows[0]?.role;
-  console.log("Role:", rows[0]?.role)
+  const userName = rows[0]?.firstname;
+ 
   return (
-    <div className="m-8">
+    <div className="min-h-screen p-12 bg-[#F4F4F4]">
+      <div className="flex justify-between">
+        <div>
+          <div className='text-4xl font-medium '>
+            <h1>Hello {userName}</h1>
+          </div>
+          <p className='text-sm text-zinc-500 mb-6'>Here are your stats for today.</p>
+        </div>
+        <Link href="/classes">
+          <Button className="bg-[#064789] hover:border hover:border-[#064789] hover:text-[#064789] hover:bg-white flex gap-2 itemse-center">
+            <span>Classes</span>
+            <FaArrowRightLong />
+          </Button>
+        </Link>
+      </div>
       {
-        userRole === "Admin" ? (
+        userRole === "admin" ? (
           <AdminDashboard />
         ) : (
           <LearnerDashboard />
