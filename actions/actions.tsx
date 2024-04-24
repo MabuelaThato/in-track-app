@@ -43,6 +43,24 @@ export async function registerUser(form: any) {
         console.error('Token is undefined. Unable to verify.');
     }
 }
+export async function addLearner(form: any, classId: string) {
+    const token = cookies().get("token")?.value!;
+    if (!token) return redirect("/");
+    console.log("Token", token);
+    if (token) {
+        const user = await firebaseAdmin.auth().verifyIdToken(token);
+        
+        try {
+            await sql`INSERT INTO learners (classid, teacherid, name, surname)
+                VALUES (${classId}, ${user.uid}, ${form.name}, ${form.surname});`;  
+      } catch (error) {
+        console.log(error);
+      }
+      redirect("/dashboard");
+    } else {      
+        console.error('Token is undefined. Unable to verify.');
+    }
+}
 
 export async function getUser(){
     const token = cookies().get("token")?.value!;
@@ -51,7 +69,7 @@ export async function getUser(){
   
     const userId = currentUser.uid
    
-    const { rows } = await sql`SELECT * from users where userid=${userId}`;
+    const { rows } = await sql`SELECT * from users where userid=${userId};`;
     
     const user = rows[0];
 
@@ -66,12 +84,47 @@ export async function getAdminClasses(){
   
     const userId = currentUser.uid
    
-    const { rows } = await sql`SELECT * from classes where classid=${userId}`;
+    const { rows } = await sql`SELECT * from classes where teacherid=${userId};`;
     
     const classes = rows;
 
     return classes;
 
+}
+
+export async function addAdminClass(form: any){
+    const token = cookies().get("token")?.value!;
+    if (!token) return redirect("/");
+    const currentUser = await firebaseAdmin.auth().verifyIdToken(token);
+  
+    const userId = currentUser.uid
+    await sql`INSERT INTO classes(subject, division, teacherid)
+    VALUES (${form.subject}, ${form.division}, ${userId});`;
+    
+}
+
+export async function getLearners(classId: string){
+    const token = cookies().get("token")?.value!;
+    if (!token) return redirect("/");
+    const currentUser = await firebaseAdmin.auth().verifyIdToken(token);
+
+    const { rows } = await sql`SELECT * FROM learners
+    WHERE classid = ${classId} AND teacherid = ${currentUser.uid};`;
+    const currentClass = rows;
+
+    return currentClass;
+}
+
+export async function getClass(classId: string){
+    const token = cookies().get("token")?.value!;
+    if (!token) return redirect("/");
+    const currentUser = await firebaseAdmin.auth().verifyIdToken(token);
+    
+    const { rows } = await sql`SELECT * FROM classes
+    WHERE classid = ${classId} AND teacherid = ${currentUser.uid};`;
+    const currentClass = rows[0];
+    
+    return currentClass;
 }
 
 export async function deleteClass(classSubject: string, classDivision: string){
@@ -81,8 +134,18 @@ export async function deleteClass(classSubject: string, classDivision: string){
   
     const userId = currentUser.uid;
 
-    await sql`SELECT * FROM classes
-    WHERE classid = ${userId} AND subject = ${classSubject} AND division = ${classDivision};`
+    await sql`DELETE FROM classes WHERE classid = ${userId} AND subject = ${classSubject} AND division = ${classDivision};`
+
+    revalidatePath("/dashboard/classes");
+  }
+export async function deleteLearner(classSubject: string, classDivision: string){
+    const token = cookies().get("token")?.value!;
+    if (!token) return redirect("/");
+    const currentUser = await firebaseAdmin.auth().verifyIdToken(token);
+  
+    const userId = currentUser.uid;
+
+    await sql`DELETE FROM classes WHERE classid = ${userId} AND subject = ${classSubject} AND division = ${classDivision};`
 
     revalidatePath("/dashboard/classes");
   }

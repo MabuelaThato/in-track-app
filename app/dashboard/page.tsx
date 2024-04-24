@@ -21,7 +21,7 @@ const Dashboard = async () => {
           <p className='text-sm text-zinc-500 mb-6'>Here are your stats for today.</p>
         </div>
         <Link href="/dashboard/classes">
-          <Button className="bg-[#064789] hover:border hover:border-[#064789] hover:text-[#064789] hover:bg-white flex gap-2 itemse-center">
+          <Button className="bg-[#064789] hover:border hover:border-[#064789] hover:text-[#064789] hover:bg-white flex gap-2 items-center">
             <span>Classes</span>
             <FaArrowRightLong />
           </Button>

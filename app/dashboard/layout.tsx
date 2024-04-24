@@ -16,9 +16,7 @@ export default async function RootLayout({
 }) {
 
   return (
-    <html lang="en">
-      <body className={poppins.className}>
-        <div>
+        <div className={poppins.className}>
             <AuthProvider>
             <Nav />
             <div className="bg-[#F4F4F4]">
@@ -26,7 +24,5 @@ export default async function RootLayout({
             </div>
             </AuthProvider>
         </div>
-      </body>
-    </html>
   );
 }
