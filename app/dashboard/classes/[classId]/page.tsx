@@ -7,6 +7,14 @@ import { Button } from '@/components/ui/button';
 import { FaPlus } from 'react-icons/fa6';
 import AddLearner from '@/components/learners/addLearner';
 import { IoSettingsSharp } from "react-icons/io5";
+import RegisterLearner from '@/components/learners/registerLearner';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
+
 
 const Learners = async ({ params }: { params: { classId: string } }) => {
 
@@ -29,8 +37,25 @@ const Learners = async ({ params }: { params: { classId: string } }) => {
               A list of all your learners for class <span className='font-semibold'>{division} - {subject}</span>.
             </p>
           </div>
-          <div>
-            <AddLearner classId={classId}/>
+          <div className='flex items-center gap-2'>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger><RegisterLearner classId={classId} /></TooltipTrigger>
+                <TooltipContent>
+                  <p>For new learners who don't have an account</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger><AddLearner classId={classId}/></TooltipTrigger>
+                <TooltipContent>
+                  <p>
+                    For learner learners who already have an app account
+                  </p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           </div>
         </div>
       <div className=' border bg-white rounded-lg p-6'>
@@ -45,7 +70,7 @@ const Learners = async ({ params }: { params: { classId: string } }) => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {learners.map((learner: any, index: any) => {
+          {learners?.map((learner: any, index: any) => {
             return (
               <TableRow key={index}>
                 <TableCell>{index + 1}</TableCell>

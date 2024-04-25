@@ -9,7 +9,6 @@ import { Button } from '../ui/button';
 import { IoSettingsSharp } from 'react-icons/io5';
 
 const AdminClasses = async () => {
-
   const classes = await getAdminClasses();
   return (
     <div className=" border bg-white rounded-lg p-6">
@@ -24,7 +23,7 @@ const AdminClasses = async () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {classes.map((grade, index) => {
+          {classes?.map((grade, index) => {
             return (
               <TableRow key={index}>
                 <TableCell>{index + 1}</TableCell>

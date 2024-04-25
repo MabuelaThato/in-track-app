@@ -8,8 +8,8 @@ import { getUser } from "@/actions/actions";
 
 const Dashboard = async () => {
   const user = await getUser();
-  const userRole = user.role;
-  const userName = user.firstname;
+  const userRole = user?.role;
+  const userName = user?.firstname;
  
   return (
     <div className="min-h-screen p-12 ">

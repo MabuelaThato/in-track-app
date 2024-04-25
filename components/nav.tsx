@@ -3,6 +3,7 @@ import { getUser } from '@/actions/actions';
 import SignOut from './sign-out';
 import { Concert_One } from "next/font/google";
 import { Separator } from './ui/separator';
+import Link from 'next/link';
 
 const concertOne = Concert_One({weight: ['400'],style: ['normal'],subsets: ['latin']});
 
@@ -15,9 +16,9 @@ const Nav = async () => {
         <div className='p-2 flex justify-between px-12 items-center'>
 
           <div className={concertOne.className}>
-            <div className='font-black'>
+            <Link href="/dashboard" className='font-black'>
                 <span className='text-[#A5BE00] text-lg'>in</span><span  className='text-xl text-[#064789]'>Track</span>
-            </div>
+            </Link>
           </div>
 
           <div className='flex gap-2 items-center'>

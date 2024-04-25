@@ -9,6 +9,7 @@ import React, {
 import nookies from "nookies";
 import { User } from "firebase/auth";
 import { fireAuth } from "./provider";
+import { useRouter } from "next/navigation";
 
 interface Props {
   children: React.ReactNode;
@@ -19,7 +20,7 @@ const AuthContext = createContext({
 });
 
 export const AuthProvider: FC<Props> = ({ children }) => {
-  //
+  const router = useRouter();
 
   const [user, setUser] = useState<User | any>(null);
 
@@ -28,6 +29,7 @@ export const AuthProvider: FC<Props> = ({ children }) => {
       if (!user) {
         setUser(null);
         nookies.destroy(null, "token");
+        router.push('/');
       } else {
         setUser(user);
         const token = await user.getIdToken();
