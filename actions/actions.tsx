@@ -2,9 +2,8 @@
 import firebaseAdmin from "@/components/firebaseAdmin";
 import getProfile from "@/components/getProfile";
 import { fireAuth } from "@/components/provider";
-import { Toaster } from "@/components/ui/sonner"
 import { sql } from "@vercel/postgres";
-import { createUserWithEmailAndPassword, signOut } from "firebase/auth";
+import { signOut } from "firebase/auth";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
@@ -108,6 +107,27 @@ export async function getAdminClasses(){
     }
 
 }
+export async function getLearnerClasses(){
+
+    const token = cookies().get("token")?.value!;
+    if (!token) return redirect("/");
+    try {
+        const currentUser = await firebaseAdmin.auth().verifyIdToken(token);
+      
+        const userId = currentUser.uid
+
+        const { rows } = await sql`SELECT classes.classid, classes.subject, classes.division
+        FROM classes
+        INNER JOIN learners ON classes.classid=learners.classid WHERE learners.learnerid=${userId};`;
+        
+        const classes = rows;
+    
+        return classes;
+    } catch (error) {
+        console.log(error);
+    }
+
+}
 
 export async function addAdminClass(form: any){
     const token = cookies().get("token")?.value!;
@@ -180,4 +200,79 @@ export async function deleteLearner(classSubject: string, classDivision: string)
     await sql`DELETE FROM classes WHERE classid = ${userId} AND subject = ${classSubject} AND division = ${classDivision};`
 
     revalidatePath("/dashboard/classes");
+  }
+
+  //QUIZZES
+
+  export async function createQuiz(form: any, classId: string) {
+    const token = cookies().get("token")?.value!;
+    if (!token) return redirect("/");
+    try {
+        const currentUser = await firebaseAdmin.auth().verifyIdToken(token);
+        const result = await sql`INSERT INTO quizzes (title, instruction, teacherid, classId) VALUES (${form.title}, ${form.instruction}, ${currentUser.uid}, ${classId});`;
+        const createdQuiz = result.rows[0];
+        return createdQuiz;
+    } catch (error) {
+      console.error('Error creating quiz:', error);
+      throw new Error('Internal server error');
+    }
+  }
+
+  export async function createQuestion(quizId: number, text: string) {
+    try {
+      const result = await sql`INSERT INTO questions (quiz_id, text) VALUES (${quizId}, ${text});`;
+      const createdQuestion = result.rows[0];
+      return createdQuestion;
+    } catch (error) {
+      console.error('Error creating question:', error);
+      throw new Error('Internal server error');
+    }
+  }
+
+  export async function createAnswer(questionId: number, text: string, isCorrect: boolean) {
+    try {
+      const result = await client.query(
+        'INSERT INTO answers (question_id, text, is_correct) VALUES ($1, $2, $3) RETURNING *',
+        [questionId, text, isCorrect]
+      );
+      const createdAnswer = result.rows[0];
+      return createdAnswer;
+    } catch (error) {
+      console.error('Error creating answer:', error);
+      throw new Error('Internal server error');
+    }
+  }
+
+  export async function getAdminAssessments(classId: string){
+    const token = cookies().get("token")?.value!;
+    if (!token) return redirect("/");
+
+    try {
+        const currentUser = await firebaseAdmin.auth().verifyIdToken(token);
+        const { rows } = await sql`SELECT * FROM quizzes WHERE teacherid=${currentUser.uid} AND classid=${classId};`;
+        
+        const assessments = rows;
+    
+        return assessments;
+
+    } catch (error) {
+      console.error('Error creating quiz:', error);
+      throw new Error('Internal server error');
+    }
+  }
+  export async function getAdminAssessment(classId: string, assessmentId: string){
+    const token = cookies().get("token")?.value!;
+    if (!token) return redirect("/");
+
+    try {
+        const { rows } = await sql`SELECT * FROM quizzes WHERE assessmentid=${assessmentId} AND classid=${classId};`;
+        
+        const assessments = rows[0];
+    
+        return assessments;
+
+    } catch (error) {
+      console.error('Error creating quiz:', error);
+      throw new Error('Internal server error');
+    }
   }

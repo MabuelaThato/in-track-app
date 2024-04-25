@@ -17,10 +17,6 @@ const AdminClassesHeader = () => {
         
           <div>
             <AddClass />
-              {/*<Button className='text-white bg-[#064789] hover:bg-white hover:text-[#064789] border rounded-md border-[#064789] p-2'>
-                Add Class
-              </Button>*/}
-
           </div>
       </div>
     </div>

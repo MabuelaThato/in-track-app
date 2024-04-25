@@ -37,9 +37,8 @@ const AdminClasses = async () => {
                     View
                   </Link>
                   <FaTrash className='hover:text-white hover:bg-[#064789] bg-white text-[#064789] border rounded-md border-[#064789] px-2 py-0.5' size={28}/>
-                  <Link href={`/dashboard/classes/${grade?.classid}/${grade?.settingid}`} className="bg-gray-500 hover:border hover:border-gray-500 hover:text-gray-500 hover:bg-white rounded-md px-2 py-1 flex gap-2 items-center text-white">
-                    <IoSettingsSharp />
-                    <span>Grades settings</span>
+                  <Link href={`/dashboard/classes/${grade?.classid}/assessments`} className="bg-gray-400 hover:border hover:border-gray-400 hover:text-gray-400 hover:bg-white rounded-md px-2 py-1 text-white">
+                    <span>Assessments</span>
                   </Link>
                 </TableCell>
               </TableRow>
