@@ -218,28 +218,34 @@ export async function deleteLearner(classSubject: string, classDivision: string)
     }
   }
 
-  export async function createQuestion(quizId: number, text: string) {
+  export async function addQuestion(form: any, classId: string, assessmentId: string) {
+    const token = cookies().get("token")?.value!;
+    if (!token) return redirect("/");
     try {
-      const result = await sql`INSERT INTO questions (quiz_id, text) VALUES (${quizId}, ${text});`;
-      const createdQuestion = result.rows[0];
-      return createdQuestion;
+      const currentUser = await firebaseAdmin.auth().verifyIdToken(token);
+      const optionsArray = [form.option1, form.option2, form.option3, form.option4];
+      const optionsLiteral = `{${optionsArray.join(',')}}`;
+      await sql`INSERT INTO questions (assessmentid, classid, teacherid, question, correctanswer, options) 
+      VALUES (${assessmentId}, ${classId}, ${currentUser.uid}, ${form.question}, ${form.correctAnswer}, ${optionsLiteral});`;
+      revalidatePath(`/classes/${classId}/assessments/${assessmentId}`);
     } catch (error) {
       console.error('Error creating question:', error);
       throw new Error('Internal server error');
     }
   }
 
-  export async function createAnswer(questionId: number, text: string, isCorrect: boolean) {
+  export async function getQuestions(classId: string, assessmentId: string){
+    const token = cookies().get("token")?.value!;
+    if (!token) return redirect("/");
     try {
-      const result = await client.query(
-        'INSERT INTO answers (question_id, text, is_correct) VALUES ($1, $2, $3) RETURNING *',
-        [questionId, text, isCorrect]
-      );
-      const createdAnswer = result.rows[0];
-      return createdAnswer;
+        const currentUser = await firebaseAdmin.auth().verifyIdToken(token);
+        
+        const { rows } = await sql`SELECT * FROM questions
+        WHERE classid = ${classId} AND teacherid = ${currentUser.uid} AND assessmentid = ${assessmentId};`;
+        
+        return rows;
     } catch (error) {
-      console.error('Error creating answer:', error);
-      throw new Error('Internal server error');
+        console.log(error);
     }
   }
 

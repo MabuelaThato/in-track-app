@@ -5,8 +5,7 @@ import { getAdminClasses } from '@/actions/actions';
 import DeleteClass from './deleteClass';
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '../ui/table';
 import { FaTrash } from 'react-icons/fa6';
-import { Button } from '../ui/button';
-import { IoSettingsSharp } from 'react-icons/io5';
+
 
 const AdminClasses = async () => {
   const classes = await getAdminClasses();
