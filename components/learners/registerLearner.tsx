@@ -16,7 +16,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import { addLearner } from '@/actions/actions';
+import { addLearner, registerLearner } from '@/actions/actions';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { fireAuth } from '../provider';
 
@@ -42,6 +42,7 @@ const RegisterLearner = ({classId}: {classId: string}) => {
     async function onSubmit(values: z.infer<typeof formSchema>) {
       try{
         await createUserWithEmailAndPassword(fireAuth, values.email, values.password);
+        await registerLearner(values);
         await addLearner(values, classId);
       } catch(err){
         console.log(err);

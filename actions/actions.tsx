@@ -43,6 +43,24 @@ export async function registerUser(form: any) {
         console.error('Token is undefined. Unable to verify.');
     }
 }
+export async function registerLearner(form: any) {
+    const token = cookies().get("token")?.value!;
+    if (!token) return redirect("/");
+    console.log("Token", token);
+    if (token) {
+        const user = await firebaseAdmin.auth().getUserByEmail(form.email);
+        
+        try {
+            await sql`INSERT INTO users (userid, lastname, firstname, role)
+                VALUES (${user.uid}, ${form.name}, ${form.surname}, 'learner');`;
+      } catch (error) {
+        
+      }
+      redirect("/dashboard");
+    } else {      
+        console.error('Token is undefined. Unable to verify.');
+    }
+}
 
 
 export async function addLearner(form: any, classId: string) {
@@ -53,7 +71,6 @@ export async function addLearner(form: any, classId: string) {
         const user = await firebaseAdmin.auth().verifyIdToken(token);
             try {
               const userRecord = await firebaseAdmin.auth().getUserByEmail(form.email);
-              //console.log("USER RECORD:  ", userRecord);
               await sql`INSERT INTO learners (classid, teacherid, name, surname, learnerid)
                 VALUES (${classId}, ${user.uid}, ${form.name}, ${form.surname}, ${userRecord.uid});`;
                 revalidatePath(`/dashboard/classes/${classId}`)
@@ -166,17 +183,17 @@ export async function getClass(classId: string){
     const token = cookies().get("token")?.value!;
     if (!token) return redirect("/");
     try {
-        const currentUser = await firebaseAdmin.auth().verifyIdToken(token);
+
         
         const { rows } = await sql`SELECT * FROM classes
-        WHERE classid = ${classId} AND teacherid = ${currentUser.uid};`;
+        WHERE classid = ${classId};`;
         const currentClass = rows[0];
         
         return currentClass;
     } catch (error) {
         console.log(error);
     }
-}
+};
 
 export async function deleteClass(classSubject: string, classDivision: string){
     const token = cookies().get("token")?.value!;
@@ -204,12 +221,12 @@ export async function deleteLearner(classSubject: string, classDivision: string)
 
   //QUIZZES
 
-  export async function createQuiz(form: any, classId: string) {
+  export async function createQuiz(form: any, classId: string, dueDate: string) {
     const token = cookies().get("token")?.value!;
     if (!token) return redirect("/");
     try {
         const currentUser = await firebaseAdmin.auth().verifyIdToken(token);
-        const result = await sql`INSERT INTO quizzes (title, instruction, teacherid, classId) VALUES (${form.title}, ${form.instruction}, ${currentUser.uid}, ${classId});`;
+        const result = await sql`INSERT INTO quizzes (title, instruction, teacherid, classId, duedate) VALUES (${form.title}, ${form.instruction}, ${currentUser.uid}, ${classId}, ${dueDate});`;
         const createdQuiz = result.rows[0];
         return createdQuiz;
     } catch (error) {
@@ -266,6 +283,23 @@ export async function deleteLearner(classSubject: string, classDivision: string)
       throw new Error('Internal server error');
     }
   }
+  export async function getlearnerAssessments(classId: string){
+    const token = cookies().get("token")?.value!;
+    if (!token) return redirect("/");
+
+    try {
+        const { rows } = await sql`SELECT * FROM quizzes WHERE classid=${classId};`;
+        
+        const assessments = rows;
+    
+        return assessments;
+
+    } catch (error) {
+      console.error('Error creating quiz:', error);
+      throw new Error('Internal server error');
+    }
+  }
+
   export async function getAdminAssessment(classId: string, assessmentId: string){
     const token = cookies().get("token")?.value!;
     if (!token) return redirect("/");

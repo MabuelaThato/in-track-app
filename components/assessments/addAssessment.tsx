@@ -17,6 +17,16 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
+import { format } from "date-fns"
+import { Calendar as CalendarIcon } from "lucide-react"
+import { cn } from "@/lib/utils"
+import { Calendar } from "@/components/ui/calendar"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+import { Label } from '../ui/label';
 
 const formSchema = z.object({
     title: z.string().min(2).max(50),
@@ -33,8 +43,69 @@ const AddAssessment = ({classId}: {classId: string}) => {
         },
       })
 
+      const [date, setDate] = React.useState<Date>()
+      const month = date?.getMonth();
+      let selectedMonth = "";
+
+      switch(month){ 
+        case 0: { 
+           selectedMonth = "January"
+           break; 
+        } 
+        case 1: { 
+           selectedMonth = "February"
+           break; 
+        } 
+        case 2: { 
+           selectedMonth = "March"
+           break; 
+        } 
+        case 3: { 
+           selectedMonth = "April"
+           break; 
+        } 
+        case 4: { 
+           selectedMonth = "May"
+           break; 
+        } 
+        case 5: { 
+           selectedMonth = "June"
+           break; 
+        } 
+        case 6: { 
+           selectedMonth = "July"
+           break; 
+        } 
+        case 7: { 
+           selectedMonth = "August"
+           break; 
+        } 
+        case 8: { 
+           selectedMonth = "September"
+           break; 
+        } 
+        case 9: { 
+           selectedMonth = "October"
+           break; 
+        } 
+        case 10: { 
+           selectedMonth = "November"
+           break; 
+        } 
+        case 11: { 
+           selectedMonth = "December"
+           break; 
+        } 
+     } 
+
+     const currentDay = date?.getDate();
+     const year = date?.getFullYear();
+
+     const today = currentDay + " " + selectedMonth + " " + year;
+
     async function onSubmit(values: z.infer<typeof formSchema>) {
-        await createQuiz(values, classId);
+        await createQuiz(values, classId, today);
+
       }
 
   return (
@@ -78,6 +149,29 @@ const AddAssessment = ({classId}: {classId: string}) => {
           </FormItem>
         )}
       />
+            <Label>Due Date</Label>
+            <Popover required>
+              <PopoverTrigger asChild>
+                <Button
+                  variant={"outline"}
+                  className={cn(
+                    "w-full justify-start text-left font-normal",
+                    !date && "text-muted-foreground"
+                  )}
+                >
+                  <CalendarIcon className="mr-2 h-4 w-4" />
+                  {date ? format(date, "PPP") : <span>Pick a due date</span>}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0">
+                <Calendar
+                  mode="single"
+                  selected={date}
+                  onSelect={setDate}
+                  initialFocus
+                />
+              </PopoverContent>
+            </Popover>
  
       <DialogFooter>
         <Button type="submit">Create assessment</Button>
