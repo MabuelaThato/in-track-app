@@ -1,16 +1,33 @@
 import { getAdminAssessments, getClass, getUser, getlearnerAssessments } from '@/actions/actions';
-import AddAssessment from '@/components/assessments/addAssessment';
 import React from 'react'
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+
+import { FaPlus } from 'react-icons/fa6';
+import AddQuiz from '@/components/assessments/addQuiz';
+import { Label } from '@/components/ui/label';
+import { Separator } from '@/components/ui/separator';
+
 
 const Assessments = async ({ params }: { params: { classId: string } }) => {
     const user = await getUser();
@@ -33,8 +50,7 @@ const Assessments = async ({ params }: { params: { classId: string } }) => {
         {
           userRole === "admin" ? (
            <div>
-            hi learner
-            <AddAssessment classId={classId}/>
+            <AddQuiz classId={classId} />
            </div>
           ) : (
             <div></div>

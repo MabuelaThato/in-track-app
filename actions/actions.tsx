@@ -250,6 +250,19 @@ export async function deleteLearner(classSubject: string, classDivision: string)
       throw new Error('Internal server error');
     }
   }
+  export async function addPdfQuestion(fileName: string, classId: string, assessmentId: string) {
+    const token = cookies().get("token")?.value!;
+    if (!token) return redirect("/");
+    try {
+      const currentUser = await firebaseAdmin.auth().verifyIdToken(token);
+      await sql`INSERT INTO assignments (assessmentid, classid, teacherid, filename) 
+      VALUES (${assessmentId}, ${classId}, ${currentUser.uid}, ${fileName});`;
+      revalidatePath(`/classes/${classId}/assessments/${assessmentId}`);
+    } catch (error) {
+      console.error('Error creating question:', error);
+      throw new Error('Internal server error');
+    }
+  }
 
   export async function getQuestions(classId: string, assessmentId: string){
     const token = cookies().get("token")?.value!;

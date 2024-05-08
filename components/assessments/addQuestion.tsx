@@ -8,7 +8,6 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form';
 import { addQuestion } from '@/actions/actions';
-import { DialogFooter } from '../ui/dialog';
 import {
   Dialog,
   DialogContent,
@@ -17,9 +16,9 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { Textarea } from '../ui/textarea';
 import { ScrollArea } from "@/components/ui/scroll-area"
+import { MdOutlineQuiz } from "react-icons/md";
 
 
 const formSchema = z.object({
@@ -62,11 +61,12 @@ const AddQuestion = ({classId, assessmentId}: {classId: string, assessmentId: st
 
   return (
     <Dialog open={isDialogOpen}>
-    <DialogTrigger asChild>
-      <Button onClick={openDialog} className='bg-[#A5BE00] text-white hover:bg-white hover:text-[#A5BE00] border border-[#A5BE00] gap-2'>
-        <FaPlus />
-        <span>Add Questions</span>
-      </Button>
+    <DialogTrigger asChild onClick={openDialog} className='hover:cursor-pointer hover:bg-gray-100 w-full p-2 rounded-md flex items-center gap-2'>
+      <div className='grow text-sm'>
+        <MdOutlineQuiz />
+        <span>Multiple choice</span>
+      </div>
+   
     </DialogTrigger>
     <DialogContent className="sm:w-[425px] md:w-[600px] h-[550px]">
     <ScrollArea className='h-[450px]'>

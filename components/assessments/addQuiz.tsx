@@ -27,13 +27,14 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import { Label } from '../ui/label';
+import { MdOutlineQuiz } from "react-icons/md";
 
 const formSchema = z.object({
     title: z.string().min(2).max(50),
     instruction: z.string().min(2),
   })
 
-const AddAssessment = ({classId}: {classId: string}) => {
+const AddQuiz = ({classId}: {classId: string}) => {
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -110,11 +111,11 @@ const AddAssessment = ({classId}: {classId: string}) => {
 
   return (
     <Dialog>
-    <DialogTrigger asChild>
-      <Button className='bg-[#064789] hover:border hover:border-[#064789] hover:text-[#064789] hover:bg-white flex gap-2 items-center'>
+    <DialogTrigger asChild className='bg-[#064789] hover:border hover:cursor-pointer hover:border-[#064789] hover:text-[#064789] hover:bg-white rounded-md p-2 text-white flex gap-2 items-center'>
+      <div>
         <FaPlus />
-        <span>Add Assessment</span>
-      </Button>
+        <span className='grow text-sm'>Add assessment</span>
+      </div>
     </DialogTrigger>
     <DialogContent className="sm:max-w-[425px]">
       <DialogHeader>
@@ -149,8 +150,9 @@ const AddAssessment = ({classId}: {classId: string}) => {
           </FormItem>
         )}
       />
-            <Label>Due Date</Label>
-            <Popover required>
+            <div>
+            <Label className='mb-2'>Due Date</Label>
+            <Popover>
               <PopoverTrigger asChild>
                 <Button
                   variant={"outline"}
@@ -172,6 +174,7 @@ const AddAssessment = ({classId}: {classId: string}) => {
                 />
               </PopoverContent>
             </Popover>
+            </div>
  
       <DialogFooter>
         <Button type="submit">Create assessment</Button>
@@ -183,4 +186,4 @@ const AddAssessment = ({classId}: {classId: string}) => {
   )
 }
 
-export default AddAssessment
+export default AddQuiz

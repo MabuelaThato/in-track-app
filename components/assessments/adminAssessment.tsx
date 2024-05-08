@@ -2,6 +2,11 @@ import { getAdminAssessment, getQuestions } from '@/actions/actions';
 import React from 'react'
 import AddQuestion from './addQuestion';
 import { Button } from '../ui/button';
+import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
+import { FaPlus } from 'react-icons/fa6';
+import { Label } from '../ui/label';
+import { Separator } from '../ui/separator';
+import AddAssignment from './addAssignment';
 
 const AdminAssessment = async ({classId, assessmentId}: {classId: string, assessmentId: string}) => {
 
@@ -15,11 +20,26 @@ const AdminAssessment = async ({classId, assessmentId}: {classId: string, assess
             <h1 className='text-4xl font-medium'>{assessment?.title}</h1>
             <p className='text-sm text-zinc-500 mb-6 mt-2'>{assessment?.instruction}</p>
         </div>
-        <div className='flex gap-4'>
-            <AddQuestion classId={classId} assessmentId={assessmentId}/>
-            <Button className="bg-[#064789] border border-[#064789] text-white hover:bg-white hover:text-[#064789]">
-                Submissions
-            </Button>
+        <div className='flex gap-4 items-center'>
+            <div>
+              <Popover>
+                <PopoverTrigger className='p-1 px-2 rounded-md bg-[#A5BE00] text-white hover:bg-white hover:text-[#A5BE00] border border-[#A5BE00] flex gap-2 items-center'>
+                  <FaPlus />
+                  <span>Add questions</span>
+                </PopoverTrigger>
+                <PopoverContent >
+                  <Label className='text-base font-semibold'>Question type</Label>
+                  <Separator className='my-2'/>
+                  <AddQuestion classId={classId} assessmentId={assessmentId}/>
+                  <AddAssignment classId={classId} assessmentId={assessmentId}/>
+                </PopoverContent>
+              </Popover>
+            </div>
+            <div>
+              <div className="p-1 px-2 rounded-md bg-[#064789] border border-[#064789] text-white hover:bg-white hover:text-[#064789]">
+                  Submissions
+              </div>
+            </div>
         </div>
     </div>
     <div>

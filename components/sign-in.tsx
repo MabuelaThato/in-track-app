@@ -55,19 +55,19 @@ const SignIn = () => {
       }
 
   return (
-  <div className='form-bg text-center border border-slate-200 drop-shadow'>
+  <div className='form-bg text-center border border-slate-200 drop-shadow h-screen'>
     <div className=''>
       <Image 
       src="/logo.png"
       alt='in-track logo'
-      width={130}
-      height={100}
+      width={120}
+      height={110}
       className='img'
       />
-      <h1 className='text-4xl font-bold mt-6'>
+      <h1 className='text-3xl font-bold'>
         Welcome
       </h1>
-      <p className='sub-text mb-12'>Please enter your credentials</p>
+      <p className='sub-text mb-8'>Please enter your credentials</p>
 
     </div>
     <Form {...form}>
@@ -113,7 +113,7 @@ const SignIn = () => {
         </form>
       </Form>
    
-    <div className='mt-2'>Don't have an account? <Link href="/register" className='underline'>Register here.</Link>
+    <div className='mt-6'>Don't have an account? <Link href="/register" className='underline'>Register here.</Link>
     </div>
   </div>
   )

@@ -1,6 +1,7 @@
 "use client";
 import { initializeApp, getApp, getApps } from "firebase/app";
 import { getAuth } from "firebase/auth";
+import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCAz-QMg1d3M-gP2BRR1vp0RLURKXNpYBk",
@@ -13,7 +14,7 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-getApps().length ? getApp() : initializeApp(firebaseConfig);
+const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
 
 export const fireAuth = getAuth();
-
+export const storage = getStorage(app)
