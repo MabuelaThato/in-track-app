@@ -15,6 +15,8 @@ import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/
 import { storage } from '../provider';
 import { document } from 'postcss';
 import { Button } from '../ui/button';
+import { Input } from '../ui/input';
+import { Separator } from '../ui/separator';
 
 const AddAssignment = ({classId, assessmentId}: {classId: string, assessmentId: string}) => {
 
@@ -69,11 +71,10 @@ const AddAssignment = ({classId, assessmentId}: {classId: string, assessmentId: 
     <DialogContent className="sm:max-w-[425px]">
       <DialogHeader>
         <DialogTitle>Create a new quiz</DialogTitle>
-        <DialogDescription>Enter all the information. Click create when you're done.</DialogDescription>
+        <DialogDescription>Click 'choose file' and select the pdf assignment you would like to upload.</DialogDescription>
     </DialogHeader>
     <div>
-        <label htmlFor="pdfFile">Upload PDF</label>
-        <input type="file" id="pdfFile" onChange={handleFileChange} accept=".pdf" className='p-2 rounded bg-gray-600'/>
+        <Input type="file" id="pdfFile" onChange={handleFileChange} accept=".pdf" className=''/>
     </div>
     <Button onClick={handleSubmit}>Add PDF Question</Button>
     </DialogContent>
