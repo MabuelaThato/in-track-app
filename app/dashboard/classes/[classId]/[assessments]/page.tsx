@@ -106,9 +106,9 @@ const Assessments = async ({ params }: { params: { classId: string } }) => {
                             <p>{assessment.instruction}</p>
                           </CardContent>
                           <CardFooter className='flex justify-end gap-4'>
-                              <Link href={`/dashboard/classes/${classId}/assessments/learnerQuiz`}>
+                              <Link href={`/dashboard/classes/${classId}/assessments/${assessment.assessmentid}`}>
                                 <Button className='bg-[#A5BE00] border border-[#A5BE00] hover:text-[#A5BE00] font-medium hover:bg-white'>
-                                  View
+                                  Start
                                 </Button>
                               </Link>
                           </CardFooter>
