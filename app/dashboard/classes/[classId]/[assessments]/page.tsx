@@ -1,5 +1,5 @@
 
-import { getAdminAssessments, getClass, getUser, getlearnerAssessments } from '@/actions/actions';
+import { getAdminAssessments, getClass, getUser, getlearnerAssessments, getlearnerAssignments } from '@/actions/actions';
 import React from 'react'
 import {
   Card,
@@ -28,14 +28,15 @@ const Assessments = async ({ params }: { params: { classId: string } }) => {
     const division = currentClass?.division;
    
     const adminAssessments = await getAdminAssessments(classId);
-    const learnerAssessments = await getlearnerAssessments(classId);
+    const learnerQuizzes = await getlearnerAssessments(classId);
+    const learnerAssignments = await getlearnerAssignments(classId)
 
   return (
     <div className='w-full min-h-screen p-10'>
       <div className='flex justify-between'>
         <div>
           <h1 className='text-4xl font-medium'>Assessments</h1>
-          <p className='text-sm text-zinc-500 mb-6'>Here are all your assessments for class {division} - {subject}</p>
+          <p className='text-sm text-zinc-500 mb-6'>Here are all your assessments(your quizzes and written assignments) for class {division} - {subject}</p>
         </div>
         {
           userRole === "admin" ? (
@@ -89,28 +90,30 @@ const Assessments = async ({ params }: { params: { classId: string } }) => {
           </div>
         ) : (
           <div>
-          { learnerAssessments.length === 0 ? (
+          { learnerQuizzes.length === 0 ? (
             <div className='text-center text-zinc-500 flex justify-center items-center h-screen'>
              You do not have any assessments.
              </div>
              ) : (
-          <div className='flex gap-12 flex-wrap'>
-                {learnerAssessments?.map((assessment, index) => {
+          <div>
+            <h2 className='text-xl font-semibold mb-6'>Quizzes</h2>
+            <div className='flex gap-12 flex-wrap'>
+                {learnerQuizzes?.map((quiz, index) => {
                       return (
                         <Card key={index} className='w-64'>
                           <CardHeader>
                             <CardTitle>
                               <div>
-                                <div>{assessment?.title}</div>
-                                <span className='text-xs font-light text-red-600'>Due date: {assessment?.duedate}</span>
+                                <div>{quiz?.title}</div>
+                                <span className='text-xs font-light text-red-600'>Due date: {quiz?.duedate}</span>
                               </div>
                             </CardTitle>
                           </CardHeader>
                           <CardContent className='text-gray-600'>
-                            <p>{assessment.instruction}</p>
+                            <p>{quiz.instruction}</p>
                           </CardContent>
                           <CardFooter className='flex justify-end gap-4'>
-                              <Link href={`/dashboard/classes/${classId}/assessments/${assessment.assessmentid}`}>
+                              <Link href={`/dashboard/classes/${classId}/assessments/${quiz.assessmentid}`}>
                                 <Button className='bg-[#A5BE00] border border-[#A5BE00] hover:text-[#A5BE00] font-medium hover:bg-white'>
                                   Start
                                 </Button>
@@ -120,6 +123,35 @@ const Assessments = async ({ params }: { params: { classId: string } }) => {
                       )
                     }
                   )}
+                </div>
+              <h2 className='text-xl font-semibold my-6'>Written Assignments</h2>
+              <div className='flex gap-12 flex-wrap'>
+              {learnerAssignments?.map((assignment, index) => {
+                      return (
+                        <Card key={index} className='w-64'>
+                          <CardHeader>
+                            <CardTitle>
+                              <div>
+                                <div>{assignment?.title}</div>
+                                <span className='text-xs font-light text-red-600'>Due date: {assignment?.duedate}</span>
+                              </div>
+                            </CardTitle>
+                          </CardHeader>
+                          <CardContent className='text-gray-600'>
+                            <p>{assignment.instruction}</p>
+                          </CardContent>
+                          <CardFooter className='flex justify-end gap-4'>
+                              <Link href={`/dashboard/classes/${classId}/assessments/${assignment.assessmentid}`}>
+                                <Button className='bg-[#A5BE00] border border-[#A5BE00] hover:text-[#A5BE00] font-medium hover:bg-white'>
+                                  Start
+                                </Button>
+                              </Link>
+                          </CardFooter>
+                        </Card>
+                      )
+                    }
+                  )}
+                  </div>
           </div>
         )
        }

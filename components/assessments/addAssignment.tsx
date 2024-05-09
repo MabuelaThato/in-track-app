@@ -9,11 +9,9 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog"
 import { BsPaperclip } from "react-icons/bs";
-import axios from "axios";
 import { addPdfQuestion } from '@/actions/actions';
-import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { storage } from '../provider';
-import { document } from 'postcss';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Separator } from '../ui/separator';
@@ -68,10 +66,17 @@ const AddAssignment = ({classId, assessmentId}: {classId: string, assessmentId: 
         <span>Written assignment</span>
       </div>
     </DialogTrigger>
-    <DialogContent className="sm:max-w-[425px]">
+    <DialogContent className="sm:max-w-[425px]"> 
       <DialogHeader>
         <DialogTitle>Create a new quiz</DialogTitle>
-        <DialogDescription>Click 'choose file' and select the pdf assignment you would like to upload.</DialogDescription>
+        <DialogDescription>
+          Click 'choose file' and select the pdf assignment you would like to upload.
+          <br />
+          <br />
+          Ensure that the name of pdf file is in this format: "your name-name of test-year", 
+          <br />
+          eg."ThatoMabuela-Photosynthesis-2024"
+        </DialogDescription>
     </DialogHeader>
     <div>
         <Input type="file" id="pdfFile" onChange={handleFileChange} accept=".pdf" className=''/>

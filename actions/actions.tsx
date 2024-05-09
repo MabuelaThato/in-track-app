@@ -226,7 +226,7 @@ export async function deleteLearner(classSubject: string, classDivision: string)
     if (!token) return redirect("/");
     try {
         const currentUser = await firebaseAdmin.auth().verifyIdToken(token);
-        const result = await sql`INSERT INTO quizzes (title, instruction, teacherid, classId, duedate, passpercentage) VALUES (${form.title}, ${form.instruction}, ${currentUser.uid}, ${classId}, ${dueDate}, ${form.passPercentage});`;
+        const result = await sql`INSERT INTO quizzes (title, instruction, teacherid, classId, duedate, passpercentage, assessmenttype) VALUES (${form.title}, ${form.instruction}, ${currentUser.uid}, ${classId}, ${dueDate}, ${form.passPercentage}, ${form.quizType});`;
         const createdQuiz = result.rows[0];
         return createdQuiz;
     } catch (error) {
@@ -258,6 +258,19 @@ export async function deleteLearner(classSubject: string, classDivision: string)
       await sql`INSERT INTO assignments (assessmentid, classid, teacherid, filename) 
       VALUES (${assessmentId}, ${classId}, ${currentUser.uid}, ${fileName});`;
       revalidatePath(`/classes/${classId}/assessments/${assessmentId}`);
+    } catch (error) {
+      console.error('Error creating question:', error);
+      throw new Error('Internal server error');
+    }
+  }
+  export async function getPdfQuestion(classId: string, assessmentId: string) {
+    const token = cookies().get("token")?.value!;
+    if (!token) return redirect("/");
+    try {
+      const assignments = await sql`SELECT * FROM assignments 
+      WHERE classid = ${classId} AND assessmentid = ${assessmentId};`;
+      revalidatePath(`/classes/${classId}/assessments/${assessmentId}`);
+      return assignments
     } catch (error) {
       console.error('Error creating question:', error);
       throw new Error('Internal server error');
@@ -325,6 +338,22 @@ export async function deleteLearner(classSubject: string, classDivision: string)
       throw new Error('Internal server error');
     }
   }
+  export async function getlearnerAssignments(classId: string){
+    const token = cookies().get("token")?.value!;
+    if (!token) return redirect("/");
+
+    try {
+        const { rows } = await sql`SELECT * FROM assignments WHERE classid=${classId};`;
+        
+        const assignments = rows;
+    
+        return assignments;
+
+    } catch (error) {
+      console.error('Error creating quiz:', error);
+      throw new Error('Internal server error');
+    }
+  }
 
   export async function getAdminAssessment(classId: string, assessmentId: string){
     const token = cookies().get("token")?.value!;
@@ -332,6 +361,26 @@ export async function deleteLearner(classSubject: string, classDivision: string)
 
     try {
         const { rows } = await sql`SELECT * FROM quizzes WHERE assessmentid=${assessmentId} AND classid=${classId};`;
+        
+        const assessments = rows[0];
+    
+        return assessments;
+
+    } catch (error) {
+      console.error('Error creating quiz:', error);
+      throw new Error('Internal server error');
+    }
+  }
+
+  //SUBMISSIONS
+
+
+  export async function getLearnerAssignmentSubmissions(classId: string, assessmentId: string){
+    const token = cookies().get("token")?.value!;
+    if (!token) return redirect("/");
+
+    try {
+        const { rows } = await sql`SELECT * FROM assignmentsubmissions WHERE assessmentid=${assessmentId} AND classid=${classId};`;
         
         const assessments = rows[0];
     

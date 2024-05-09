@@ -27,12 +27,21 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import { Label } from '../ui/label';
-import { MdOutlineQuiz } from "react-icons/md";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import { Textarea } from '../ui/textarea';
+
 
 const formSchema = z.object({
     title: z.string().min(2).max(50),
+    quizType: z.string().min(2).max(50),
     instruction: z.string().min(2),
-    passPercentage: z.number()
+    passPercentage: z.string()
   })
 
 const AddQuiz = ({classId}: {classId: string}) => {
@@ -41,8 +50,8 @@ const AddQuiz = ({classId}: {classId: string}) => {
         resolver: zodResolver(formSchema),
         defaultValues: {
           title: "",
+          quizType: "",
           instruction: "",
-          passPercentage: 0,
         },
       })
 
@@ -125,7 +134,7 @@ const AddQuiz = ({classId}: {classId: string}) => {
         <DialogDescription>Enter all the information. Click create when you're done.</DialogDescription>
     </DialogHeader>
     <Form {...form}>
-    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
       <FormField
         control={form.control}
         name="title"
@@ -141,12 +150,33 @@ const AddQuiz = ({classId}: {classId: string}) => {
       />
       <FormField
         control={form.control}
+        name="quizType"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Type of assessment</FormLabel>
+            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select the type of assessment you want to create." />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="quiz">Quiz</SelectItem>
+                  <SelectItem value="assignment">Written assignment</SelectItem>
+                </SelectContent>
+              </Select>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+      <FormField
+        control={form.control}
         name="instruction"
         render={({ field }) => (
           <FormItem>
             <FormLabel>Instructions</FormLabel>
             <FormControl>
-              <Input placeholder="What the learners will be required to do." {...field}/>
+              <Textarea placeholder="What the learners will be required to do." {...field}/>
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -159,7 +189,7 @@ const AddQuiz = ({classId}: {classId: string}) => {
           <FormItem>
             <FormLabel>Pass percentage</FormLabel>
             <FormControl>
-              <Input placeholder="eg. 60" {...field}/>
+              <Input placeholder="eg. 60" {...field} />
             </FormControl>
             <FormMessage />
           </FormItem>

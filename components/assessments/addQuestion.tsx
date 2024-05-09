@@ -28,7 +28,6 @@ const formSchema = z.object({
     option3: z.string(),
     option4: z.string(),
     correctAnswer: z.string().nonempty(),
-    pdfFile: z.union([z.instanceof(File), z.literal(null)]).optional(),
   })
 
 const AddQuestion = ({classId, assessmentId}: {classId: string, assessmentId: string }) => {
