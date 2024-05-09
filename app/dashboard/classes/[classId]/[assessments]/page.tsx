@@ -1,3 +1,4 @@
+
 import { getAdminAssessments, getClass, getUser, getlearnerAssessments } from '@/actions/actions';
 import React from 'react'
 import {
@@ -9,28 +10,17 @@ import {
 } from "@/components/ui/card"
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover"
-
-import { FaPlus } from 'react-icons/fa6';
 import AddQuiz from '@/components/assessments/addQuiz';
-import { Label } from '@/components/ui/label';
-import { Separator } from '@/components/ui/separator';
+import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
 
 
 const Assessments = async ({ params }: { params: { classId: string } }) => {
-    const user = await getUser();
+
+  const user = await getUser()
+  if (!user) redirect("/");
+
+  
     const userRole = user?.role;
     const { classId } = params;
     const currentClass = await getClass(classId);
@@ -87,9 +77,7 @@ const Assessments = async ({ params }: { params: { classId: string } }) => {
                                 Delete
                               </Button>
                               <Link href={`/dashboard/classes/${classId}/assessments/${assessment.assessmentid}`}>
-                                <Button className='bg-[#A5BE00] border border-[#A5BE00] hover:text-[#A5BE00] font-medium hover:bg-white'>
-                                  View
-                                </Button>
+                               <Button>View</Button>
                               </Link>
                           </CardFooter>
                         </Card>

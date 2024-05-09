@@ -32,6 +32,7 @@ import { MdOutlineQuiz } from "react-icons/md";
 const formSchema = z.object({
     title: z.string().min(2).max(50),
     instruction: z.string().min(2),
+    passPercentage: z.number()
   })
 
 const AddQuiz = ({classId}: {classId: string}) => {
@@ -41,6 +42,7 @@ const AddQuiz = ({classId}: {classId: string}) => {
         defaultValues: {
           title: "",
           instruction: "",
+          passPercentage: 0,
         },
       })
 
@@ -145,6 +147,19 @@ const AddQuiz = ({classId}: {classId: string}) => {
             <FormLabel>Instructions</FormLabel>
             <FormControl>
               <Input placeholder="What the learners will be required to do." {...field}/>
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+      <FormField
+        control={form.control}
+        name="passPercentage"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Pass percentage</FormLabel>
+            <FormControl>
+              <Input placeholder="eg. 60" {...field}/>
             </FormControl>
             <FormMessage />
           </FormItem>

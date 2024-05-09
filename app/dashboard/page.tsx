@@ -5,9 +5,11 @@ import { FaArrowRightLong } from "react-icons/fa6";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { getUser } from "@/actions/actions";
+import { redirect } from "next/navigation";
 
 const Dashboard = async () => {
   const user = await getUser();
+  if (!user) redirect("/");
   const userRole = user?.role;
   const userName = user?.firstname;
  

@@ -1,12 +1,14 @@
 import { getUser } from '@/actions/actions';
 import AdminAssessment from '@/components/assessments/adminAssessment';
 import LearnerAssessment from '@/components/assessments/learnerAssessment';
+import { redirect } from 'next/navigation';
 import React from 'react'
 
 const Assessment = async({ params }: { params: { classId: string, assessmentId: string } }) => {
     const { classId } = params;
     const { assessmentId } = params;
     const user = await getUser();
+  if (!user) redirect("/");
     const userRole = user?.role;
    
   return (

@@ -226,7 +226,7 @@ export async function deleteLearner(classSubject: string, classDivision: string)
     if (!token) return redirect("/");
     try {
         const currentUser = await firebaseAdmin.auth().verifyIdToken(token);
-        const result = await sql`INSERT INTO quizzes (title, instruction, teacherid, classId, duedate) VALUES (${form.title}, ${form.instruction}, ${currentUser.uid}, ${classId}, ${dueDate});`;
+        const result = await sql`INSERT INTO quizzes (title, instruction, teacherid, classId, duedate, passpercentage) VALUES (${form.title}, ${form.instruction}, ${currentUser.uid}, ${classId}, ${dueDate}, ${form.passPercentage});`;
         const createdQuiz = result.rows[0];
         return createdQuiz;
     } catch (error) {
@@ -272,6 +272,19 @@ export async function deleteLearner(classSubject: string, classDivision: string)
         
         const { rows } = await sql`SELECT * FROM questions
         WHERE classid = ${classId} AND teacherid = ${currentUser.uid} AND assessmentid = ${assessmentId};`;
+        
+        return rows;
+    } catch (error) {
+        console.log(error);
+    }
+  }
+  export async function getLearnerQuestions(classId: string, assessmentId: string){
+    const token = cookies().get("token")?.value!;
+    if (!token) return redirect("/");
+    try {
+        
+        const { rows } = await sql`SELECT * FROM questions
+        WHERE classid = ${classId} AND assessmentid = ${assessmentId};`;
         
         return rows;
     } catch (error) {

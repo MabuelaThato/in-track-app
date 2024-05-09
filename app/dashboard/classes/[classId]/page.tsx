@@ -2,7 +2,7 @@
 import React from 'react'
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import Link from 'next/link';
-import { getClass, getLearners } from '@/actions/actions';
+import { getClass, getLearners, getUser } from '@/actions/actions';
 import { Button } from '@/components/ui/button';
 import { FaPlus } from 'react-icons/fa6';
 import AddLearner from '@/components/learners/addLearner';
@@ -14,9 +14,13 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
+import { redirect } from 'next/navigation';
 
 
 const Learners = async ({ params }: { params: { classId: string } }) => {
+
+  const user = await getUser()
+  if (!user) redirect("/");
 
   const { classId } = params;
 
