@@ -1,10 +1,9 @@
 "use client"
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link';
-import { deleteClass, getAdminClasses } from '@/actions/actions';
+import { getAdminClasses } from '@/actions/actions';
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '../ui/table';
 import DeleteClass from './deleteClass';
-import { FaTrashCan } from 'react-icons/fa6';
 import { QueryResultRow } from '@vercel/postgres';
 
 
@@ -30,8 +29,8 @@ const AdminClasses = () => {
 
 
   return (
-    <div className=" border bg-white rounded-lg p-6">
-      <Table>
+    <div className=" border bg-white rounded-lg p-2 md:p-4 lg:p-6">
+      <Table className='text-xs md:text-base'>
         <TableCaption>A list of all classes.</TableCaption>
         <TableHeader>
           <TableRow>

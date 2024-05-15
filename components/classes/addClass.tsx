@@ -50,7 +50,7 @@ const AddClass = () => {
         <span>Add Class</span>
       </button>
     </DialogTrigger>
-    <DialogContent className="sm:max-w-[425px]">
+    <DialogContent className="max-w-[350px] md:max-w-[425px] rounded">
       <DialogHeader>
         <DialogTitle>Create a new class</DialogTitle>
         <DialogDescription>Enter all the information. Click create when you're done.</DialogDescription>
