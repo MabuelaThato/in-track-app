@@ -39,7 +39,7 @@ const SignOut = () => {
   }, []);
 
   return (
-    <button id="logout-button" className='rounded-full p-2 bg-[#A5BE00] border border-[#A5BE00] text-white hover:text-[#A5BE00] hover:bg-white'>
+    <button id="logout-button" className='text-xs md:text-sm lg:text-base rounded-full p-1 lg:p-2 bg-[#A5BE00] border border-[#A5BE00] text-white hover:text-[#A5BE00] hover:bg-white'>
       <LuLogOut />
     </button>
   );

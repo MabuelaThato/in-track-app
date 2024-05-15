@@ -13,7 +13,7 @@ const Classes = async () => {
   const userRole = user?.role;
 
   return (
-    <div className='min-h-screen p-12'>
+    <div className='min-h-screen p-4 md:p-6 lg:p-12'>
         {
           userRole === "admin" ? (
            <div>
