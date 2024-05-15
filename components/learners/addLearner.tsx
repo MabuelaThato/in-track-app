@@ -51,12 +51,12 @@ const AddLearner = ({classId}: {classId: string}) => {
    
 <Dialog>
 <DialogTrigger asChild>
-  <div className='bg-[#064789] hover:border hover:border-[#064789] hover:text-[#064789] hover:bg-white p-2 px-3 rounded-md text-white flex gap-2 items-center'>
+  <div className='bg-[#064789] text-xs md:text-sm lg:text-base hover:border hover:border-[#064789] hover:text-[#064789] hover:bg-white p-2 px-3 rounded-md text-white flex gap-2 items-center'>
     <FaPlus />
     <span>Add Learner</span>
   </div>
 </DialogTrigger>
-<DialogContent className="sm:max-w-[425px]">
+<DialogContent className="max-w-[350px] md:max-w-[425px] rounded">
   <DialogHeader>
     <DialogTitle>Create a new learner</DialogTitle>
     <DialogDescription>Enter all the learner's information. Click the add button when you're done.</DialogDescription>

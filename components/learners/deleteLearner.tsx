@@ -24,7 +24,7 @@ const DeleteLearner= ({classId, learnerId} : {classId: string, learnerId: string
         className='hover:text-white hover:bg-[#064789] bg-white text-[#064789] border rounded-md border-[#064789] px-2 py-1'
       >
         {
-          deleting ? (<div>...</div>) : (<FaTrash size={16} />)
+          deleting ? (<div>...</div>) : (<FaTrash />)
         }
       </button>
   );

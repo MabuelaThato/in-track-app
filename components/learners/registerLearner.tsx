@@ -58,12 +58,12 @@ const RegisterLearner = ({classId}: {classId: string}) => {
    
 <Dialog>
 <DialogTrigger asChild>
-  <div className='bg-[#A5BE00] hover:border hover:border-[#A5BE00] hover:text-[#A5BE00] hover:bg-white p-2 px-3 rounded-md text-white flex gap-2 items-center'>
+  <div className='bg-[#A5BE00] text-xs md:text-sm lg:text-base hover:border hover:border-[#A5BE00] hover:text-[#A5BE00] hover:bg-white p-2 px-3 rounded-md text-white flex gap-2 items-center'>
     <FaPlus />
     <span>Register Learner</span>
   </div>
 </DialogTrigger>
-<DialogContent className="sm:max-w-[425px]">
+<DialogContent className="max-w-[350px] md:max-w-[425px] rounded">
   <DialogHeader>
     <DialogTitle>Create a new learner</DialogTitle>
     <DialogDescription>

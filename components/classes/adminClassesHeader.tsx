@@ -21,7 +21,7 @@ const AdminClassesHeader = () => {
           <div className='text:xl md:text-2xl lg:text-4xl font-medium '>
             <h1>Hello {userName}</h1>
           </div>
-          <p className='text-xs md:text-sm text-zinc-500 mb-6'>Here is a list of all your classes.</p>
+          <p className='text-xs md:text-sm text-gray-500 mb-6'>Here is a list of all your classes.</p>
         </div>
         
           <div>

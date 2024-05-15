@@ -32,13 +32,13 @@ const Learners = async ({ params }: { params: { classId: string } }) => {
   const subject = currentClass?.subject;
 
   return (
-    <div className="p-10 min-h-screen ">
-        <div className="flex justify-between">
-          <div className='flex flex-col gap-1'>
-            <div className='text-4xl font-medium '>
+    <div className="p-4 md:p-6 lg:p-12 min-h-screen ">
+        <div className="flex flex-col gap-6 lg:gap-0 mb-6 lg:mb-0 lg:flex-row md:justify-between">
+          <div className='flex flex-col md:gap-1'>
+            <div className='text:xl md:text-2xl lg:text-4xl font-medium'>
               <h1>Learners</h1>
             </div>
-            <p className='text-sm text-zinc-500 mb-6'>
+            <p className='text-xs md:text-sm text-gray-600 lg:mb-6'>
               A list of all your learners for class <span className='font-semibold'>{division} - {subject}</span>.
             </p>
           </div>
@@ -47,7 +47,9 @@ const Learners = async ({ params }: { params: { classId: string } }) => {
               <Tooltip>
                 <TooltipTrigger><RegisterLearner classId={classId} /></TooltipTrigger>
                 <TooltipContent>
-                  <p>For new learners who don't have an account</p>
+                  <p className='text-xs md:text-base'>
+                    For new learners who don't have an account
+                  </p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
@@ -55,7 +57,7 @@ const Learners = async ({ params }: { params: { classId: string } }) => {
               <Tooltip>
                 <TooltipTrigger><AddLearner classId={classId}/></TooltipTrigger>
                 <TooltipContent>
-                  <p>
+                  <p className='text-xs md:text-base'>
                     For learner learners who already have an app account
                   </p>
                 </TooltipContent>
@@ -63,9 +65,9 @@ const Learners = async ({ params }: { params: { classId: string } }) => {
             </TooltipProvider>
           </div>
         </div>
-      <div className=' border bg-white rounded-lg p-6'>
-      <Table>
-        <TableCaption>A list of all learners.</TableCaption>
+      <div className=' border bg-white rounded-lg p-2 md:p-4 lg:p-6'>
+      <Table className='text-xs md:text-base'>
+        <TableCaption className='text-xs md:text-base'>A list of all learners.</TableCaption>
         <TableHeader>
           <TableRow>
             <TableHead>#</TableHead>
