@@ -75,52 +75,78 @@
     }
   }
 
-  @media (max-width: 768px) {
-    .form-bg{
-      padding: 5px 20px;
-      background-color: white;
-      margin-top: 80px;
-      margin-bottom: 80px;
-      width: 80%;
+  @media (max-width: 767px) {
+
+    @media (max-height: 760px) {
+      .form-bg{
+        padding: 5px 20px;
+        background-color: white;
+        margin-top: 80px;
+        margin-bottom: 80px;
+        width: 85%;
+        height: 70%;
+      }
+    
+      .register-bg{
+        padding: 10px 30px 50px 30px;
+        background-color: white;
+        width: 80%;
+        height: 80%;
+      }
+      
+      .img{
+        display: block;
+        margin: auto;
+      }
+      
+      .input{
+        padding-left: 12px;
+        border-radius: 5px;
+      }  
     }
-  
-    .register-bg{
-      padding: 10px 50px 30px 50px;
-      background-color: white;
-      margin-top: 30px;
-      margin-bottom: 24px;
-      border-radius: 5%;
-      width: 40%;
+    @media (min-height: 760px) {
+      .form-bg{
+        padding: 5px 20px;
+        background-color: white;
+        width: 85%;
+        height: 55%;
+      }
+    
+      .register-bg{
+        padding: 10px 20px 50px 20px;
+        background-color: white;
+        width: 85%;
+        height: 70%;
+      }
+      
+      .img{
+        display: block;
+        margin: auto;
+      }
+      
+      .input{
+        padding-left: 12px;
+        border-radius: 5px;
+      }  
     }
     
-    .img{
-      display: block;
-      margin: auto;
-    }
-    
-    .input{
-      padding-left: 12px;
-      border-radius: 5px;
-    }  
     
   }
   @media (min-width: 768px) {
+
+    @media (max-height: 1120px) {
     .form-bg{
       padding: 10px 50px;
       background-color: white;
-      margin-top: 30px;
-      margin-bottom: 24px;
-      border-radius: 5%;
-      width: 40%;
+      width: 60%;
+      height: 50%;
     }
   
     .register-bg{
-      padding: 10px 50px 30px 50px;
+      padding: 10px 50px 50px 50px;
       background-color: white;
-      margin-top: 30px;
-      margin-bottom: 24px;
-      border-radius: 5%;
-      width: 40%;
+      width: 70%;
+      height: 80%;
     }
     
     .img{
@@ -131,8 +157,88 @@
     .input{
       padding-left: 12px;
       border-radius: 5px;
-    }  
+    } 
+    } 
+    @media (min-height: 1120px) {
+    .form-bg{
+      padding: 10px 50px;
+      background-color: white;
+      width: 60%;
+      height: 50%;
+    }
+  
+    .register-bg{
+      padding: 10px 50px 50px 50px;
+      background-color: white;
+      width: 70%;
+      height: 70%;
+    }
     
+    .img{
+      display: block;
+      margin: auto;
+    }
+    
+    .input{
+      padding-left: 12px;
+      border-radius: 5px;
+    } 
+    } 
+    
+  }
+
+  @media (min-width: 1024px) {
+    @media (max-height: 700px) {
+    .form-bg{
+      padding: 10px 50px;
+      background-color: white;
+      width: 60%;
+      height: 90%;
+    }
+  
+    .register-bg{
+      padding: 10px 50px 30px 50px;
+      background-color: white;
+      width: 55%;
+      height: 80%
+    }
+    
+    .img{
+      display: block;
+      margin: auto;
+    }
+    
+    .input{
+      padding-left: 12px;
+      border-radius: 5px;
+    } 
+  }
+    @media (min-height: 700px) {
+    .form-bg{
+      padding: 10px 50px;
+      background-color: white;
+      width: 60%;
+      height: 90%;
+    }
+  
+    .register-bg{
+      padding: 10px 50px 60px 50px;
+      background-color: white;
+      width: 55%;
+      height: 80%;
+    }
+    
+    .img{
+      display: block;
+      margin: auto;
+    }
+    
+    .input{
+      padding-left: 12px;
+      border-radius: 5px;
+    } 
+  }
+
   }
 
   .bg{

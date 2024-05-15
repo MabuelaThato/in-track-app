@@ -62,7 +62,7 @@ const SignUp = () => {
     }
 
   return (
-    <div className='register-bg border border-slate-200 drop-shadow'>
+    <div className='register-bg border border-slate-200 drop-shadow rounded-3xl'>
       <div className='text-center'>
       <Image
       src="/logo.png"
@@ -71,10 +71,10 @@ const SignUp = () => {
       height={110}
       className='img'
       />
-      <h1 className='text-4xl font-bold'>
+      <h1 className='text-xl md:text-3xl lg:text-4xl font-bold'>
         Welcome
       </h1>
-      <p className='sub-text mb-8'>Please enter your credentials</p>
+      <p className='text-xs md:text-base lg:text-lg mb-8 lg:mb-12'>Please enter your credentials</p>
 
     </div>
     <Form {...form}>
