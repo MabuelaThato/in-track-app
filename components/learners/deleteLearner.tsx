@@ -1,16 +1,16 @@
 "use client"
 import React, { useState } from 'react';
 import { FaTrash } from 'react-icons/fa6';
-import { deleteClass } from '@/actions/actions';
+import { deleteLearner } from '@/actions/actions';
 
-const DeleteClass = ({classId} : {classId: string}) => {
+const DeleteLearner= ({classId, learnerId} : {classId: string, learnerId: string}) => {
 
   const [deleting, setDeleting] = useState(false);
 
   const handleDelete = async () => {
     try {
-      await deleteClass(classId);
-      setDeleting(true)
+      await deleteLearner(classId, learnerId);
+      setDeleting(true);
       window.location.reload();
     } catch (error) {
       console.error('Error deleting class:', error);
@@ -30,4 +30,4 @@ const DeleteClass = ({classId} : {classId: string}) => {
   );
 };
 
-export default DeleteClass;
+export default DeleteLearner;

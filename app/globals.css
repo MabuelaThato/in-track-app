@@ -75,27 +75,68 @@
     }
   }
 
-  .bg{
-    background-color: #064789;
+  @media (max-width: 768px) {
+    .form-bg{
+      padding: 5px 20px;
+      background-color: white;
+      margin-top: 80px;
+      margin-bottom: 80px;
+      width: 80%;
+    }
+  
+    .register-bg{
+      padding: 10px 50px 30px 50px;
+      background-color: white;
+      margin-top: 30px;
+      margin-bottom: 24px;
+      border-radius: 5%;
+      width: 40%;
+    }
+    
+    .img{
+      display: block;
+      margin: auto;
+    }
+    
+    .input{
+      padding-left: 12px;
+      border-radius: 5px;
+    }  
+    
+  }
+  @media (min-width: 768px) {
+    .form-bg{
+      padding: 10px 50px;
+      background-color: white;
+      margin-top: 30px;
+      margin-bottom: 24px;
+      border-radius: 5%;
+      width: 40%;
+    }
+  
+    .register-bg{
+      padding: 10px 50px 30px 50px;
+      background-color: white;
+      margin-top: 30px;
+      margin-bottom: 24px;
+      border-radius: 5%;
+      width: 40%;
+    }
+    
+    .img{
+      display: block;
+      margin: auto;
+    }
+    
+    .input{
+      padding-left: 12px;
+      border-radius: 5px;
+    }  
+    
   }
 
-  .form-bg{
-    padding: 10px 50px;
-    background-color: white;
-    margin-top: 30px;
-    margin-bottom: 24px;
-    border-radius: 5%;
-    width: 40%;
-  }
-  
-  .form-bg .img{
-    display: block;
-    margin: auto;
-  }
-  
-  .input{
-    padding-left: 12px;
-    border-radius: 5px;
+  .bg{
+    background-color: #064789;
   }
 
   .title{
@@ -104,3 +145,29 @@
     text-decoration-thickness: 2px;
     text-underline-offset: 2px;
   }
+
+
+.blue-loader {
+   width: 30px;
+   height: 30px;
+   border-radius: 50%;
+   background: radial-gradient(farthest-side,#064789 94%,#0000) top/6px 6px no-repeat,
+          conic-gradient(#0000 30%,#064789);
+   -webkit-mask: radial-gradient(farthest-side,#0000 calc(100% - 6px),#000 0);
+   animation: spinner-c7wet2 1s infinite linear;
+}
+.green-loader {
+   width: 30px;
+   height: 30px;
+   border-radius: 50%;
+   background: radial-gradient(farthest-side,#A5BE00 94%,#0000) top/6px 6px no-repeat,
+          conic-gradient(#0000 30%,#A5BE00);
+   -webkit-mask: radial-gradient(farthest-side,#0000 calc(100% - 6px),#000 0);
+   animation: spinner-c7wet2 1s infinite linear;
+}
+
+@keyframes spinner-c7wet2 {
+   100% {
+      transform: rotate(1turn);
+   }
+}

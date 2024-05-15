@@ -55,7 +55,7 @@ const SignIn = () => {
       }
 
   return (
-  <div className='form-bg text-center border border-slate-200 drop-shadow h-screen'>
+  <div className='form-bg text-center border border-slate-200 drop-shadow h-screen rounded-md'>
     <div className=''>
       <Image 
       src="/logo.png"
@@ -64,14 +64,14 @@ const SignIn = () => {
       height={110}
       className='img'
       />
-      <h1 className='text-3xl font-bold'>
+      <h1 className='text-xl md:text-3xl font-bold'>
         Welcome
       </h1>
-      <p className='sub-text mb-8'>Please enter your credentials</p>
+      <p className='mb-8'>Please enter your credentials</p>
 
     </div>
     <Form {...form}>
-        <form onSubmit={form.handleSubmit(logIn)} className="space-y-8">
+        <form onSubmit={form.handleSubmit(logIn)} className="space-y-6 md:space-y-8">
           <FormField
             control={form.control}
             name="email"
@@ -113,7 +113,9 @@ const SignIn = () => {
         </form>
       </Form>
    
-    <div className='mt-6'>Don't have an account? <Link href="/register" className='underline'>Register here.</Link>
+    <div className='mt-6'>
+      Don't have an account? 
+    <Link href="/register" className='underline'>Register here.</Link>
     </div>
   </div>
   )

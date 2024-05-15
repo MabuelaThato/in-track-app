@@ -1,6 +1,8 @@
 import React from 'react'
+import { FaTrashCan } from 'react-icons/fa6'
+import DeleteQuestion from './deleteQuestion'
 
-const Questions = ({questions} : {questions:any}) => {
+const Questions = ({questions, classId, assessmentId} : {questions:any, classId: string, assessmentId: string}) => {
   return (
     <div>
     { questions?.length === 0 ? (
@@ -13,8 +15,14 @@ const Questions = ({questions} : {questions:any}) => {
             <div className='flex flex-col gap-6'>
             {questions?.map((question:any, index:any) => {
                   return (
-                    <div key={index} className='w-64 flex flex-col gap-4'>
-                        <h2 className='font-semibold'>Question {index + 1} - <span  className="bg-gray-300 hover:border hover:border-gray-300 hover:text-gray-300 hover:bg-white rounded-md px-2 py-0.5 text-white text-sm font-medium">Edit</span></h2>
+                    <div key={index} className='w-full flex flex-col gap-4'>
+                      <div className='flex items-center gap-2'>
+                        <h2 className='font-semibold'>
+                            Question {index + 1} 
+                        </h2>
+                        <span className='font-semibold'>-</span>
+                        <DeleteQuestion classId={classId} assessmentId={assessmentId} questionId={question?.questionid}/>
+                      </div>
                         <p>{question?.question}</p>
                         <div className='text-left'>
                             <p><span className='font-medium'>1.</span> {question?.options[0]}</p>

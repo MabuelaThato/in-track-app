@@ -1,4 +1,3 @@
-
 import React from 'react'
 import { getUser } from '@/actions/actions';
 import AdminClasses from '@/components/classes/adminClasses';
@@ -28,7 +27,9 @@ const Classes = async () => {
         <div>
         {
           userRole === "admin" ? (
-            <AdminClasses />
+            <div>
+              <AdminClasses />
+            </div>
           ) : (
             <LearnerClasses />
           )

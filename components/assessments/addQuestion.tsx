@@ -18,7 +18,6 @@ import {
 } from "@/components/ui/dialog"
 import { Textarea } from '../ui/textarea';
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { MdOutlineQuiz } from "react-icons/md";
 
 
 const formSchema = z.object({
@@ -44,26 +43,23 @@ const AddQuestion = ({classId, assessmentId}: {classId: string, assessmentId: st
         },
       })
 
-      const [isDialogOpen, setIsDialogOpen] = useState(false);
-
-      const openDialog = () => {
-        setIsDialogOpen(true);
-      };
+      const [uploading, setUploading] = useState(false)
 
       async function onSubmit(values: z.infer<typeof formSchema>) {
 
         await addQuestion(values, classId, assessmentId);
-        form.reset();
-        setIsDialogOpen(false);
+        setUploading(true);
+        window.location.reload();
+       
       }
     
 
   return (
-    <Dialog open={isDialogOpen}>
-    <DialogTrigger asChild onClick={openDialog} className='hover:cursor-pointer hover:bg-gray-100 w-full p-2 rounded-md flex items-center gap-2'>
+    <Dialog>
+    <DialogTrigger asChild className='border border-[#A5BE00] bg-[#A5BE00] text-white hover:bg-white hover:text-[#A5BE00] rounded-md py-1.5 p-2 rounded-md flex items-center gap-2'>
       <div className='grow text-sm'>
-        <MdOutlineQuiz />
-        <span>Multiple choice</span>
+        <FaPlus />
+        <span>Add Questions</span>
       </div>
    
     </DialogTrigger>
@@ -162,7 +158,17 @@ const AddQuestion = ({classId, assessmentId}: {classId: string, assessmentId: st
         )}
         />
     
-        <Button type="submit" className='mt-6'>Add Question</Button>
+        <div className='flex justify-end'>
+          <Button 
+          type="submit" 
+          className='mt-6'
+          disabled={uploading}
+          >
+            {
+              uploading ? (<div>Adding...</div>) : (<div>Add Question</div>)
+            }
+          </Button>
+        </div>
 
       </form>
     </Form>

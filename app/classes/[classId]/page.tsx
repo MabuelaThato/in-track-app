@@ -15,6 +15,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip"
 import { redirect } from 'next/navigation';
+import DeleteLearner from '@/components/learners/deleteLearner';
 
 
 const Learners = async ({ params }: { params: { classId: string } }) => {
@@ -80,14 +81,8 @@ const Learners = async ({ params }: { params: { classId: string } }) => {
                 <TableCell>{index + 1}</TableCell>
                 <TableCell>{learner?.name}</TableCell>
                 <TableCell>{learner?.surname}</TableCell>
-                <TableCell>
-                  <Link
-                    
-                    href={`/dashboard/classes/${classId}/${learner?.learnerid}`}
-                  >
-                    View
-                  </Link>
-                  
+                <TableCell className='flex items-center gap-2'>
+                  <DeleteLearner classId={classId} learnerId={learner?.learnerid}/>
                 </TableCell>
               </TableRow>
             );

@@ -1,5 +1,5 @@
 "use client"
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { FaPlus } from "react-icons/fa6";
@@ -8,7 +8,6 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form';
 import { addLearner } from '@/actions/actions';
-import { revalidatePath } from 'next/cache';
 import { DialogFooter } from '../ui/dialog';
 import {
   Dialog,
@@ -36,9 +35,13 @@ const AddLearner = ({classId}: {classId: string}) => {
         },
       })
 
+      const [uploading, setUploading] = useState(false);
+
     async function onSubmit(values: z.infer<typeof formSchema>) {
       try{
         await addLearner(values, classId);
+        setUploading(true);
+        window.location.reload();
       } catch(err){
         console.log(err);
       }
@@ -48,10 +51,10 @@ const AddLearner = ({classId}: {classId: string}) => {
    
 <Dialog>
 <DialogTrigger asChild>
-  <Button className='bg-[#064789] hover:border hover:border-[#064789] hover:text-[#064789] hover:bg-white flex gap-2 items-center'>
+  <div className='bg-[#064789] hover:border hover:border-[#064789] hover:text-[#064789] hover:bg-white p-2 px-3 rounded-md text-white flex gap-2 items-center'>
     <FaPlus />
     <span>Add Learner</span>
-  </Button>
+  </div>
 </DialogTrigger>
 <DialogContent className="sm:max-w-[425px]">
   <DialogHeader>
@@ -59,7 +62,7 @@ const AddLearner = ({classId}: {classId: string}) => {
     <DialogDescription>Enter all the learner's information. Click the add button when you're done.</DialogDescription>
 </DialogHeader>
 <Form {...form}>
-<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
   <FormField
     control={form.control}
     name="name"
@@ -101,7 +104,15 @@ const AddLearner = ({classId}: {classId: string}) => {
   />
 
   <DialogFooter>
-    <Button type="submit">Add</Button>
+    <Button type="submit" disabled={uploading} className='mt-2'>
+      {
+        uploading ? (
+        <div>Adding...</div>
+        ) : (
+        <div>Add</div>
+          )
+      }
+    </Button>
   </DialogFooter>
   </form>
 </Form>

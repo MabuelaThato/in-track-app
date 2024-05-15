@@ -1,4 +1,4 @@
-import { getAdminAssessment, getPdfQuestion, getQuestions } from '@/actions/actions';
+import { deleteAdminAssignment, getAdminAssessment, getPdfQuestion, getQuestions } from '@/actions/actions';
 import React from 'react'
 import AddQuestion from './addQuestion';
 import { Button } from '../ui/button';
@@ -18,12 +18,13 @@ const AdminAssessment = async ({classId, assessmentId}: {classId: string, assess
     const questions = await getQuestions(classId, assessmentId);
     const assignmentsLength = assignments.rows.length;
     const maxLength = 1;
+
   return (
     <div>
-    <div className='flex justify-between'>
+    <div className='flex justify-between w-full'>
         <div>
             <h1 className='text-4xl font-medium'>{assessment?.title}</h1>
-            <p className='text-sm text-zinc-500 mb-6 mt-2'>{assessment?.instruction}</p>
+            <p className='text-sm text-zinc-500 mb-6'>{assessment?.instruction}</p>
         </div>
         <div className='flex gap-4 items-center'>
             <div>
@@ -47,7 +48,7 @@ const AdminAssessment = async ({classId, assessmentId}: {classId: string, assess
                
             </div>
             <div>
-              <Link href={`/dashboard/classes/${classId}/assessments/${assessmentId}/submissions`} className="p-1 px-2 rounded-md bg-[#064789] border border-[#064789] text-white hover:bg-white hover:text-[#064789]">
+              <Link href={`/classes/${classId}/assessments/${assessmentId}/submissions`} className="p-1 px-2 rounded-md bg-[#064789] border border-[#064789] text-white hover:bg-white hover:text-[#064789]">
                   Submissions
               </Link>
             </div>
@@ -57,10 +58,10 @@ const AdminAssessment = async ({classId, assessmentId}: {classId: string, assess
       {
         assessment?.assessmenttype === "quiz" ? (
         <div>
-          <Questions questions={questions} />
+          <Questions questions={questions} classId={classId} assessmentId={assessmentId} />
         </div>
         ) : (
-          <PdfQuestions assignments={assignments} />
+          <PdfQuestions assignments={assignments} classId={classId} assessmentId={assessmentId}/>
         )
       }
     </div>

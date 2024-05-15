@@ -9,17 +9,16 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog"
 import { BsPaperclip } from "react-icons/bs";
-import { addPdfQuestion } from '@/actions/actions';
+import { submitPdfAnswer } from '@/actions/actions';
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { storage } from '../provider';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 
-const AddAssignment = ({classId, assessmentId}: {classId: string, assessmentId: string}) => {
-
+const PdfSubmission = ({classId, assessmentId}: {classId: string, assessmentId: string}) => {
     const [pdfFile, setPdfFile] = useState<File | null>(null);
     const [downloadUrl, setDownloadUrl] = useState("");
-    const [uploading, setUploading] = useState(false)
+    const [uploading, setUploading] = useState(false);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files && e.target.files[0];
@@ -34,7 +33,7 @@ const AddAssignment = ({classId, assessmentId}: {classId: string, assessmentId: 
         throw new Error('Please select a PDF file.');
       }
 
-      const fileRef = ref(storage, `files/${pdfFile.name}`);
+      const fileRef = ref(storage, `learners/${pdfFile.name}`);
       const uploadTask = uploadBytesResumable(fileRef, pdfFile);
 
       uploadTask.on(
@@ -51,7 +50,7 @@ const AddAssignment = ({classId, assessmentId}: {classId: string, assessmentId: 
         })
       }
 
-      await addPdfQuestion(pdfFile?.name, classId, assessmentId);
+      await submitPdfAnswer(pdfFile?.name, classId, assessmentId);
       setUploading(true);
       window.location.reload();
     }catch(err){
@@ -62,30 +61,34 @@ const AddAssignment = ({classId, assessmentId}: {classId: string, assessmentId: 
 
   return (
     <Dialog>
-    <DialogTrigger asChild className='hover:cursor-pointer p-1 px-2 text-white rounded-md bg-[#A5BE00] border border-[#A5BE00] hover:text-[#A5BE00] font-medium hover:bg-white'>
-      <div className='flex items-center gap-2'>
+    <DialogTrigger asChild className='p-2 rounded-md flex items-center justify-end gap-1 hover:cursor-pointer hover:underline'>
+      <div className='grow text-sm'>
         <BsPaperclip />
-        <span>Assignment</span>
+        <span>Submit assignment</span>
       </div>
     </DialogTrigger>
     <DialogContent className="sm:max-w-[425px]"> 
       <DialogHeader>
-        <DialogTitle>Create a new assignment</DialogTitle>
+        <DialogTitle>Assignment Submission</DialogTitle>
         <DialogDescription>
           Click 'choose file' and select the pdf assignment you would like to upload.
           <br />
           <br />
-          Ensure that the name of pdf file is in this format: "name of test"-"year", 
+          Ensure that the name of pdf file is in this format: "your name"-"name of assignment"-"year", 
           <br />
-          eg."PhotosynthesisAssignment-2024"
+          eg."ThatoMabuela-Photosynthesis-2024"
         </DialogDescription>
     </DialogHeader>
     <div>
-        <Input type="file" id="pdfFile" onChange={handleFileChange} accept=".pdf" className='mt-2'/>
+        <Input type="file" id="pdfFile" onChange={handleFileChange} accept=".pdf" className='hover:cursor-pointer mt-1'/>
     </div>
     <Button onClick={handleSubmit} disabled={uploading}>
       {
-        uploading ? (<div>Adding...</div>) : (<div>Add PDF Question</div>)
+        uploading ? (
+          <div>Submitting...</div>
+        ) : (
+          <div>Submit assignment</div>
+        )
       }
     </Button>
     </DialogContent>
@@ -93,4 +96,4 @@ const AddAssignment = ({classId, assessmentId}: {classId: string, assessmentId: 
   )
 }
 
-export default AddAssignment
+export default PdfSubmission

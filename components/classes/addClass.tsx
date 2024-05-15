@@ -1,5 +1,5 @@
 "use client";
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { FaPlus } from "react-icons/fa6";
@@ -34,8 +34,12 @@ const AddClass = () => {
         },
       })
 
+      const [uploading, setUploading] = useState(false);
+
     async function onSubmit(values: z.infer<typeof formSchema>) {
         await addAdminClass(values);
+        setUploading(true);
+        window.location.reload();
       }
 
   return (
@@ -81,7 +85,11 @@ const AddClass = () => {
       />
  
       <DialogFooter>
-        <Button type="submit">Create class</Button>
+        <Button type="submit" disabled={uploading}>
+          {
+            uploading ? (<div>Creating...</div>) : (<div>Create class</div>)
+          }
+        </Button>
       </DialogFooter>
       </form>
     </Form>

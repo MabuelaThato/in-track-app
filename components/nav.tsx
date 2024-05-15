@@ -16,13 +16,13 @@ const Nav = async () => {
         <div className='p-2 flex justify-between px-12 items-center'>
 
           <div className={concertOne.className}>
-            <Link href="/dashboard" className='font-black'>
+            <Link href="/classes" className='font-black'>
                 <span className='text-[#A5BE00] text-lg'>in</span><span  className='text-xl text-[#064789]'>Track</span>
             </Link>
           </div>
 
           <div className='flex gap-2 items-center'>
-            <div className='text-zinc-700'>{user?.firstname} {user?.lastname}</div>
+            <div className='text-zinc-700 font-semibold'>{user?.role}</div>
             <SignOut />
           </div>
 

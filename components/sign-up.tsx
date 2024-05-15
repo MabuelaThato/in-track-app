@@ -62,23 +62,23 @@ const SignUp = () => {
     }
 
   return (
-    <div className='form-bg border border-slate-200 drop-shadow'>
+    <div className='register-bg border border-slate-200 drop-shadow'>
       <div className='text-center'>
       <Image
       src="/logo.png"
       alt='in-track logo'
-      width={130}
-      height={100}
+      width={120}
+      height={110}
       className='img'
       />
-      <h1 className='text-4xl font-bold mt-4'>
+      <h1 className='text-4xl font-bold'>
         Welcome
       </h1>
-      <p className='sub-text mb-6'>Please enter your credentials</p>
+      <p className='sub-text mb-8'>Please enter your credentials</p>
 
     </div>
     <Form {...form}>
-    <form onSubmit={form.handleSubmit(register)} className="space-y-8">
+    <form onSubmit={form.handleSubmit(register)} className="space-y-6">
       <FormField
         control={form.control}
         name="firstname"

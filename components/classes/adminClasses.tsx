@@ -1,14 +1,34 @@
-
-import React from 'react'
+"use client"
+import React, { useEffect, useState } from 'react'
 import Link from 'next/link';
-import { getAdminClasses } from '@/actions/actions';
-import DeleteClass from './deleteClass';
+import { deleteClass, getAdminClasses } from '@/actions/actions';
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '../ui/table';
-import { FaTrash } from 'react-icons/fa6';
+import DeleteClass from './deleteClass';
+import { FaTrashCan } from 'react-icons/fa6';
+import { QueryResultRow } from '@vercel/postgres';
 
 
-const AdminClasses = async () => {
-  const classes = await getAdminClasses();
+const AdminClasses = () => {
+  const [classes, setClasses] = useState<QueryResultRow[]>([]);
+
+  useEffect(() => {
+    const fetchClasses = async () => {
+      try {
+        const classesData = await getAdminClasses();
+        if (classesData) {
+          setClasses(classesData);
+        } else {
+          console.error('Error fetching classes: Data is undefined');
+        }
+      } catch (error) {
+        console.error('Error fetching classes:', error);
+      }
+    };
+
+    fetchClasses();
+  }, []);
+
+
   return (
     <div className=" border bg-white rounded-lg p-6">
       <Table>
@@ -30,13 +50,15 @@ const AdminClasses = async () => {
                 <TableCell>{grade?.division}</TableCell>
                 <TableCell className='flex items-center gap-2'>
                   <Link
-                    href={`/dashboard/classes/${grade?.classid}`}
+                    href={`/classes/${grade?.classid}`}
                     className='border border-[#A5BE00] text-[#A5BE00] rounded-md p-0.5 px-2 font-medium hover:bg-[#A5BE00] hover:text-white'
                   >
                     View
                   </Link>
-                  <FaTrash className='hover:text-white hover:bg-[#064789] bg-white text-[#064789] border rounded-md border-[#064789] px-2 py-0.5' size={28}/>
-                  <Link href={`/dashboard/classes/${grade?.classid}/assessments`} className="bg-gray-400 hover:border hover:border-gray-400 hover:text-gray-400 hover:bg-white rounded-md px-2 py-1 text-white">
+
+                  <DeleteClass classId={grade?.classid}/>
+                  
+                  <Link href={`/classes/${grade?.classid}/assessments`} className="bg-gray-400 hover:border hover:border-gray-400 hover:text-gray-400 hover:bg-white rounded-md px-2 py-1 text-white">
                     <span>Assessments</span>
                   </Link>
                 </TableCell>

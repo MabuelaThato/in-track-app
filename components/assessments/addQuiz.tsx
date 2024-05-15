@@ -1,5 +1,5 @@
 "use client"
-import React from 'react'
+import React, { useState } from 'react'
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { FaPlus } from "react-icons/fa6";
@@ -45,6 +45,8 @@ const formSchema = z.object({
   })
 
 const AddQuiz = ({classId}: {classId: string}) => {
+
+  const [uploading, setUploading] = useState(false);
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -117,7 +119,8 @@ const AddQuiz = ({classId}: {classId: string}) => {
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
         await createQuiz(values, classId, today);
-
+        setUploading(true);
+        window.location.reload();
       }
 
   return (
@@ -222,7 +225,12 @@ const AddQuiz = ({classId}: {classId: string}) => {
             </div>
  
       <DialogFooter>
-        <Button type="submit">Create assessment</Button>
+        <Button type="submit">
+        {
+            uploading ? (<div>Creating...</div>) : (<div>Create assessment</div>)
+        }
+
+        </Button>
       </DialogFooter>
       </form>
     </Form>

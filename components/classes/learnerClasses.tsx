@@ -27,7 +27,7 @@ const LearnerClasses = async () => {
                 <TableCell>{grade?.subject}</TableCell>
                 <TableCell>{grade?.division}</TableCell>
                 <TableCell className=''>
-                  <Link href={`/dashboard/classes/${grade?.classid}/assessments`} className="bg-[#A5BE00] hover:border hover:border-[#A5BE00] hover:text-[#A5BE00] hover:bg-white rounded-md px-2 py-1 text-white">
+                  <Link href={`/classes/${grade?.classid}/assessments`} className="bg-[#A5BE00] hover:border hover:border-[#A5BE00] hover:text-[#A5BE00] hover:bg-white rounded-md px-2 py-1 text-white">
                    <span>Assessments</span>
                   </Link>
                 </TableCell>

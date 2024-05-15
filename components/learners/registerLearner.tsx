@@ -1,5 +1,5 @@
 "use client"
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { FaPlus } from "react-icons/fa6";
@@ -39,11 +39,15 @@ const RegisterLearner = ({classId}: {classId: string}) => {
         },
       })
 
+      const [uploading, setUploading] = useState(false);
+
     async function onSubmit(values: z.infer<typeof formSchema>) {
       try{
         await createUserWithEmailAndPassword(fireAuth, values.email, values.password);
         await registerLearner(values);
         await addLearner(values, classId);
+        setUploading(true);
+        window.location.reload();
       } catch(err){
         console.log(err);
         console.log("USER ALREADY HAS AN ACCOUNT");
@@ -54,18 +58,22 @@ const RegisterLearner = ({classId}: {classId: string}) => {
    
 <Dialog>
 <DialogTrigger asChild>
-  <Button className='bg-[#A5BE00] hover:border hover:border-[#A5BE00] hover:text-[#A5BE00] hover:bg-white flex gap-2 items-center'>
+  <div className='bg-[#A5BE00] hover:border hover:border-[#A5BE00] hover:text-[#A5BE00] hover:bg-white p-2 px-3 rounded-md text-white flex gap-2 items-center'>
     <FaPlus />
     <span>Register Learner</span>
-  </Button>
+  </div>
 </DialogTrigger>
 <DialogContent className="sm:max-w-[425px]">
   <DialogHeader>
     <DialogTitle>Create a new learner</DialogTitle>
-    <DialogDescription>Enter all the learner's information. Click the add button when you're done.</DialogDescription>
+    <DialogDescription>
+      Enter all the learner's information. Click the add button when you're done.
+      <br />
+      This will automatically add the learner to your class.
+    </DialogDescription>
 </DialogHeader>
 <Form {...form}>
-<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
   <FormField
     control={form.control}
     name="name"
@@ -120,7 +128,15 @@ const RegisterLearner = ({classId}: {classId: string}) => {
   />
 
   <DialogFooter>
-    <Button type="submit">Add</Button>
+    <Button type="submit" disabled={uploading} className='mt-2'>
+    {
+        uploading ? (
+        <div>Adding...</div>
+        ) : (
+        <div>Add</div>
+          )
+      }
+    </Button>
   </DialogFooter>
   </form>
 </Form>

@@ -6,7 +6,8 @@ import { sql } from "@vercel/postgres";
 import { signOut } from "firebase/auth";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
+import { destroyCookie } from "nookies";
 
 export async function redirectUser(){
     const token = cookies().get("token")?.value!;
@@ -16,14 +17,11 @@ export async function redirectUser(){
     if (!user) {
         redirect("/sign-up");
     } else {
-        redirect("/dashboard");
+        redirect("/classes");
     }
   }
 
-export async function logOut(){
-    await signOut(fireAuth);
-    return redirect("/")
-}
+
 
 export async function registerUser(form: any) {
     const token = cookies().get("token")?.value!;
@@ -38,7 +36,7 @@ export async function registerUser(form: any) {
       } catch (error) {
         
       }
-      redirect("/dashboard");
+      redirect("/classes");
     } else {      
         console.error('Token is undefined. Unable to verify.');
     }
@@ -53,10 +51,10 @@ export async function registerLearner(form: any) {
         try {
             await sql`INSERT INTO users (userid, lastname, firstname, role)
                 VALUES (${user.uid}, ${form.name}, ${form.surname}, 'learner');`;
+                
       } catch (error) {
         
       }
-      redirect("/dashboard");
     } else {      
         console.error('Token is undefined. Unable to verify.');
     }
@@ -73,7 +71,6 @@ export async function addLearner(form: any, classId: string) {
               const userRecord = await firebaseAdmin.auth().getUserByEmail(form.email);
               await sql`INSERT INTO learners (classid, teacherid, name, surname, learnerid)
                 VALUES (${classId}, ${user.uid}, ${form.name}, ${form.surname}, ${userRecord.uid});`;
-                revalidatePath(`/dashboard/classes/${classId}`)
             } catch (error) {
               console.error('Error fetching user data:', error);
               return null;
@@ -156,7 +153,6 @@ export async function addAdminClass(form: any){
         const userId = currentUser.uid
         await sql`INSERT INTO classes(subject, division, teacherid)
         VALUES (${form.subject}, ${form.division}, ${userId});`;
-          revalidatePath("/classes");
         
     } catch (error) {
         console.log(error);
@@ -195,29 +191,7 @@ export async function getClass(classId: string){
     }
 };
 
-export async function deleteClass(classSubject: string, classDivision: string){
-    const token = cookies().get("token")?.value!;
-    if (!token) return redirect("/");
-    const currentUser = await firebaseAdmin.auth().verifyIdToken(token);
-  
-    const userId = currentUser.uid;
 
-    await sql`DELETE FROM classes WHERE classid = ${userId} AND subject = ${classSubject} AND division = ${classDivision};`
-
-    revalidatePath("/dashboard/classes");
-  }
-
-export async function deleteLearner(classSubject: string, classDivision: string){
-    const token = cookies().get("token")?.value!;
-    if (!token) return redirect("/");
-    const currentUser = await firebaseAdmin.auth().verifyIdToken(token);
-  
-    const userId = currentUser.uid;
-
-    await sql`DELETE FROM classes WHERE classid = ${userId} AND subject = ${classSubject} AND division = ${classDivision};`
-
-    revalidatePath("/dashboard/classes");
-  }
 
   //QUIZZES
 
@@ -226,12 +200,10 @@ export async function deleteLearner(classSubject: string, classDivision: string)
     if (!token) return redirect("/");
     try {
         const currentUser = await firebaseAdmin.auth().verifyIdToken(token);
-        const result = await sql`INSERT INTO quizzes (title, instruction, teacherid, classId, duedate, passpercentage, assessmenttype) VALUES (${form.title}, ${form.instruction}, ${currentUser.uid}, ${classId}, ${dueDate}, ${form.passPercentage}, ${form.quizType});`;
-        const createdQuiz = result.rows[0];
-        return createdQuiz;
+        await sql`INSERT INTO quizzes (title, instruction, teacherid, classId, duedate, passpercentage, assessmenttype) VALUES (${form.title}, ${form.instruction}, ${currentUser.uid}, ${classId}, ${dueDate}, ${form.passPercentage}, ${form.quizType});`;
+        
     } catch (error) {
       console.error('Error creating quiz:', error);
-      throw new Error('Internal server error');
     }
   }
 
@@ -244,10 +216,10 @@ export async function deleteLearner(classSubject: string, classDivision: string)
       const optionsLiteral = `{${optionsArray.join(',')}}`;
       await sql`INSERT INTO questions (assessmentid, classid, teacherid, question, correctanswer, options) 
       VALUES (${assessmentId}, ${classId}, ${currentUser.uid}, ${form.question}, ${form.correctAnswer}, ${optionsLiteral});`;
-      revalidatePath(`/classes/${classId}/assessments/${assessmentId}`);
+      
     } catch (error) {
       console.error('Error creating question:', error);
-      throw new Error('Internal server error');
+      
     }
   }
   export async function addPdfQuestion(fileName: string, classId: string, assessmentId: string) {
@@ -257,10 +229,9 @@ export async function deleteLearner(classSubject: string, classDivision: string)
       const currentUser = await firebaseAdmin.auth().verifyIdToken(token);
       await sql`INSERT INTO assignments (assessmentid, classid, teacherid, filename) 
       VALUES (${assessmentId}, ${classId}, ${currentUser.uid}, ${fileName});`;
-      revalidatePath(`/classes/${classId}/assessments/${assessmentId}`);
     } catch (error) {
       console.error('Error creating question:', error);
-      throw new Error('Internal server error');
+      
     }
   }
   export async function getPdfQuestion(classId: string, assessmentId: string) {
@@ -269,11 +240,11 @@ export async function deleteLearner(classSubject: string, classDivision: string)
     try {
       const assignments = await sql`SELECT * FROM assignments 
       WHERE classid = ${classId} AND assessmentid = ${assessmentId};`;
-      revalidatePath(`/classes/${classId}/assessments/${assessmentId}`);
+      
       return assignments
     } catch (error) {
       console.error('Error creating question:', error);
-      throw new Error('Internal server error');
+      
     }
   }
 
@@ -319,7 +290,7 @@ export async function deleteLearner(classSubject: string, classDivision: string)
 
     } catch (error) {
       console.error('Error creating quiz:', error);
-      throw new Error('Internal server error');
+      
     }
   }
   export async function getlearnerAssessments(classId: string){
@@ -335,7 +306,7 @@ export async function deleteLearner(classSubject: string, classDivision: string)
 
     } catch (error) {
       console.error('Error creating quiz:', error);
-      throw new Error('Internal server error');
+      
     }
   }
   export async function getlearnerAssignments(classId: string){
@@ -351,7 +322,7 @@ export async function deleteLearner(classSubject: string, classDivision: string)
 
     } catch (error) {
       console.error('Error creating quiz:', error);
-      throw new Error('Internal server error');
+      
     }
   }
 
@@ -368,26 +339,190 @@ export async function deleteLearner(classSubject: string, classDivision: string)
 
     } catch (error) {
       console.error('Error creating quiz:', error);
-      throw new Error('Internal server error');
+      
     }
   }
 
   //SUBMISSIONS
 
 
+  export async function submitQuizResult(classId: string, assessmentId: string, fullName: any, score: any,percentage: any, status: any){
+    const token = cookies().get("token")?.value!;
+    if (!token) return redirect("/");
+
+    try {
+      const currentUser = await firebaseAdmin.auth().verifyIdToken(token);
+      await sql`INSERT INTO quizsubmissions (assessmentid, classid, learnerid, fullname, score, percentage, status) 
+      VALUES (${assessmentId}, ${classId}, ${currentUser.uid}, ${fullName}, ${score}, ${percentage}, ${status});`;
+
+    } catch (error) {
+      console.error('Error submitting quiz results:', error);
+      
+    }
+  }
+
   export async function getLearnerAssignmentSubmissions(classId: string, assessmentId: string){
     const token = cookies().get("token")?.value!;
     if (!token) return redirect("/");
 
     try {
-        const { rows } = await sql`SELECT * FROM assignmentsubmissions WHERE assessmentid=${assessmentId} AND classid=${classId};`;
+        const currentUser = await firebaseAdmin.auth().verifyIdToken(token);
+        const { rows } = await sql`SELECT * FROM assignmentsubmissions WHERE assessmentid=${assessmentId} AND classid=${classId} AND learnerid=${currentUser.uid};`;
         
-        const assessments = rows[0];
+        const assessments = rows;
     
         return assessments;
 
     } catch (error) {
-      console.error('Error creating quiz:', error);
-      throw new Error('Internal server error');
+      console.error('Error fetching submissions:', error);
+      
     }
   }
+  export async function getAssignmentSubmissions(classId: string, assessmentId: string){
+    const token = cookies().get("token")?.value!;
+    if (!token) return redirect("/");
+
+    try {
+      
+        const { rows } = await sql`SELECT * FROM assignmentsubmissions WHERE assessmentid=${assessmentId} AND classid=${classId};`;
+        
+        const assessments = rows;
+    
+        return assessments;
+
+    } catch (error) {
+      console.error('Error fetching submissions:', error);
+      
+    }
+  }
+
+  export async function getLearnerQuizSubmissions(classId: string, assessmentId: string){
+    const token = cookies().get("token")?.value!;
+    if (!token) return redirect("/");
+
+    try {
+        const { rows } = await sql`SELECT * FROM quizsubmissions WHERE assessmentid=${assessmentId} AND classid=${classId};`;
+        
+        const assessments = rows;
+    
+        return assessments;
+
+    } catch (error) {
+      console.error('Error fetching submissions:', error);
+      
+    }
+  }
+
+  export async function submitPdfAnswer(fileName: string, classId: string, assessmentId: string) {
+    const token = cookies().get("token")?.value!;
+    if (!token) return redirect("/");
+    try {
+      const currentUser = await firebaseAdmin.auth().verifyIdToken(token);
+      const userDetails = await getUser();
+      const userName = userDetails?.firstname + " " + userDetails?.lastname;
+      await sql`INSERT INTO assignmentsubmissions (assessmentid, classid, learnerid, filename, name) 
+      VALUES (${assessmentId}, ${classId}, ${currentUser.uid}, ${fileName}, ${userName});`;
+    } catch (error) {
+      console.error('Error submitting pdf:', error);
+      
+    }
+  }
+
+
+
+
+
+
+  //DELETES
+
+  export async function deleteClass(classId:string){
+    const token = cookies().get("token")?.value!;
+    if (!token) return redirect("/");
+    const currentUser = await firebaseAdmin.auth().verifyIdToken(token);
+  
+    const userId = currentUser.uid;
+
+    await sql`DELETE FROM classes WHERE classid = ${classId} AND teacherid = ${userId};`
+    await sql`DELETE FROM learners WHERE classid = ${classId} AND teacherid = ${userId};`
+    await sql`DELETE FROM quizzes WHERE classid = ${classId} AND teacherid = ${userId};`
+    await sql`DELETE FROM questions WHERE classid = ${classId} AND teacherid = ${userId};`
+    await sql`DELETE FROM assignments WHERE classid = ${classId} AND teacherid = ${userId};`
+
+    revalidatePath("/dashboard/classes");
+  }
+
+  export async function deleteQuiz(classId:string, quizType: string, assessmentId: string){
+    const token = cookies().get("token")?.value!;
+    if (!token) return redirect("/");
+    try {
+      const currentUser = await firebaseAdmin.auth().verifyIdToken(token);
+    
+      const userId = currentUser.uid;
+  
+      await sql`DELETE FROM quizzes WHERE classid = ${classId} AND teacherid = ${userId} AND assessmentid = ${assessmentId};`
+
+      if (quizType == "quiz") {
+      await sql`DELETE FROM questions WHERE classid = ${classId} AND teacherid = ${userId} AND assessmentid = ${assessmentId};`
+      } else{
+      await sql`DELETE FROM assignments WHERE classid = ${classId} AND teacherid = ${userId} AND assessmentid = ${assessmentId};`
+      }
+       
+    } catch (error) {
+      console.log(error)
+    }
+
+    revalidatePath("/dashboard/classes");
+  }
+
+export async function deleteLearner(classId: string, learnerId: string){
+    const token = cookies().get("token")?.value!;
+    if (!token) return redirect("/");
+    const currentUser = await firebaseAdmin.auth().verifyIdToken(token);
+  
+    const userId = currentUser.uid;
+
+    await sql`DELETE FROM learners WHERE teacherid = ${userId} AND classid = ${classId} AND learnerid = ${learnerId};`
+    await sql`DELETE FROM quizsubmissions WHERE classid = ${classId} AND learnerid = ${learnerId};`
+    await sql`DELETE FROM assignmentsubmissions WHERE classid = ${classId} AND learnerid = ${learnerId};`
+
+}
+export async function deleteQuestion(classId: string, assessmentId: string, questionId: string){
+    const token = cookies().get("token")?.value!;
+    if (!token) return redirect("/");
+    const currentUser = await firebaseAdmin.auth().verifyIdToken(token);
+  
+    const userId = currentUser.uid;
+
+    await sql`DELETE FROM questions WHERE teacherid = ${userId} AND classid = ${classId} AND assessmentid = ${assessmentId} AND questionid = ${questionId};`
+
+}
+
+export async function deleteLearnerAssignment(classId: string, assessmentId: string){
+    const token = cookies().get("token")?.value!;
+    if (!token) return redirect("/");
+    try {
+      const currentUser = await firebaseAdmin.auth().verifyIdToken(token);
+    
+      const userId = currentUser.uid;
+    
+      await sql`DELETE FROM assignmentsubmissions WHERE learnerid = ${userId} AND classid = ${classId} AND assessmentid = ${assessmentId};`;
+    } catch (error) {
+      console.log("ERROR IN AWAIT SQL DELETE", error)
+    }
+
+}
+
+export async function deleteAdminAssignment(classId: string, assessmentId: string){
+    const token = cookies().get("token")?.value!;
+    if (!token) return redirect("/");
+    try {
+      const currentUser = await firebaseAdmin.auth().verifyIdToken(token);
+    
+      const userId = currentUser.uid;
+    
+      await sql`DELETE FROM assignments WHERE teacherid = ${userId} AND classid = ${classId} AND assessmentid = ${assessmentId};`;
+    } catch (error) {
+      console.log("ERROR IN AWAIT SQL DELETE", error)
+    }
+
+}
