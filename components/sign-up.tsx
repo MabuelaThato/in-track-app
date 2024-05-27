@@ -74,7 +74,7 @@ const SignUp = () => {
       <h1 className='text-xl md:text-3xl lg:text-4xl font-bold'>
         Welcome
       </h1>
-      <p className='text-xs md:text-base lg:text-lg mb-8 lg:mb-12'>Please enter your credentials</p>
+      <p className='text-xs md:text-base lg:text-lg mb-8'>Please enter your credentials</p>
 
     </div>
     <Form {...form}>

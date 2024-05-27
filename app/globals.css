@@ -190,16 +190,18 @@
   @media (min-width: 1024px) {
     @media (max-height: 700px) {
     .form-bg{
-      padding: 10px 50px;
+      padding: 0px 50px;
       background-color: white;
       width: 60%;
       height: 90%;
     }
   
     .register-bg{
-      padding: 10px 50px 30px 50px;
+      padding: 20px 50px;
+      margin-top: 20px;
+      margin-bottom: 20px;
       background-color: white;
-      width: 55%;
+      width: 60%;
       height: 80%
     }
     

@@ -71,7 +71,7 @@ const SignIn = () => {
 
     </div>
     <Form {...form}>
-        <form onSubmit={form.handleSubmit(logIn)} className="space-y-6 md:space-y-8 lg:space-y-10">
+        <form onSubmit={form.handleSubmit(logIn)} className="space-y-6 md:space-y-8">
           <FormField
             control={form.control}
             name="email"
