@@ -16,7 +16,7 @@ const AdminAssessment = async ({classId, assessmentId}: {classId: string, assess
     const assessment = await getAdminAssessment(classId, assessmentId);
     const assignments = await getPdfQuestion(classId, assessmentId);
     const questions = await getQuestions(classId, assessmentId);
-    const assignmentsLength = assignments.rows.length;
+    const assignmentsLength = assignments?.rows.length;
     const maxLength = 1;
 
   return (
