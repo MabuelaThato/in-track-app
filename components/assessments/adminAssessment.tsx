@@ -36,7 +36,7 @@ const AdminAssessment = async ({classId, assessmentId}: {classId: string, assess
               ) : (
                 <div>
                   {
-                    assignmentsLength >= maxLength ? (
+                    (assignmentsLength ?? 0) >= maxLength ? (
                     <div></div>
                     ) : (
                       <AddAssignment classId={classId} assessmentId={assessmentId} />
