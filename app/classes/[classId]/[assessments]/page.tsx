@@ -32,19 +32,19 @@ const Assessments = async ({ params }: { params: { classId: string } }) => {
   
 
   return (
-    <div className='w-full min-h-screen p-10'>
-      <div className='flex justify-between items-center'>
+    <div className='p-4 md:p-6 lg:p-12 min-h-screen '>
+      <div className='flex flex-col gap-6 lg:gap-0 mb-6 lg:mb-0 lg:flex-row lg:justify-between'>
         <div>
-          <h1 className='text-4xl font-medium'>Assessments</h1>
-          <p className='text-sm text-zinc-500 mb-6'>Here are all your assessments(your quizzes and written assignments) for class {division} - {subject}</p>
+          <h1 className='text:xl md:text-2xl lg:text-4xl font-medium'>Assessments</h1>
+          <p className='text-xs md:text-sm text-gray-600 lg:mb-6'>Here are all your assessments (your quizzes and written assignments) for class {division} - {subject}</p>
         </div>
         {
           userRole === "admin" ? (
-           <div>
+           
             <AddQuiz classId={classId} />
-           </div>
+    
           ) : (
-            <div></div>
+            ""
           )
         }
       </div>
@@ -58,10 +58,10 @@ const Assessments = async ({ params }: { params: { classId: string } }) => {
           You do not have any assessments. Click create assessment.
           </div>
           ) : (
-            <div className='flex gap-12 flex-wrap'>
+            <div className='flex flex-col gap-6 lg:gap-12 md:flex-row md:flex-wrap'>
                 {adminAssessments?.map((assessment, index) => {
                       return (
-                        <Card key={index} className='w-64'>
+                        <Card key={index} className='md:w-64'>
                           <CardHeader>
                             <CardTitle>
                               <div>
@@ -71,7 +71,7 @@ const Assessments = async ({ params }: { params: { classId: string } }) => {
                             </CardTitle>
                           </CardHeader>
                           <CardContent className='text-gray-600'>
-                            <p>{assessment.instruction}</p>
+                            <p className='text-sm md:text-base'>{assessment.instruction}</p>
                           </CardContent>
                           <CardFooter className='flex justify-end gap-4'>
                               <DeleteQuiz classId={classId} quizType={assessment?.assessmenttype} assessmentId={assessment?.assessmentid}/>

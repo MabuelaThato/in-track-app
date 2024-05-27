@@ -125,13 +125,13 @@ const AddQuiz = ({classId}: {classId: string}) => {
 
   return (
     <Dialog>
-    <DialogTrigger asChild className='bg-[#064789] hover:border hover:cursor-pointer hover:border-[#064789] hover:text-[#064789] hover:bg-white rounded-md p-2 text-white flex gap-2 items-center'>
+    <DialogTrigger asChild className='bg-[#064789] hover:border hover:cursor-pointer hover:border-[#064789] hover:text-[#064789] hover:bg-white rounded-md p-2 text-white flex gap-2 items-center w-40 lg:w-auto'>
       <div>
         <FaPlus />
-        <span className='grow text-sm'>Add assessment</span>
+        <span className='lg:grow text-sm'>Add assessment</span>
       </div>
     </DialogTrigger>
-    <DialogContent className="sm:max-w-[425px]">
+    <DialogContent className="max-w-[420px] rounded">
       <DialogHeader>
         <DialogTitle>Create a new assessment</DialogTitle>
         <DialogDescription>Enter all the information. Click create when you're done.</DialogDescription>
