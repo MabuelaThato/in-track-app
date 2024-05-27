@@ -16,15 +16,15 @@ const AdminClassesHeader = () => {
 
   return (
     <div className='w-full'>
-      <div className="flex justify-between">
+      <div className="flex md:justify-between flex-col md:flex-row gap-4 md:gap-0">
         <div>
           <div className='text:xl md:text-2xl lg:text-4xl font-medium '>
             <h1>Hello {userName}</h1>
           </div>
-          <p className='text-xs md:text-sm text-gray-500 mb-6'>Here is a list of all your classes.</p>
+          <p className='text-xs md:text-sm text-gray-500 md:mb-6'>Here is a list of all your classes.</p>
         </div>
         
-          <div>
+          <div className='mb-4 md:mb-0'>
             <AddClass />
           </div>
       </div>

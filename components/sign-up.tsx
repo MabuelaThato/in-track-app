@@ -71,7 +71,7 @@ const SignUp = () => {
       height={110}
       className='img'
       />
-      <h1 className='text-xl md:text-3xl lg:text-4xl font-bold'>
+      <h1 className='text-xl md:text-3xl lg:text-4xl font-bold mt-2'>
         Welcome
       </h1>
       <p className='text-xs md:text-base lg:text-lg mb-8'>Please enter your credentials</p>
