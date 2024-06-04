@@ -79,12 +79,12 @@
 
     @media (max-height: 760px) {
       .form-bg{
-        padding: 5px 20px;
+        padding: 20px;
         background-color: white;
         margin-top: 80px;
         margin-bottom: 80px;
-        width: 85%;
-        height: 70%;
+        width: 75%;
+        height: 55%;
       }
     
       .register-bg{
@@ -104,19 +104,20 @@
         border-radius: 5px;
       }  
     }
+
     @media (min-height: 760px) {
       .form-bg{
-        padding: 5px 20px;
+        padding:20px;
         background-color: white;
-        width: 85%;
-        height: 55%;
+        width: 80%;
+        height: 40%;
       }
     
       .register-bg{
         padding: 10px 20px 50px 20px;
         background-color: white;
         width: 85%;
-        height: 70%;
+        height: 50%;
       }
       
       .img{
@@ -136,10 +137,10 @@
 
     @media (max-height: 1120px) {
     .form-bg{
-      padding: 10px 50px;
+      padding: 40px 30px 30px 30px;
       background-color: white;
       width: 60%;
-      height: 50%;
+      height: 45%;
     }
   
     .register-bg{
@@ -161,10 +162,10 @@
     } 
     @media (min-height: 1120px) {
     .form-bg{
-      padding: 10px 50px;
+      padding: 50px 50px 0px 50px;
       background-color: white;
       width: 60%;
-      height: 50%;
+      height: 40%;
     }
   
     .register-bg{
@@ -190,10 +191,10 @@
   @media (min-width: 1024px) {
     @media (max-height: 700px) {
     .form-bg{
-      padding: 0px 50px;
+      padding: 40px ;
       background-color: white;
-      width: 60%;
-      height: 90%;
+      width: 40%;
+      height: 70%;
     }
   
     .register-bg{
@@ -215,12 +216,13 @@
       border-radius: 5px;
     } 
   }
+
     @media (min-height: 700px) {
     .form-bg{
-      padding: 10px 50px;
+      padding: 40px 50px 0px 50px;
       background-color: white;
-      width: 60%;
-      height: 90%;
+      width: 40%;
+      height: 55%;
     }
   
     .register-bg{
@@ -240,8 +242,8 @@
       border-radius: 5px;
     } 
   }
-
   }
+
 
   .bg{
     background-color: #064789;
