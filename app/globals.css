@@ -88,7 +88,7 @@
       }
     
       .register-bg{
-        padding: 10px 30px 50px 30px;
+        padding: 20px 20px 40px 20px;
         background-color: white;
         width: 80%;
         height: 80%;
@@ -116,7 +116,7 @@
       .register-bg{
         padding: 10px 20px 50px 20px;
         background-color: white;
-        width: 85%;
+        width: 80%;
         height: 50%;
       }
       
@@ -144,10 +144,10 @@
     }
   
     .register-bg{
-      padding: 10px 50px 50px 50px;
+      padding: 40px 30px;
       background-color: white;
-      width: 70%;
-      height: 80%;
+      width: 50%;
+      height: 60%;
     }
     
     .img{
@@ -160,18 +160,19 @@
       border-radius: 5px;
     } 
     } 
+
     @media (min-height: 1120px) {
     .form-bg{
-      padding: 50px 50px 0px 50px;
+      padding: 50px 30px 0px 30px;
       background-color: white;
-      width: 60%;
-      height: 40%;
+      width: 50%;
+      height: 35%;
     }
   
     .register-bg{
-      padding: 10px 50px 50px 50px;
+      padding: 40px;
       background-color: white;
-      width: 70%;
+      width: 50%;
       height: 70%;
     }
     
@@ -193,17 +194,17 @@
     .form-bg{
       padding: 40px ;
       background-color: white;
-      width: 40%;
-      height: 70%;
+      width: 30%;
+      height: 60%;
     }
   
     .register-bg{
-      padding: 20px 50px;
+      padding: 30px;
       margin-top: 20px;
       margin-bottom: 20px;
       background-color: white;
-      width: 60%;
-      height: 80%
+      width: 30%;
+      height: 50%
     }
     
     .img{
@@ -226,10 +227,10 @@
     }
   
     .register-bg{
-      padding: 10px 50px 60px 50px;
+      padding: 40px 50px;
       background-color: white;
-      width: 55%;
-      height: 80%;
+      width: 40%;
+      height: 60%;
     }
     
     .img{

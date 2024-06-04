@@ -16,6 +16,7 @@ import { fireAuth } from "@/components/provider"
 import { createUserWithEmailAndPassword } from 'firebase/auth'
 import {  registerUser } from '@/actions/actions'
 import Image from 'next/image'
+import Link from 'next/link'
 
 
 const formSchema = z.object({
@@ -62,23 +63,18 @@ const SignUp = () => {
     }
 
   return (
-    <div className='register-bg border border-slate-200 drop-shadow rounded-3xl'>
+    <div className='register-bg border border-slate-200 drop-shadow-2xl drop-shadow rounded-3xl'>
       <div className='text-center'>
-      <Image
-      src="/logo.png"
-      alt='in-track logo'
-      width={120}
-      height={110}
-      className='img'
-      />
-      <h1 className='text-xl md:text-3xl lg:text-4xl font-bold mt-2'>
+      <h1 className='text-2xl md:text-3xl lg:text-4xl font-bold mt-4 md:mt-2'>
         Welcome
       </h1>
-      <p className='text-xs md:text-base lg:text-lg mb-8'>Please enter your credentials</p>
+      <p className='text-xs md:text-base lg:text-lg mb-6 md:mb-8'>
+        This is for teachers and admin users only. Learner's accounts are created by the admin or teacher.
+      </p>
 
     </div>
     <Form {...form}>
-    <form onSubmit={form.handleSubmit(register)} className="space-y-6">
+    <form onSubmit={form.handleSubmit(register)} className="space-y-2 md:space-y-4">
       <FormField
         control={form.control}
         name="firstname"
@@ -148,6 +144,10 @@ const SignUp = () => {
         { submitting? "Creating account..." : "Sign up"}</Button>
     </form>
   </Form>
+
+  <div className='mt-6 text-xs md:text-base text-center'>
+      Already have an account? <Link href="/" className='underline'>Login here.</Link>
+    </div>
  
   </div>
   )
