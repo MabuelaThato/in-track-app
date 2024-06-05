@@ -72,7 +72,7 @@ const PdfQuestions = ({assignments, classId, assessmentId} : {assignments:any, c
                         <div>
                             {downloadUrl ? (
                                 <div>
-                                    <a href={downloadUrl} download={assignment.filename} target='blank' className='border flex rounded shadow min-h-20'>
+                                    <a href={downloadUrl} download={assignment.filename} target='blank' className='border flex rounded shadow min-h-20 bg-white'>
                                         <div className='p-4 flex items-center justify-center'>
                                             <FaFilePdf size={32} color='red' />
                                         </div>

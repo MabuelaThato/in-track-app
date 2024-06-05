@@ -41,7 +41,9 @@ const formSchema = z.object({
     title: z.string().min(2).max(50),
     quizType: z.string().min(2).max(50),
     instruction: z.string().min(2),
-    passPercentage: z.string()
+    passPercentage: z.string(),
+    time: z.string(),
+    attempts: z.string()
   })
 
 const AddQuiz = ({classId}: {classId: string}) => {
@@ -54,6 +56,8 @@ const AddQuiz = ({classId}: {classId: string}) => {
           title: "",
           quizType: "",
           instruction: "",
+          time: "",
+          attempts: "",
         },
       })
 
@@ -131,7 +135,7 @@ const AddQuiz = ({classId}: {classId: string}) => {
         <span className='lg:grow text-sm'>Add assessment</span>
       </div>
     </DialogTrigger>
-    <DialogContent className="max-w-[400px] rounded">
+    <DialogContent className="max-w-[380px] rounded">
       <DialogHeader>
         <DialogTitle>Create a new assessment</DialogTitle>
         <DialogDescription>Enter all the information. Click create when you're done.</DialogDescription>
@@ -223,6 +227,56 @@ const AddQuiz = ({classId}: {classId: string}) => {
               </PopoverContent>
             </Popover>
             </div>
+
+            <FormField
+          control={form.control}
+          name="time"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Time Due</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select the time the assessment will be due." />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="00:00">00:00</SelectItem>
+                  <SelectItem value="06:00">06:00</SelectItem>
+                  <SelectItem value="12:00">12:00</SelectItem>
+                  <SelectItem value="18:00">18:00</SelectItem>
+                  <SelectItem value="21:00">21:00</SelectItem>
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+            <FormField
+          control={form.control}
+          name="attempts"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Time Due</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select the time the assessment will be due." />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="1">1</SelectItem>
+                  <SelectItem value="2">2</SelectItem>
+                  <SelectItem value="3">3</SelectItem>
+                  <SelectItem value="4">4</SelectItem>
+                  <SelectItem value="5">5</SelectItem>
+                  <SelectItem value="unlimited">Unlimited</SelectItem>
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
  
       <DialogFooter className='max-w-[350px]'>
         <Button type="submit">

@@ -21,6 +21,10 @@ export async function redirectUser(){
     }
   }
 
+  export async function RedirectHome(){
+    return redirect('/');
+  }
+
 
 
 export async function registerUser(form: any) {
@@ -215,7 +219,7 @@ export async function getClass(classId: string){
     if (!token) return redirect("/");
     try {
         const currentUser = await firebaseAdmin.auth().verifyIdToken(token);
-        await sql`INSERT INTO quizzes (title, instruction, teacherid, classId, duedate, passpercentage, assessmenttype) VALUES (${form.title}, ${form.instruction}, ${currentUser.uid}, ${classId}, ${dueDate}, ${form.passPercentage}, ${form.quizType});`;
+        await sql`INSERT INTO quizzes (title, instruction, teacherid, classId, duedate, passpercentage, assessmenttype, duetime, attempts) VALUES (${form.title}, ${form.instruction}, ${currentUser.uid}, ${classId}, ${dueDate}, ${form.passPercentage}, ${form.quizType}, ${form.time}, ${form.attempts});`;
         
     } catch (error) {
       console.error('Error creating quiz:', error);
@@ -361,14 +365,14 @@ export async function getClass(classId: string){
   //SUBMISSIONS
 
 
-  export async function submitQuizResult(classId: string, assessmentId: string, fullName: any, score: any,percentage: any, status: any){
+  export async function submitQuizResult(classId: string, assessmentId: string, fullName: any, score: any,percentage: any, status: any, title: string){
     const token = cookies().get("token")?.value!;
     if (!token) return redirect("/");
 
     try {
       const currentUser = await firebaseAdmin.auth().verifyIdToken(token);
-      await sql`INSERT INTO quizsubmissions (assessmentid, classid, learnerid, fullname, score, percentage, status) 
-      VALUES (${assessmentId}, ${classId}, ${currentUser.uid}, ${fullName}, ${score}, ${percentage}, ${status});`;
+      await sql`INSERT INTO quizsubmissions (assessmentid, classid, learnerid, fullname, score, percentage, status, assessmenttitle) 
+      VALUES (${assessmentId}, ${classId}, ${currentUser.uid}, ${fullName}, ${score}, ${percentage}, ${status}, ${title});`;
 
     } catch (error) {
       console.error('Error submitting quiz results:', error);

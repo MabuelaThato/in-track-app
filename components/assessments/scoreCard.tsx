@@ -11,8 +11,8 @@ const ScoreCard = ({ quizResult, questions, classId, assessmentId}: {quizResult:
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const passValue = await getAdminAssessment(classId, assessmentId);
-                setPass(passValue?.passpercentage);
+                const assessment = await getAdminAssessment(classId, assessmentId);
+                setPass(assessment?.passpercentage);
 
                 const currentUser = await getUser();
                 const userName = currentUser?.firstname;
@@ -37,8 +37,8 @@ const ScoreCard = ({ quizResult, questions, classId, assessmentId}: {quizResult:
 
     const submitResults = async () => {
         try {
-            
-            await submitQuizResult(classId, assessmentId, user, userScore, percentage ,status);
+            const assessment = await getAdminAssessment(classId, assessmentId);
+            await submitQuizResult(classId, assessmentId, user, userScore, percentage ,status, assessment?.title);
         } catch (error) {
             console.error('Error submitting quiz results:', error);
         }
@@ -46,7 +46,7 @@ const ScoreCard = ({ quizResult, questions, classId, assessmentId}: {quizResult:
 
 
 	return (
-		<div className='bg-white border shadow rounded-md p-12 py-8'>
+		<div className='bg-white border shadow rounded-md p-12 py-8 mt-6'>
 			<div className='flex flex-col gap-8'>
 				<div>
 					<h1 className='font-bold text-2xl'>Results</h1>

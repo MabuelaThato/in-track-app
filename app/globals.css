@@ -86,6 +86,13 @@
         width: 75%;
         height: 55%;
       }
+
+      .password-bg{
+        padding: 40px 20px 0 20px;
+        background-color: white;
+        width: 70%;
+        height: 45%;
+      }
     
       .register-bg{
         padding: 20px 20px 40px 20px;
@@ -110,7 +117,14 @@
         padding:20px;
         background-color: white;
         width: 80%;
-        height: 40%;
+        height: 45%;
+      }
+
+      .password-bg{
+        padding: 40px 20px 0px 20px;
+        background-color: white;
+        width: 75%;
+        height: 35%;
       }
     
       .register-bg{
@@ -142,6 +156,13 @@
       width: 60%;
       height: 45%;
     }
+
+    .password-bg{
+      padding: 40px ;
+      background-color: white;
+      width: 50%;
+      height: 40%;
+    }
   
     .register-bg{
       padding: 40px 30px;
@@ -168,6 +189,13 @@
       width: 50%;
       height: 35%;
     }
+
+    .password-bg{
+      padding: 40px ;
+      background-color: white;
+      width: 30%;
+      height: 65%;
+    }
   
     .register-bg{
       padding: 40px;
@@ -186,6 +214,29 @@
       border-radius: 5px;
     } 
     } 
+
+    @media (min-height: 1200px){
+      .password-bg{
+        padding: 40px ;
+        background-color: white;
+        width: 50%;
+        height: 30%;
+      }
+
+      .form-bg{
+        padding: 40px 50px 0px 50px;
+        background-color: white;
+        width: 50%;
+        height: 40%;
+      }
+
+      .register-bg{
+        padding: 40px 50px;
+        background-color: white;
+        width: 50%;
+        height: 50%;
+      }
+    }
     
   }
 
@@ -195,6 +246,13 @@
       padding: 40px ;
       background-color: white;
       width: 30%;
+      height: 65%;
+    }
+
+    .password-bg{
+      padding: 40px 30px;
+      background-color: white;
+      width: 35%;
       height: 60%;
     }
   
@@ -225,6 +283,13 @@
       width: 40%;
       height: 55%;
     }
+
+    .password-bg{
+      padding: 40px ;
+      background-color: white;
+      width: 30%;
+      height: 50%;
+    }
   
     .register-bg{
       padding: 40px 50px;
@@ -243,6 +308,29 @@
       border-radius: 5px;
     } 
   }
+
+    @media (min-height: 1300px){
+      .password-bg{
+        padding: 40px ;
+        background-color: white;
+        width: 50%;
+        height: 30%;
+      }
+
+      .form-bg{
+        padding: 40px 50px 0px 50px;
+        background-color: white;
+        width: 50%;
+        height: 40%;
+      }
+
+      .register-bg{
+        padding: 40px 50px;
+        background-color: white;
+        width: 50%;
+        height: 50%;
+      }
+    }
   }
 
 

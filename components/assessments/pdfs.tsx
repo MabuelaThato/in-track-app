@@ -5,9 +5,11 @@ import { storage } from '../provider';
 import { FaFilePdf } from "react-icons/fa6";
 import { deleteLearnerAssignment } from '@/actions/actions';
 
-const Pdfs = ({pdf, classId, assessmentId} : {pdf: any, classId: string, assessmentId: string}) => {
+const Pdfs = ({pdf, classId, assessmentId, isPassed} : {pdf: any, classId: string, assessmentId: string, isPassed: string}) => {
     const [downloadUrl, setDownloadUrl] = useState("");
     const [deleting, setDeleting] = useState(false);
+
+    console.log("Is passed:  ",isPassed)
 
     useEffect(() => {
         const getLearnerUrl = async () => {
@@ -49,7 +51,7 @@ const Pdfs = ({pdf, classId, assessmentId} : {pdf: any, classId: string, assessm
                     <p className='text-sm font-gray-600'>
                         Here is your submission. If you would like to change your submission you can click delete then upload another pdf.
                         <br />
-                        Please note that you will not be able to make any changes fter the due date passes
+                        Please note that you will not be able to make any changes after the due date passes.
                     </p>
                 </div>
                 <div>
@@ -63,11 +65,20 @@ const Pdfs = ({pdf, classId, assessmentId} : {pdf: any, classId: string, assessm
                                     <div>{pdf.filename}</div>
                                 </div>
                             </a>
-                            <button onClick={handleDelete}>
-                                {
-                                    deleting ? (<div className='text-sm mt-1 ml-1'>Deleting...</div>) : (<div className='underline text-sm mt-1 ml-1'>Delete</div>)
-                                }
-                            </button>
+                            {
+                                isPassed === 'false' ? (
+                                    <div>
+                                        <button onClick={handleDelete}>
+                                            {
+                                                deleting ? (<div className='text-sm mt-1 ml-1'>Deleting...</div>) : (<div className='underline text-sm mt-1 ml-1'>Delete</div>)
+                                            }
+                                        </button>
+                                    </div>
+                                ) : (
+                                    <div>
+                                    </div>
+                                )
+                            }
                         </div>
                     ) : (
                         <div className='blue-loader'></div>

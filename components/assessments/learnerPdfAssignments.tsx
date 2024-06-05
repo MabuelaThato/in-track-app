@@ -7,8 +7,10 @@ import PdfSubmission from './pdfSubmission';
 import Pdfs from './pdfs';
 
 
-const LearnerPdfAssignments = ({assignments, classId, assessmentId, lastPdf} : {assignments:any, classId: string, assessmentId: string, lastPdf: any}) => {
+const LearnerPdfAssignments = ({assignments, classId, assessmentId, lastPdf, isPassed} : {assignments:any, classId: string, assessmentId: string, lastPdf: any, isPassed: string}) => {
     const [downloadUrls, setDownloadUrls] = useState<string[]>([]);
+
+    console.log("Due date passed: ",isPassed)
 
     useEffect(() => {
         const fetchDownloadUrls = async () => {
@@ -37,7 +39,7 @@ const LearnerPdfAssignments = ({assignments, classId, assessmentId, lastPdf} : {
         <div className='flex flex-col gap-6'>
             <div>
                 <h1 className='text-4xl font-medium mb-1'>Written assignment</h1>
-                <p className='text-sm text-gray-600'>Here is your questions and instructions to your assignment. Click to download then click 'submit assignment' to upload your pdf.</p>
+                <p className='text-sm text-gray-600'>Here are your questions and instructions to your assignment. Click to download then click 'submit assignment' to upload your pdf.</p>
             </div>
         <div className='flex gap-4'>
             {assignments?.map((assignment:any, index:any) => {
@@ -65,7 +67,13 @@ const LearnerPdfAssignments = ({assignments, classId, assessmentId, lastPdf} : {
                                                       
                                             ) : (
                                                 <div className='mt-1'>
-                                                    <PdfSubmission classId={classId} assessmentId={assessmentId}/>
+                                                    {
+                                                        isPassed === 'true' ? (
+                                                            <div>Due date has passed</div>
+                                                        ) : (
+                                                            <PdfSubmission classId={classId} assessmentId={assessmentId}/>
+                                                        )
+                                                    }
                                                 </div>
                                             )
                                         }
@@ -84,7 +92,7 @@ const LearnerPdfAssignments = ({assignments, classId, assessmentId, lastPdf} : {
         {
             lastPdf ? (
                 
-             <Pdfs pdf={lastPdf} classId={classId} assessmentId={assessmentId}/>
+             <Pdfs pdf={lastPdf} classId={classId} assessmentId={assessmentId} isPassed={isPassed}/>
                         
             ) : (
                 <div>

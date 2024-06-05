@@ -97,6 +97,14 @@ const SignIn = () => {
               </FormItem>
             )}
           />
+
+          <div className='text-left font-medium text-xs md:text-sm'>
+            <Link href={`/reset-password`}
+            >
+              Forgot Password?
+            </Link>
+          </div>
+
           <Button type="submit" 
           disabled={submitting}
           className='w-full rounded-md '

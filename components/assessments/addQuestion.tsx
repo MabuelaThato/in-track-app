@@ -21,7 +21,7 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 
 
 const formSchema = z.object({
-    question: z.string().min(2).max(100),
+    question: z.string().min(2),
     option1: z.string(),
     option2: z.string(),
     option3: z.string(),
@@ -56,7 +56,7 @@ const AddQuestion = ({classId, assessmentId}: {classId: string, assessmentId: st
 
   return (
     <Dialog>
-    <DialogTrigger asChild className='border border-[#A5BE00] bg-[#A5BE00] text-white hover:bg-white hover:text-[#A5BE00] rounded-md py-1.5 p-2 rounded-md flex items-center gap-2'>
+    <DialogTrigger asChild className='hover:cursor-pointer border border-[#A5BE00] bg-[#A5BE00] text-white hover:bg-white hover:text-[#A5BE00] rounded-md py-1.5 p-2 rounded-md flex items-center gap-2'>
       <div className='grow text-sm'>
         <FaPlus />
         <span>Add Question</span>

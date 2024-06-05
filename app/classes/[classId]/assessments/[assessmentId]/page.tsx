@@ -17,31 +17,35 @@ const Assessment = async({ params }: { params: { classId: string, assessmentId: 
   const assessment = await getAdminAssessment(classId, assessmentId); //getting the assessment(quiz)
   const assessmentType = assessment?.assessmenttype;
   const dueDate = assessment?.duedate;
+  const dueTime = assessment?.duetime;
   const submissions = await getLearnerQuizSubmissions(classId, assessmentId); //learner quiz attempts
   const submissionsLength = submissions?.length;
+  console.log("submissions length: ", submissionsLength)
   const lastIndex = submissionsLength ? submissionsLength - 1 : 0;
   const lastResult = submissions ? submissions[lastIndex] : null;
   const assignments = await getPdfQuestion(classId, assessmentId); //the ones that the teacher uploaded
   const pdfSubmissions = await getLearnerAssignmentSubmissions(classId, assessmentId); // the pdfs that the learner submitted
   const lastPdf = pdfSubmissions ? pdfSubmissions[lastIndex] : null; 
+  const attempts = assessment?.attempts;
 
-  const compareDate = (dateString: string): string => {
-    const dateFormat = 'dd MMM yyyy';
-  
-    const inputDate = parse(dateString, dateFormat, new Date());
-  
-    const currentDate = new Date();
-    currentDate.setHours(0, 0, 0, 0);
-  
-    if (inputDate > currentDate) {
-      return "ok";
+  function hasDateTimePassed(dateString: string, timeString: string): string {
+
+    const dateTimeString = `${dateString} ${timeString}`;
+    
+    const inputDateTime = new Date(dateTimeString);
+
+    const currentDateTime = new Date();
+
+    if (currentDateTime > inputDateTime) {
+        return 'true';
     } else {
-      return "not okay";
+        return 'false';
     }
-  };
+}
 
-  const result = compareDate(dueDate);
-  console.log("RESULT",result);
+const fetchedDate = dueDate; 
+const fetchedTime = dueTime; 
+const isPassed = hasDateTimePassed(fetchedDate, fetchedTime);
 
   return (
     <div className='p-4 md:p-6 lg:p-12 min-h-screen '>
@@ -55,26 +59,35 @@ const Assessment = async({ params }: { params: { classId: string, assessmentId: 
           ) : (
             <div>
               {
-                result === "not okay" ? (<div>
-                  {
                 assessmentType === "quiz" ? (
                   <div>
-                   {submissionsLength !== undefined && submissionsLength >= 1 ? (
-                      <Results classId={classId} lastResult={lastResult}/>
-                    ) : (
-                      <LearnerAssessment classId={classId} assessmentId={assessmentId} />
-                    )}
+                    {
+                      isPassed === 'true' ? (
+                        <div>
+                          {submissionsLength !== undefined && submissionsLength == attempts ? (
+                            <Results classId={classId} lastResult={lastResult}/>
+                          ) : (
+                            <div className='text-center text-zinc-500 flex justify-center items-center h-screen'>
+                              You have missed the due date. You are not able to make any subissions for this assessment
+                            </div>
+
+                          )}
+                        </div>
+                      ) : (
+                        <div>
+                          {submissionsLength !== undefined && submissionsLength == attempts ? (
+                            <Results classId={classId} lastResult={lastResult}/>
+                          ) : (
+                            <LearnerAssessment classId={classId} assessmentId={assessmentId} attempts={attempts} submissionsLength={submissionsLength}/>
+
+                          )}
+                        </div>
+                        
+                      )
+                    }
                   </div>
                 ) : (
-                  <LearnerPdfAssignments assignments={assignments?.rows} classId={classId} assessmentId={assessmentId} lastPdf={lastPdf} />
-                )
-              }
-                </div>
-              ) : 
-                (
-                  <div className='text-center text-zinc-500 flex justify-center items-center h-screen'>
-                    You have missed the due date. You are not able to make any subissions for this assessment
-                  </div>
+                  <LearnerPdfAssignments assignments={assignments?.rows} classId={classId} assessmentId={assessmentId} lastPdf={lastPdf} isPassed={isPassed} />
                 )
               }
               

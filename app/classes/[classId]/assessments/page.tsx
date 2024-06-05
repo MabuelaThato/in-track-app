@@ -66,7 +66,7 @@ const Assessments = async ({ params }: { params: { classId: string } }) => {
                             <CardTitle>
                               <div>
                                 <div>{assessment?.title} - {assessment?.assessmenttype}</div>
-                                <span className='text-xs font-light text-red-600'>Due date: {assessment?.duedate}</span>
+                                <span className='text-xs font-light text-red-600'>Due date: {assessment?.duedate} - {assessment?.duetime}</span>
                               </div>
                             </CardTitle>
                           </CardHeader>
@@ -106,7 +106,7 @@ const Assessments = async ({ params }: { params: { classId: string } }) => {
                             <CardTitle>
                               <div>
                                 <div>{assessment?.title} - {assessment?.assessmenttype}</div>
-                                <span className='text-xs font-light text-red-600'>Due date: {assessment?.duedate}</span>
+                                <span className='text-xs font-light text-red-600'>Due date: {assessment?.duedate} - {assessment?.duetime}</span>
                               </div>
                             </CardTitle>
                           </CardHeader>

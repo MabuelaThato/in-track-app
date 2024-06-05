@@ -17,14 +17,13 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { addLearner, registerLearner } from '@/actions/actions';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth';
 import { fireAuth } from '../provider';
 
 const formSchema = z.object({
     name: z.string().min(2).max(50),
     surname: z.string().min(2).max(50),
     email: z.string().min(5).max(50),
-    password: z.string().min(8).max(50),
   })
 
 const RegisterLearner = ({classId}: {classId: string}) => {
@@ -35,22 +34,46 @@ const RegisterLearner = ({classId}: {classId: string}) => {
           name: "",
           surname: "",
           email: "",
-          password: "",
         },
       })
 
       const [uploading, setUploading] = useState(false);
 
+      function generatePassword(length: number = 10): string {
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+~`|}{[]:;?><,./-=';
+        let password = '';
+        const charactersLength = characters.length;
+    
+        for (let i = 0; i < length; i++) {
+            const randomIndex = Math.floor(Math.random() * charactersLength);
+            password += characters.charAt(randomIndex);
+        }
+    
+        return password;
+    }
+    
+    const password = generatePassword();
+
     async function onSubmit(values: z.infer<typeof formSchema>) {
       try{
-        await createUserWithEmailAndPassword(fireAuth, values.email, values.password);
+        await createUserWithEmailAndPassword(fireAuth, values.email, password);
         await registerLearner(values);
         await addLearner(values, classId);
+        sendPasswordResetEmail(fireAuth, values.email)
+        .then(async() => {
+          alert("Account successfully created. A password reset email has been sent to the learner email so that they can set their own password.");
+        })
+        .catch((error: any) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+            console.log("Error Message:  ",errorMessage)
+        });
         setUploading(true);
         window.location.reload();
       } catch(err){
         console.log(err);
         console.log("USER ALREADY HAS AN ACCOUNT");
+        alert("Email already in use, try add learner instead.")
       }
       }
 
@@ -67,9 +90,9 @@ const RegisterLearner = ({classId}: {classId: string}) => {
   <DialogHeader>
     <DialogTitle>Create a new learner</DialogTitle>
     <DialogDescription>
-      Enter all the learner's information. Click the add button when you're done.
+      Enter all the learner's information. Click the add button when you're done. This will register the learner and send a link to their email to reset their password.
       <br />
-      This will automatically add the learner to your class.
+      The learner will be automatically added to the class.
     </DialogDescription>
 </DialogHeader>
 <Form {...form}>
@@ -108,19 +131,6 @@ const RegisterLearner = ({classId}: {classId: string}) => {
         <FormLabel>Email</FormLabel>
         <FormControl>
           <Input placeholder="eg. mpho@gmail.com" {...field}/>
-        </FormControl>
-        <FormMessage />
-      </FormItem>
-    )}
-  />
-  <FormField
-    control={form.control}
-    name="password"
-    render={({ field }) => (
-      <FormItem>
-        <FormLabel>Password</FormLabel>
-        <FormControl>
-          <Input type='password' {...field}/>
         </FormControl>
         <FormMessage />
       </FormItem>
