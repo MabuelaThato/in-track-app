@@ -41,10 +41,10 @@ const Assessment = async({ params }: { params: { classId: string, assessmentId: 
   };
 
   const result = compareDate(dueDate);
-  console.log(result);
+  console.log("RESULT",result);
 
   return (
-    <div className='min-h-screen p-10'>
+    <div className='p-4 md:p-6 lg:p-12 min-h-screen '>
         {
           userRole === "admin" ? (
             <div className='w-full'>
@@ -55,7 +55,7 @@ const Assessment = async({ params }: { params: { classId: string, assessmentId: 
           ) : (
             <div>
               {
-                result === "ok" ? (<div>
+                result === "not okay" ? (<div>
                   {
                 assessmentType === "quiz" ? (
                   <div>

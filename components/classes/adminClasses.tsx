@@ -6,9 +6,9 @@ import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, Tabl
 import DeleteClass from './deleteClass';
 import { QueryResultRow } from '@vercel/postgres';
 
-
 const AdminClasses = () => {
   const [classes, setClasses] = useState<QueryResultRow[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchClasses = async () => {
@@ -19,6 +19,7 @@ const AdminClasses = () => {
         } else {
           console.error('Error fetching classes: Data is undefined');
         }
+        setLoading(false);
       } catch (error) {
         console.error('Error fetching classes:', error);
       }
@@ -27,6 +28,12 @@ const AdminClasses = () => {
     fetchClasses();
   }, []);
 
+  if (loading) {
+    return (<div className='flex justify-center gap-4 items-center h-screen'>
+                <div className='green-loader'></div>
+                <span className='text-gray-600 font-medium'>Loading</span>
+            </div>);
+  }
 
   return (
     <div className=" border bg-white rounded-lg p-2 md:p-4 lg:p-6">

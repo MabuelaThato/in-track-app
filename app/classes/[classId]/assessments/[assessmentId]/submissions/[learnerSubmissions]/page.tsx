@@ -1,26 +1,40 @@
 "use client"
 import React, { useEffect, useState } from 'react'
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '../ui/table';
+import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { QueryResultRow } from '@vercel/postgres';
 import { getDownloadURL, ref } from 'firebase/storage';
-import { storage } from '../provider';
-import { getClass, getEachLearnerAssignments, getLearnerQuizzes } from '@/actions/actions';
-import AdminPdfDownload from './adminPdfDownload';
+import { getClass, getEachLearnerAssignments, getLearner, getLearnerQuizzes } from '@/actions/actions';
+import { storage } from '@/components/provider';
+import AdminPdfDownload from '@/components/submissions/adminPdfDownload';
 
-const LearnerSubmission = ({classId, learnerId} : {classId: string, learnerId: string}) => {
+interface LearnerSubmissionProps {
+    params: {
+      classId: string;
+      assessmentId: string;
+      learnerSubmissions: string;
+    };
+  }
+
+const LearnerSubmissions: React.FC<LearnerSubmissionProps> = ({ params }) => {
+
   const [assignmentSubmissions, setAssignmentSubmissions] = useState<any[]>([]);
     const [quizSubmissions, setQuizSubmissions] = useState<any[]>([]);
-    const [currentClass, setCurrentClass] = useState<any>(null);
     const [quizType, setQuizType] = useState<any>(null);
     const [downloadUrls, setDownloadUrls] = useState<QueryResultRow>([]);
     const [loading, setLoading] = useState<boolean>(true);
+    const [learner, setLearner] = useState("");
+
+    const { classId, assessmentId, learnerSubmissions } = params;
 
     useEffect(() => {
       const fetchData = async () => {
           try {
-              const classData = await getClass(classId);
-              const assignmentData = await getEachLearnerAssignments(classId, learnerId);
-              const quizData = await getLearnerQuizzes(classId, learnerId);
+              const assignmentData = await getEachLearnerAssignments(classId, learnerSubmissions);
+              const quizData = await getLearnerQuizzes(classId, learnerSubmissions);
+              const currentLearner = await getLearner(learnerSubmissions);
+              const learnerName = currentLearner?.name + " " + currentLearner?.surname;
+
+              setLearner(learnerName)
 
               if (assignmentData) {
                   setAssignmentSubmissions(assignmentData);
@@ -30,7 +44,8 @@ const LearnerSubmission = ({classId, learnerId} : {classId: string, learnerId: s
 
                 const newData = (assignmentData ?? []).map((assignment: any) => ({
                   name: assignment.name,
-                  filename: assignment.filename
+                  filename: assignment.filename,
+                  assignmenttitle: assignment.assignmenttitle
                 }));
               
                 setAssignmentSubmissions(newData);
@@ -43,7 +58,6 @@ const LearnerSubmission = ({classId, learnerId} : {classId: string, learnerId: s
                   console.error('Error fetching quizzes: Data is undefined');
                 } 
 
-              setCurrentClass(classData);
               setAssignmentSubmissions(newData);
               setQuizType(quizType)
 
@@ -80,23 +94,33 @@ const LearnerSubmission = ({classId, learnerId} : {classId: string, learnerId: s
               </div>);
   }
 
+  console.log("QUIZ SUBMISSIONS", quizSubmissions)
+  console.log("Assignment SUBMISSIONS", assignmentSubmissions)
+
   return (
-    <div>
+    <div className='p-4 md:p-6 lg:p-12 min-h-screen  '>
+
       <div>
           <div className='text-xl md:text-2xl lg:text-4xl font-medium'>
-            <h1>Quiz Submissions</h1>
+            <h1>{learner}</h1>
           </div>
-          <p className='text-xs md:text-sm text-gray-500 mb-6'>
+          <p className='text-xs md:text-sm text-gray-500 mb-6 lg:mt-2'>
             All quiz submissions by the learner.
           </p>
         </div>
-      <div className=" border bg-white rounded-lg p-2 pb-6 md:p-6">
+
+      <div>
+          <div className='md:text-lg lg:text-xl font-medium'>
+            <h1>Quiz Submissions</h1>
+          </div>
+        </div>
+      <div className="mt-2 border bg-white rounded-lg p-2 pb-6 md:p-6">
        <Table>
           <TableCaption>Quiz submissions.</TableCaption>
           <TableHeader>
           <TableRow>
               <TableHead>#</TableHead>
-              <TableHead>Name</TableHead>
+              <TableHead>Assessment title</TableHead>
               <TableHead>Score</TableHead>
               <TableHead>Percentage</TableHead>
               <TableHead>Result</TableHead>
@@ -107,7 +131,7 @@ const LearnerSubmission = ({classId, learnerId} : {classId: string, learnerId: s
               return (
               <TableRow key={index}>
                   <TableCell>{index + 1}</TableCell>
-                  <TableCell>{submission?.fullname}</TableCell>
+                  <TableCell>{submission?.assessmenttitle}</TableCell>
                   <TableCell>{submission?.score}</TableCell>
                   <TableCell>{submission?.percentage}%</TableCell>
                   <TableCell>
@@ -122,21 +146,18 @@ const LearnerSubmission = ({classId, learnerId} : {classId: string, learnerId: s
       </Table>
       </div>
 
-      <div>
-          <div className='text-xl md:text-2xl lg:text-4xl font-medium'>
+      <div className='mt-12'>
+          <div className=' md:text-lg lg:text-xl font-medium'>
             <h1>Assignment Submissions</h1>
           </div>
-          <p className='text-xs md:text-sm text-gray-500 mb-6'>
-            All assignment submissions by the learner.
-          </p>
         </div>
-      <div className=" border bg-white rounded-lg p-2 pb-6 md:p-6">
+      <div className="mt-2 border bg-white rounded-lg p-2 pb-6 md:p-6">
       <Table>
         <TableCaption>Written assignment submissions.</TableCaption>
         <TableHeader>
         <TableRow>
             <TableHead>#</TableHead>
-            <TableHead>Name</TableHead>
+            <TableHead>Assessment title</TableHead>
             <TableHead>Pdf submission</TableHead>
         </TableRow>
         </TableHeader>
@@ -147,7 +168,7 @@ const LearnerSubmission = ({classId, learnerId} : {classId: string, learnerId: s
             return (
             <TableRow key={index}>
                 <TableCell>{index + 1}</TableCell>
-                <TableCell>{submission?.name}</TableCell>
+                <TableCell>{submission?.assignmenttitle}</TableCell>
                 <TableCell>
                     <AdminPdfDownload index={index} assignmentSubmissions={assignmentSubmissions} submission={submission} />
                 </TableCell>
@@ -161,4 +182,4 @@ const LearnerSubmission = ({classId, learnerId} : {classId: string, learnerId: s
   )
 }
 
-export default LearnerSubmission
+export default LearnerSubmissions;

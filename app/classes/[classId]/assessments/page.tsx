@@ -35,7 +35,7 @@ const Assessments = async ({ params }: { params: { classId: string } }) => {
     <div className='p-4 md:p-6 lg:p-12 min-h-screen '>
       <div className='flex flex-col gap-6 lg:gap-0 mb-6 lg:mb-0 lg:flex-row lg:justify-between'>
         <div>
-          <h1 className='text:xl md:text-2xl lg:text-4xl font-medium'>Assessments</h1>
+          <h1 className='text-xl md:text-2xl lg:text-4xl font-medium'>Assessments</h1>
           <p className='text-xs md:text-sm text-gray-600 lg:mb-6'>Here are all your assessments (your quizzes and written assignments) for class {division} - {subject}</p>
         </div>
         {

@@ -17,27 +17,28 @@ const AdminAssessment = async ({classId, assessmentId}: {classId: string, assess
     const assignments = await getPdfQuestion(classId, assessmentId);
     const questions = await getQuestions(classId, assessmentId);
     const assignmentsLength = assignments?.rows.length;
+    const questionsLength = questions?.length;
     const maxLength = 1;
 
   return (
     <div>
-    <div className='flex justify-between w-full'>
+    <div className='flex flex-col gap-6 lg:gap-0 mb-6 lg:mb-0 lg:flex-row lg:justify-between'>
         <div>
-            <h1 className='text-4xl font-medium'>{assessment?.title}</h1>
-            <p className='text-sm text-zinc-500 mb-6'>{assessment?.instruction}</p>
+            <h1 className='text-xl md:text-2xl lg:text-4xl font-medium'>{assessment?.title}</h1>
+            <p className='text-xs md:text-sm text-gray-500 lg:mb-6'>{assessment?.instruction}</p>
         </div>
-        <div className='flex gap-4 items-center'>
+        <div className='flex flex-col lg:flex-row gap-4 mb-4 md:mb-0'>
             <div>
             {
               assessment?.assessmenttype === "quiz" ? (
-              <div>
+              <div className='w-40'>
                 <AddQuestion classId={classId} assessmentId={assessmentId} />
               </div>
               ) : (
-                <div>
+                <div className='w-40'>
                   {
                     (assignmentsLength ?? 0) >= maxLength ? (
-                    <div></div>
+                    <div className='hidden'></div>
                     ) : (
                       <AddAssignment classId={classId} assessmentId={assessmentId} />
                     )
@@ -48,7 +49,7 @@ const AdminAssessment = async ({classId, assessmentId}: {classId: string, assess
                
             </div>
             <div>
-              <Link href={`/classes/${classId}/assessments/${assessmentId}/submissions`} className="p-1 px-2 rounded-md bg-[#064789] border border-[#064789] text-white hover:bg-white hover:text-[#064789]">
+              <Link href={`/classes/${classId}/assessments/${assessmentId}/submissions`} className="p-1 px-2 rounded-md bg-[#064789] border border-[#064789] text-white hover:bg-white hover:text-[#064789] text-xm md:text-base">
                   Submissions
               </Link>
             </div>
@@ -58,10 +59,30 @@ const AdminAssessment = async ({classId, assessmentId}: {classId: string, assess
       {
         assessment?.assessmenttype === "quiz" ? (
         <div>
-          <Questions questions={questions} classId={classId} assessmentId={assessmentId} />
+          {
+            (questionsLength ?? 0) == 0 ? (
+              <div className='text-center text-zinc-500 flex justify-center items-center h-screen'>
+                You do not have any questions. Click add question.
+              </div>
+            ):(
+              <Questions questions={questions} classId={classId} assessmentId={assessmentId} />
+            )
+          }
         </div>
         ) : (
-          <PdfQuestions assignments={assignments} classId={classId} assessmentId={assessmentId}/>
+          <div>
+            {
+            (assignmentsLength ?? 0) == 0 ? (
+              <div className='text-center text-zinc-500 flex justify-center items-center h-screen'>
+                You do not have any assignments. Click assignment.
+              </div>
+            ):(
+              <div className='md:mt-6 lg:mt-0'>
+                <PdfQuestions assignments={assignments} classId={classId} assessmentId={assessmentId}/>
+              </div>
+            )
+          }
+          </div>
         )
       }
     </div>

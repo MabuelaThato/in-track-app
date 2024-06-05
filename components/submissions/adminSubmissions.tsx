@@ -77,7 +77,7 @@ const AdminSubmissions = ({ classId, assessmentId }: { classId: string, assessme
     }, [setAssignmentSubmissions]);
 
     if (loading) {
-        return (<div className='flex justify-center gap-4 items-center'>
+        return (<div className='flex justify-center gap-4 items-center h-screen'>
                     <div className='green-loader'></div>
                     <span className='text-gray-600 font-medium'>Loading</span>
                 </div>);
@@ -86,13 +86,15 @@ const AdminSubmissions = ({ classId, assessmentId }: { classId: string, assessme
   return (
     <div>
         <div>
-          <div className='text-4xl font-medium '>
+          <div className='text-xl md:text-2xl lg:text-4xl font-medium'>
             <h1>Learner Submissions</h1>
           </div>
-          <p className='text-sm text-zinc-500 mb-6'>All assignments submitted by your learners for class {currentClass?.division} - {currentClass?.subject}</p>
+          <p className='text-xs md:text-sm text-gray-500 mb-6'>
+            All submissions by your learners for class {currentClass?.division} - {currentClass?.subject}
+          </p>
         </div>
 
-        <div className=" border bg-white rounded-lg p-6">
+        <div className=" border bg-white rounded-lg p-2 pb-6 md:p-6">
             {
             quizType === "assignment" ? (
                 <div>

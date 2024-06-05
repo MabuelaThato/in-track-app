@@ -9,7 +9,7 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog"
 import { BsPaperclip } from "react-icons/bs";
-import { submitPdfAnswer } from '@/actions/actions';
+import { getAdminAssessment, submitPdfAnswer } from '@/actions/actions';
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { storage } from '../provider';
 import { Button } from '../ui/button';
@@ -50,7 +50,10 @@ const PdfSubmission = ({classId, assessmentId}: {classId: string, assessmentId: 
         })
       }
 
-      await submitPdfAnswer(pdfFile?.name, classId, assessmentId);
+      const currentAssessment = await getAdminAssessment(classId, assessmentId);
+      const assessmentTitle = currentAssessment?.title;
+
+      await submitPdfAnswer(pdfFile?.name, classId, assessmentId, assessmentTitle);
       setUploading(true);
       window.location.reload();
     }catch(err){
@@ -77,6 +80,9 @@ const PdfSubmission = ({classId, assessmentId}: {classId: string, assessmentId: 
           Ensure that the name of pdf file is in this format: "your name"-"name of assignment"-"year", 
           <br />
           eg."ThatoMabuela-Photosynthesis-2024"
+          <br />
+          <br />
+          Please make sure that your pdf is not bigger than 7MB.
         </DialogDescription>
     </DialogHeader>
     <div>

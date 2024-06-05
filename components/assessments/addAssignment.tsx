@@ -68,7 +68,7 @@ const AddAssignment = ({classId, assessmentId}: {classId: string, assessmentId: 
         <span>Assignment</span>
       </div>
     </DialogTrigger>
-    <DialogContent className="sm:max-w-[425px]"> 
+    <DialogContent className="max-w-[350px] md:max-w-[425px] rounded"> 
       <DialogHeader>
         <DialogTitle>Create a new assignment</DialogTitle>
         <DialogDescription>
@@ -78,6 +78,9 @@ const AddAssignment = ({classId, assessmentId}: {classId: string, assessmentId: 
           Ensure that the name of pdf file is in this format: "name of test"-"year", 
           <br />
           eg."PhotosynthesisAssignment-2024"
+          <br />
+          <br />
+          Please make sure that your pdf is not bigger than 7MB.
         </DialogDescription>
     </DialogHeader>
     <div>

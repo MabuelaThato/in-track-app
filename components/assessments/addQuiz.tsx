@@ -131,7 +131,7 @@ const AddQuiz = ({classId}: {classId: string}) => {
         <span className='lg:grow text-sm'>Add assessment</span>
       </div>
     </DialogTrigger>
-    <DialogContent className="max-w-[420px] rounded">
+    <DialogContent className="max-w-[400px] rounded">
       <DialogHeader>
         <DialogTitle>Create a new assessment</DialogTitle>
         <DialogDescription>Enter all the information. Click create when you're done.</DialogDescription>
@@ -142,7 +142,7 @@ const AddQuiz = ({classId}: {classId: string}) => {
         control={form.control}
         name="title"
         render={({ field }) => (
-          <FormItem>
+          <FormItem className='max-w-[350px]'>
             <FormLabel>Name of assessment</FormLabel>
             <FormControl>
               <Input placeholder="eg. Test 1 - Algebraic equations" {...field} />
@@ -155,7 +155,7 @@ const AddQuiz = ({classId}: {classId: string}) => {
         control={form.control}
         name="quizType"
         render={({ field }) => (
-          <FormItem>
+          <FormItem className='max-w-[350px]'>
             <FormLabel>Type of assessment</FormLabel>
             <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
@@ -176,7 +176,7 @@ const AddQuiz = ({classId}: {classId: string}) => {
         control={form.control}
         name="instruction"
         render={({ field }) => (
-          <FormItem>
+          <FormItem className='max-w-[350px]'>
             <FormLabel>Instructions</FormLabel>
             <FormControl>
               <Textarea placeholder="What the learners will be required to do." {...field}/>
@@ -189,7 +189,7 @@ const AddQuiz = ({classId}: {classId: string}) => {
         control={form.control}
         name="passPercentage"
         render={({ field }) => (
-          <FormItem>
+          <FormItem className='max-w-[350px]'>
             <FormLabel>Pass percentage</FormLabel>
             <FormControl>
               <Input placeholder="eg. 60" {...field} />
@@ -198,7 +198,7 @@ const AddQuiz = ({classId}: {classId: string}) => {
           </FormItem>
         )}
       />
-            <div>
+            <div className='max-w-[350px]'>
             <Label className='mb-2'>Due Date</Label>
             <Popover>
               <PopoverTrigger asChild>
@@ -224,7 +224,7 @@ const AddQuiz = ({classId}: {classId: string}) => {
             </Popover>
             </div>
  
-      <DialogFooter>
+      <DialogFooter className='max-w-[350px]'>
         <Button type="submit">
         {
             uploading ? (<div>Creating...</div>) : (<div>Create assessment</div>)

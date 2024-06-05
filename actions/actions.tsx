@@ -175,6 +175,21 @@ export async function getLearners(classId: string){
    }
 }
 
+export async function getLearner(learnerId: string){
+    const token = cookies().get("token")?.value!;
+    if (!token) return redirect("/");
+   try {
+ 
+     const { rows } = await sql`SELECT * FROM learners
+     WHERE learnerid = ${learnerId};`;
+     const currentLearner = rows[0];
+ 
+     return currentLearner;
+   } catch (error) {
+    console.log(error);
+   }
+}
+
 export async function getClass(classId: string){
     const token = cookies().get("token")?.value!;
     if (!token) return redirect("/");
@@ -378,6 +393,8 @@ export async function getClass(classId: string){
       
     }
   }
+
+  //all learners' assignments
   export async function getAssignmentSubmissions(classId: string, assessmentId: string){
     const token = cookies().get("token")?.value!;
     if (!token) return redirect("/");
@@ -396,6 +413,26 @@ export async function getClass(classId: string){
     }
   }
 
+  //all assignments for each learner for a specific class
+  export async function getEachLearnerAssignments(classId: string, learnerId: string){
+    const token = cookies().get("token")?.value!;
+    if (!token) return redirect("/");
+
+    try {
+      
+        const { rows } = await sql`SELECT * FROM assignmentsubmissions WHERE learnerid=${learnerId} AND classid=${classId};`;
+        
+        const assessments = rows;
+    
+        return assessments;
+
+    } catch (error) {
+      console.error('Error fetching submissions:', error);
+      
+    }
+  }
+
+  //all learners' quizzes
   export async function getLearnerQuizSubmissions(classId: string, assessmentId: string){
     const token = cookies().get("token")?.value!;
     if (!token) return redirect("/");
@@ -413,15 +450,33 @@ export async function getClass(classId: string){
     }
   }
 
-  export async function submitPdfAnswer(fileName: string, classId: string, assessmentId: string) {
+  //all quizzes for each learner for a specific class
+  export async function getLearnerQuizzes(classId: string, learnerId: string){
+    const token = cookies().get("token")?.value!;
+    if (!token) return redirect("/");
+
+    try {
+        const { rows } = await sql`SELECT * FROM quizsubmissions WHERE learnerid=${learnerId} AND classid=${classId};`;
+        
+        const assessments = rows;
+    
+        return assessments;
+
+    } catch (error) {
+      console.error('Error fetching submissions:', error);
+      
+    }
+  }
+
+  export async function submitPdfAnswer(fileName: string, classId: string, assessmentId: string, assignmentTitle: string) {
     const token = cookies().get("token")?.value!;
     if (!token) return redirect("/");
     try {
       const currentUser = await firebaseAdmin.auth().verifyIdToken(token);
       const userDetails = await getUser();
       const userName = userDetails?.firstname + " " + userDetails?.lastname;
-      await sql`INSERT INTO assignmentsubmissions (assessmentid, classid, learnerid, filename, name) 
-      VALUES (${assessmentId}, ${classId}, ${currentUser.uid}, ${fileName}, ${userName});`;
+      await sql`INSERT INTO assignmentsubmissions (assessmentid, classid, learnerid, filename, name, assignmenttitle) 
+      VALUES (${assessmentId}, ${classId}, ${currentUser.uid}, ${fileName}, ${userName}, ${assignmentTitle});`;
     } catch (error) {
       console.error('Error submitting pdf:', error);
       

@@ -99,7 +99,7 @@ const SignIn = () => {
           />
           <Button type="submit" 
           disabled={submitting}
-          className='w-full rounded-md'
+          className='w-full rounded-md '
           >
             {submitting? "Signing in..." : "Sign in"}
             </Button>

@@ -59,11 +59,11 @@ const AddQuestion = ({classId, assessmentId}: {classId: string, assessmentId: st
     <DialogTrigger asChild className='border border-[#A5BE00] bg-[#A5BE00] text-white hover:bg-white hover:text-[#A5BE00] rounded-md py-1.5 p-2 rounded-md flex items-center gap-2'>
       <div className='grow text-sm'>
         <FaPlus />
-        <span>Add Questions</span>
+        <span>Add Question</span>
       </div>
    
     </DialogTrigger>
-    <DialogContent className="sm:w-[425px] md:w-[600px] h-[550px]">
+    <DialogContent className="max-w-[350px] md:max-w-[425px] rounded">
     <ScrollArea className='h-[450px]'>
      <DialogHeader className='mb-4'>
         <DialogTitle>Add a new question</DialogTitle>

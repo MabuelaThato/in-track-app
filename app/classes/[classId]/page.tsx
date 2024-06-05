@@ -85,6 +85,12 @@ const Learners = async ({ params }: { params: { classId: string } }) => {
                 <TableCell>{learner?.surname}</TableCell>
                 <TableCell className='flex items-center gap-2'>
                   <DeleteLearner classId={classId} learnerId={learner?.learnerid}/>
+                  <Link 
+                  href={`/classes/${classId}/assessments/assessmentId/submissions/${learner?.learnerid}`}
+                  as={`/classes/${classId}/assessments/assessmentId/submissions/${learner?.learnerid}`}
+                  >
+                    submissions
+                  </Link>
                 </TableCell>
               </TableRow>
             );

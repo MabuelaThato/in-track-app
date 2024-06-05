@@ -2,6 +2,17 @@
 import React, { useState } from 'react';
 import { FaTrash } from 'react-icons/fa6';
 import { deleteQuestion } from '@/actions/actions';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
 
 
 const DeleteQuestion = ({classId, assessmentId, questionId} : {classId: string, assessmentId: string, questionId: string}) => {
@@ -19,13 +30,32 @@ const DeleteQuestion = ({classId, assessmentId, questionId} : {classId: string, 
   };
 
   return (
-    <button 
-    onClick={handleDelete}
-    className="text-gray-300 hover:text-gray-600 font-medium">
+  <AlertDialog>
+  <AlertDialogTrigger
+  className='text-gray-300 hover:text-gray-600 font-medium'>
     {
-        deleting ? (<div>Deleting...</div>) : (<div><FaTrash /></div>)
+      deleting ? (<div>Deleting...</div>) : (<FaTrash />)
     }
-    </button>
+  </AlertDialogTrigger>
+  <AlertDialogContent className='max-w-[350px] md:max-w-[425px] rounded'>
+    <AlertDialogHeader>
+      <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+      <AlertDialogDescription>
+        This action cannot be undone. This will permanently delete your question
+        and remove your data from our servers.
+      </AlertDialogDescription>
+    </AlertDialogHeader>
+    <AlertDialogFooter>
+      <AlertDialogCancel>Cancel</AlertDialogCancel>
+      <AlertDialogAction
+      onClick={handleDelete}
+      disabled={deleting}
+      >
+      Delete
+      </AlertDialogAction>
+    </AlertDialogFooter>
+  </AlertDialogContent>
+</AlertDialog>
     
   );
 };
