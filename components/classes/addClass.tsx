@@ -45,7 +45,7 @@ const AddClass = () => {
   return (
   <Dialog>
     <DialogTrigger asChild>
-      <button className='bg-[#064789] text-xs md:text-sm lg:text-base hover:border hover:border-[#064789] hover:text-[#064789] hover:bg-white text-white rounded-md p-1 px-2 md:p-1.5 md:px-3 flex gap-1 md:gap-2 items-center'>
+      <button className='bg-[#064789] text-xs md:text-sm lg:text-base hover:border hover:border-[#064789] hover:text-[#064789] hover:bg-white text-white rounded-md p-1 px-2 md:p-1.5 md:px-3 flex gap-1 md:gap-2 items-center h-8'>
         <FaPlus />
         <span>Add Class</span>
       </button>

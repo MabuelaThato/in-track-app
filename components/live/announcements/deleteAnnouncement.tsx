@@ -1,7 +1,7 @@
 "use client"
 import React, { useState } from 'react';
 import { FaTrash } from 'react-icons/fa6';
-import { deleteLearner } from '@/actions/actions';
+import { deleteQuiz } from '@/actions/actions';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -13,35 +13,35 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
+import { deleteAdminAnnouncement } from '@/actions/communications';
 
-const DeleteLearner= ({classId, learnerId} : {classId: string, learnerId: string}) => {
+const DeleteAnnouncement = ({classId, announcementId} : {classId: string, announcementId: string}) => {
 
-  const [deleting, setDeleting] = useState(false);
+    const [deleting, setDeleting] = useState(false);
 
   const handleDelete = async () => {
     try {
-      await deleteLearner(classId, learnerId);
-      setDeleting(true);
-      window.location.reload();
+            await deleteAdminAnnouncement(classId, announcementId);
+            setDeleting(true);
+            window.location.reload();
     } catch (error) {
       console.error('Error deleting class:', error);
     }
   };
 
   return (
-      <AlertDialog>
+    <AlertDialog>
       <AlertDialogTrigger
-      className='hover:bg-gray-400 border border-gray-400 hover:text-white text-gray-400 rounded-md px-2 h-8'
-      >
+      className=' hover:bg-white bg-[#064789] text-white hover:text-[#064789] border rounded-md border-[#064789] px-3 p-1'>
         {
-          deleting ? (<div>...</div>) : (<FaTrash />)
+          deleting ? (<div>Deleting...</div>) : (<div>Delete</div>)
         }
       </AlertDialogTrigger>
       <AlertDialogContent className='max-w-[350px] md:max-w-[425px] rounded'>
         <AlertDialogHeader>
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete your learner
+            This action cannot be undone. This will permanently delete your announcement
             and remove your data from our servers.
           </AlertDialogDescription>
         </AlertDialogHeader>
@@ -59,4 +59,4 @@ const DeleteLearner= ({classId, learnerId} : {classId: string, learnerId: string
   );
 };
 
-export default DeleteLearner;
+export default DeleteAnnouncement;

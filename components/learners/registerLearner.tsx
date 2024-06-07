@@ -21,8 +21,8 @@ import { createUserWithEmailAndPassword, sendPasswordResetEmail } from 'firebase
 import { fireAuth } from '../provider';
 
 const formSchema = z.object({
-    name: z.string().min(2).max(50),
-    surname: z.string().min(2).max(50),
+    firstname: z.string().min(2).max(50),
+    lastname: z.string().min(2).max(50),
     email: z.string().min(5).max(50),
   })
 
@@ -31,8 +31,8 @@ const RegisterLearner = ({classId}: {classId: string}) => {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-          name: "",
-          surname: "",
+          firstname: "",
+          lastname: "",
           email: "",
         },
       })
@@ -59,6 +59,7 @@ const RegisterLearner = ({classId}: {classId: string}) => {
         await createUserWithEmailAndPassword(fireAuth, values.email, password);
         await registerLearner(values);
         await addLearner(values, classId);
+        
         sendPasswordResetEmail(fireAuth, values.email)
         .then(async() => {
           alert("Account successfully created. A password reset email has been sent to the learner email so that they can set their own password.");
@@ -68,6 +69,7 @@ const RegisterLearner = ({classId}: {classId: string}) => {
           const errorMessage = error.message;
             console.log("Error Message:  ",errorMessage)
         });
+
         setUploading(true);
         window.location.reload();
       } catch(err){
@@ -99,7 +101,7 @@ const RegisterLearner = ({classId}: {classId: string}) => {
 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
   <FormField
     control={form.control}
-    name="name"
+    name="firstname"
     render={({ field }) => (
       <FormItem>
         <FormLabel>Name</FormLabel>
@@ -112,7 +114,7 @@ const RegisterLearner = ({classId}: {classId: string}) => {
   />
   <FormField
     control={form.control}
-    name="surname"
+    name="lastname"
     render={({ field }) => (
       <FormItem>
         <FormLabel>Surname</FormLabel>

@@ -14,6 +14,14 @@ import AddQuiz from '@/components/assessments/addQuiz';
 import { redirect } from 'next/navigation';
 import DeleteQuiz from '@/components/assessments/deleteQuiz';
 
+interface Assessment {
+  assessmentid: string;
+  title: string;
+  assessmenttype: string;
+  duedate: string; 
+  duetime: string;
+  instruction: string;
+}
 
 const Assessments = async ({ params }: { params: { classId: string } }) => {
 
@@ -26,11 +34,27 @@ const Assessments = async ({ params }: { params: { classId: string } }) => {
     const currentClass = await getClass(classId);
     const subject = currentClass?.subject;
     const division = currentClass?.division;
-   
-    const adminAssessments = await getAdminAssessments(classId);
-    const LearnerAssessments = await getlearnerAssessments(classId);
-  
 
+    const adminAssessmentsData = await getAdminAssessments(classId)
+    const learnerAssessmentsData = await getlearnerAssessments(classId)
+
+    const mapToAssessment = (data: any): Assessment[] => {
+      return data.map((item: any) => ({
+        assessmentid: item.assessmentid,
+        title: item.title,
+        assessmenttype: item.assessmenttype,
+        duedate: item.duedate,
+        duetime: item.duetime,
+        instruction: item.instruction
+      }));
+    };
+   
+    let adminAssessments: Assessment[] = mapToAssessment(adminAssessmentsData);
+    let learnerAssessments: Assessment[] = mapToAssessment(learnerAssessmentsData);
+
+    adminAssessments = adminAssessments.sort((a, b) => new Date(b.duedate).getTime() - new Date(a.duedate).getTime());
+    learnerAssessments = learnerAssessments.sort((a, b) => new Date(b.duedate).getTime() - new Date(a.duedate).getTime());
+  
   return (
     <div className='p-4 md:p-6 lg:p-12 min-h-screen '>
       <div className='flex flex-col gap-6 lg:gap-0 mb-6 lg:mb-0 lg:flex-row lg:justify-between'>
@@ -55,7 +79,7 @@ const Assessments = async ({ params }: { params: { classId: string } }) => {
           <div>
              { adminAssessments?.length === 0 ? (
          <div className='text-center text-zinc-500 flex justify-center items-center h-screen'>
-          You do not have any assessments. Click create assessment.
+          You do not have any assessments. Click assessment to create an assessment.
           </div>
           ) : (
             <div className='flex flex-col gap-6 lg:gap-12 md:flex-row md:flex-wrap'>
@@ -91,17 +115,17 @@ const Assessments = async ({ params }: { params: { classId: string } }) => {
           </div>
         ) : (
           <div>
-          { LearnerAssessments?.length === 0 ? (
+          { learnerAssessments?.length === 0 ? (
             <div className='text-center text-zinc-500 flex justify-center items-center h-screen'>
              You do not have any assessments.
              </div>
              ) : (
-          <div className='flex flex-wrap gap-8'>
+          <div className='flex flex-wrap gap-8 w-full'>
   
               {
-                LearnerAssessments?.map((assessment, index) => {
+                learnerAssessments?.map((assessment, index) => {
                       return (
-                        <Card key={index} className='w-64 flex flex-col'>
+                        <Card key={index} className='md:w-64 flex flex-col w-[380px]'>
                           <CardHeader>
                             <CardTitle>
                               <div>

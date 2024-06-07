@@ -27,6 +27,12 @@ const Learners = async ({ params }: { params: { classId: string } }) => {
 
   const learners = await getLearners(classId);
 
+  learners?.sort((a: any, b: any) => {
+    if (a.surname < b.surname) return -1;
+    if (a.surname > b.surname) return 1;
+    return 0;
+  });
+
   const currentClass = await getClass(classId);
   const division = currentClass?.division;
   const subject = currentClass?.subject;
@@ -84,13 +90,16 @@ const Learners = async ({ params }: { params: { classId: string } }) => {
                 <TableCell>{learner?.name}</TableCell>
                 <TableCell>{learner?.surname}</TableCell>
                 <TableCell className='flex items-center gap-2'>
-                  <DeleteLearner classId={classId} learnerId={learner?.learnerid}/>
+                  
                   <Link 
                   href={`/classes/${classId}/assessments/assessmentId/submissions/${learner?.learnerid}`}
                   as={`/classes/${classId}/assessments/assessmentId/submissions/${learner?.learnerid}`}
+                  className='hover:text-white hover:bg-[#064789] bg-white text-[#064789] border rounded-md border-[#064789] md:px-2 p-1'
+                  
                   >
-                    submissions
+                    Submissions
                   </Link>
+                  <DeleteLearner classId={classId} learnerId={learner?.learnerid}/>
                 </TableCell>
               </TableRow>
             );

@@ -22,7 +22,7 @@ const Nav = async () => {
           </div>
 
           <div className='flex gap-1 lg:gap-2 items-center'>
-            <div className='text-gray-600 font-medium lg:font-semibold text-sm md:text-base lg:text-lg'>{user?.role.toUpperCase()}</div>
+            <div className='text-gray-400 font-medium lg:font-semibold text-sm md:text-base lg:text-lg'>{user?.role.toUpperCase()}</div>
             <SignOut />
           </div>
 

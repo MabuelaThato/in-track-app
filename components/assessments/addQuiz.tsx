@@ -129,13 +129,13 @@ const AddQuiz = ({classId}: {classId: string}) => {
 
   return (
     <Dialog>
-    <DialogTrigger asChild className='bg-[#064789] hover:border hover:cursor-pointer hover:border-[#064789] hover:text-[#064789] hover:bg-white rounded-md p-2 text-white flex gap-2 items-center w-40 lg:w-auto h-10'>
+    <DialogTrigger asChild className='bg-[#064789] hover:border hover:cursor-pointer hover:border-[#064789] hover:text-[#064789] hover:bg-white rounded-md p-2 text-white flex gap-2 items-center w-44 h-10'>
       <div>
         <FaPlus />
-        <span className='lg:grow text-sm'>Add assessment</span>
+        <span className='lg:grow text-sm md:text-base'>Add assessment</span>
       </div>
     </DialogTrigger>
-    <DialogContent className="max-w-[380px] rounded">
+    <DialogContent className="w-[330px] md:w-[430px] rounded">
       <DialogHeader>
         <DialogTitle>Create a new assessment</DialogTitle>
         <DialogDescription>Enter all the information. Click create when you're done.</DialogDescription>
@@ -146,7 +146,7 @@ const AddQuiz = ({classId}: {classId: string}) => {
         control={form.control}
         name="title"
         render={({ field }) => (
-          <FormItem className='max-w-[350px]'>
+          <FormItem className='w-[300px] md:w-full'>
             <FormLabel>Name of assessment</FormLabel>
             <FormControl>
               <Input placeholder="eg. Test 1 - Algebraic equations" {...field} />
@@ -159,7 +159,7 @@ const AddQuiz = ({classId}: {classId: string}) => {
         control={form.control}
         name="quizType"
         render={({ field }) => (
-          <FormItem className='max-w-[350px]'>
+          <FormItem className='w-[300px] md:w-full'>
             <FormLabel>Type of assessment</FormLabel>
             <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
@@ -180,7 +180,7 @@ const AddQuiz = ({classId}: {classId: string}) => {
         control={form.control}
         name="instruction"
         render={({ field }) => (
-          <FormItem className='max-w-[350px]'>
+          <FormItem className='w-[300px] md:w-full'>
             <FormLabel>Instructions</FormLabel>
             <FormControl>
               <Textarea placeholder="What the learners will be required to do." {...field}/>
@@ -193,7 +193,7 @@ const AddQuiz = ({classId}: {classId: string}) => {
         control={form.control}
         name="passPercentage"
         render={({ field }) => (
-          <FormItem className='max-w-[350px]'>
+          <FormItem className='w-[300px] md:w-full'>
             <FormLabel>Pass percentage</FormLabel>
             <FormControl>
               <Input placeholder="eg. 60" {...field} />
@@ -202,7 +202,7 @@ const AddQuiz = ({classId}: {classId: string}) => {
           </FormItem>
         )}
       />
-            <div className='max-w-[350px]'>
+            <div className='w-[300px] md:w-full'>
             <Label className='mb-2'>Due Date</Label>
             <Popover>
               <PopoverTrigger asChild>
@@ -232,7 +232,7 @@ const AddQuiz = ({classId}: {classId: string}) => {
           control={form.control}
           name="time"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className='w-[300px] md:w-full'>
               <FormLabel>Time Due</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
@@ -256,8 +256,8 @@ const AddQuiz = ({classId}: {classId: string}) => {
           control={form.control}
           name="attempts"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel>Time Due</FormLabel>
+            <FormItem className='w-[300px] md:w-full'>
+              <FormLabel>Number of attempts</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>
@@ -278,7 +278,7 @@ const AddQuiz = ({classId}: {classId: string}) => {
           )}
         />
  
-      <DialogFooter className='max-w-[350px]'>
+      <DialogFooter className='w-[300px] md:w-full'>
         <Button type="submit">
         {
             uploading ? (<div>Creating...</div>) : (<div>Create assessment</div>)

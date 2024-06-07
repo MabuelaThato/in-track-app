@@ -54,7 +54,7 @@ export async function registerLearner(form: any) {
         
         try {
             await sql`INSERT INTO users (userid, lastname, firstname, role)
-                VALUES (${user.uid}, ${form.name}, ${form.surname}, 'learner');`;
+                VALUES (${user.uid}, ${form.lastname}, ${form.firstname}, 'learner');`;
                 
       } catch (error) {
         
@@ -74,7 +74,7 @@ export async function addLearner(form: any, classId: string) {
             try {
               const userRecord = await firebaseAdmin.auth().getUserByEmail(form.email);
               await sql`INSERT INTO learners (classid, teacherid, name, surname, learnerid)
-                VALUES (${classId}, ${user.uid}, ${form.name}, ${form.surname}, ${userRecord.uid});`;
+                VALUES (${classId}, ${user.uid}, ${form.firstname}, ${form.lastname}, ${userRecord.uid});`;
             } catch (error) {
               console.error('Error fetching user data:', error);
               return null;
@@ -371,6 +371,7 @@ export async function getClass(classId: string){
 
     try {
       const currentUser = await firebaseAdmin.auth().verifyIdToken(token);
+      await sql`DELETE FROM quizsubmissions WHERE classid = ${classId} AND assessmentid = ${assessmentId} AND learnerid = ${currentUser.uid};`;
       await sql`INSERT INTO quizsubmissions (assessmentid, classid, learnerid, fullname, score, percentage, status, assessmenttitle) 
       VALUES (${assessmentId}, ${classId}, ${currentUser.uid}, ${fullName}, ${score}, ${percentage}, ${status}, ${title});`;
 
@@ -531,6 +532,20 @@ export async function getClass(classId: string){
     }
 
     revalidatePath("/dashboard/classes");
+  }
+
+  export async function deleteQuizSubmission(classId: string, assessmentId: string){
+    const token = cookies().get("token")?.value!;
+    if (!token) return redirect("/");
+
+    try {
+      const currentUser = await firebaseAdmin.auth().verifyIdToken(token);
+      await sql`DELETE FROM quizsubmissions WHERE classid=${classId} AND assessmentid=${assessmentId} AND learnerid=${currentUser.uid};`;
+
+    } catch (error) {
+      console.error('Error deleting quiz results:', error);
+      
+    }
   }
 
 export async function deleteLearner(classId: string, learnerId: string){

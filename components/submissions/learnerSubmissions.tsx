@@ -112,7 +112,15 @@ const LearnerSubmission = ({classId, learnerId} : {classId: string, learnerId: s
                   <TableCell>{submission?.percentage}%</TableCell>
                   <TableCell>
                       {
-                          submission?.status === "Pass" ? (<div className='text-[#A5BE00] font-semibold'>{submission?.status}</div>) : (<div className='text-red-600 font-semibold'>{submission?.status}</div>)
+                          submission?.status === "Pass" ? (
+                          <div className='text-[#A5BE00] font-semibold'>
+                            {submission?.status}
+                          </div>
+                          ) : (
+                          <div className='text-red-600 font-semibold'>
+                            {submission?.status}
+                          </div>
+                          )
                       }
                   </TableCell>
               </TableRow>

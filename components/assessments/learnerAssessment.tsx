@@ -1,6 +1,6 @@
 "use client"
-import { getAdminAssessment, getLearnerQuestions, getUser, submitQuizResult } from '@/actions/actions';
-import React, { useEffect, useState } from 'react'
+import { deleteQuizSubmission, getAdminAssessment, getLearnerQuestions, getUser, submitQuizResult } from '@/actions/actions';
+import React, { useEffect, useRef, useState } from 'react'
 import ScoreCard from './scoreCard';
 import { QueryResultRow } from '@vercel/postgres';
 import { Label } from "@/components/ui/label"
@@ -29,11 +29,14 @@ const LearnerAssessment = (
         correctAnswers: 0,
         wrongAnswers: 0,
     }); 
+    const quizResultRef = useRef(quizResult);
 
     const [pass, setPass] = useState<any>(null);
     const [user, setUser] = useState("");
 
-    let currentIndex = 0;
+    useEffect(() => {
+        quizResultRef.current = quizResult;
+      }, [quizResult]);
 
     const fetchQuestions = async () => {
       const result =  await getLearnerQuestions(classId, assessmentId);
@@ -102,12 +105,19 @@ const LearnerAssessment = (
             }
             setShowResults(true);
             const totalQuestions = questions || [];
-            const percentage = (quizResult.score / (totalQuestions.length || 1)) * 100;
-            const status = percentage >= pass ? 'Pass' : 'Fail';
-            const userScore = quizResult.score + " / " + questions?.length;
+          const finalScore = quizResultRef.current.score + (selectedAnswer === correctAnswer ? 1 : 0);
+          const percentage = (finalScore / (totalQuestions.length || 1)) * 100;
+          const status = percentage >= pass ? 'Pass' : 'Fail';
+          const userScore = finalScore + " / " + questions?.length;
 
             const assessment = await getAdminAssessment(classId, assessmentId);
-            await submitQuizResult(classId, assessmentId, user, userScore, percentage ,status, assessment?.title);
+
+            if (submissionsLength > 0) {
+                await deleteQuizSubmission(classId, assessmentId);
+                await submitQuizResult(classId, assessmentId, user, userScore, percentage ,status, assessment?.title);
+            } else {
+                await submitQuizResult(classId, assessmentId, user, userScore, percentage ,status, assessment?.title);
+            }
 
                 setShowResults(true);
 
@@ -121,24 +131,30 @@ const LearnerAssessment = (
 
 
   return (
-    <div className='flex justify-center items-center flex-col gap-8 m-6 md:m-0'>
+    <div className='flex justify-center items-center flex-col gap-8 m-2 md:m-0'>
         {
             questions ? (
                 <div>
             <div>
                 {!showResults ? (
-                    <div>
-                    <div className='text-gray-600 text-center text-sm md:text-base w-[350px] md:w-full'>
+                    <div className='w-full md:w-[430px]'>
+                    <div className='text-gray-600 text-center text-sm md:text-base md:w-full'>
                         <div>
                         You only have <b>{attempts}</b> attempt(s)  to complete the quiz.
                         <br />
-                        This is attempt <b>{submissionsLength + 1} / {attempts}</b>
+                        {
+                            attempts === 'unlimited' ? (
+                                ""
+                            ) : (
+                                <span>This is attempt <b>{submissionsLength + 1} / {attempts}</b></span>
+                            )
+                        }
                         <br />
                         <br />
                         <span className='text-red-600 font-light'>Note: Your last attempt's result will be your final mark.</span>
                         </div>
                     </div>
-                    <div className='bg-white border shadow rounded-md p-12 flex flex-col gap-8 w-[350px] md:w-[430px] mt-12'>
+                    <div className='bg-white border shadow rounded-md p-12 flex flex-col gap-8 mt-12'>
                       <div>
                         <h1 className='font-bold'>Question {currentQuestionIndex + 1}</h1>
                         <h4>{question}</h4>
@@ -189,7 +205,10 @@ const LearnerAssessment = (
             </div>
                 </div>
             ) : (
-                <div className="blue-loader"></div>
+                <div className='flex items-center justify-center gap-2 mt-12'>
+                    <div className="blue-loader"></div>
+                    <span>Loading</span>
+                </div>
             )
         }
         </div>

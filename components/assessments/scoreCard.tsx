@@ -28,25 +28,19 @@ const ScoreCard = ({ quizResult, questions, classId, assessmentId}: {quizResult:
     }, []);
 
     if (!pass) {
-        return <div className='flex justify-center items-center'>Loading</div>;
+        return <div className='flex justify-center items-center mt-12 gap-2'>
+			<div className='blue-loader'></div>
+			<div>Loading</div>
+		</div>;
     }
 
     const percentage = (quizResult.score / questions.length) * 100;
     const status = percentage >= pass ? 'Pass' : 'Fail';
 	const userScore = quizResult.score + " / " + questions.length;
 
-    const submitResults = async () => {
-        try {
-            const assessment = await getAdminAssessment(classId, assessmentId);
-            await submitQuizResult(classId, assessmentId, user, userScore, percentage ,status, assessment?.title);
-        } catch (error) {
-            console.error('Error submitting quiz results:', error);
-        }
-    };
-
 
 	return (
-		<div className='bg-white border shadow rounded-md p-12 py-8 mt-6'>
+		<div className='bg-white border shadow rounded-md p-8 mt-6'>
 			<div className='flex flex-col gap-8'>
 				<div>
 					<h1 className='font-bold text-2xl'>Results</h1>
@@ -82,14 +76,9 @@ const ScoreCard = ({ quizResult, questions, classId, assessmentId}: {quizResult:
 				</table>
 
 				<div className='grid w-full mt-4'>
-					<Link href={`/classes/${classId}/assessments`} className='place-self-end'>
-					<Button
-					onClick={submitResults}
-					className='flex gap-2 items-center bg-[#064789] hover:border hover:border-[#064789] hover:bg-white hover:text-[#064789]'
-					>
+					<Link href={`/classes/${classId}/assessments`} className='place-self-end flex gap-2 items-center justify-center rounded-md text-white h-10 w-40 bg-[#064789] hover:border hover:border-[#064789] hover:bg-white hover:text-[#064789]'>
 						<FaArrowLeft />
 						<span>Assessments</span>
-					</Button>
 				</Link>
 				</div>
 			</div>

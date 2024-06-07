@@ -3,11 +3,19 @@ import { Button } from '../ui/button'
 import Link from 'next/link'
 import { FaArrowLeft } from 'react-icons/fa6'
 
-const Results = ({classId, lastResult} : {classId: string, lastResult: any}) => {
+const Results = ({classId, lastResult, isPassed} : {classId: string, lastResult: any, isPassed: string}) => {
   console.log(lastResult?.score);
   return (
     <div className='flex flex-col gap-8'>
-                    <div className='text-gray-600 text-center'>You have used up all your attempts. Here are your results:</div>
+                    <div className='text-gray-600 text-center'>
+                      {
+                        isPassed === 'true' ? (<span>
+                          The due date has passed, here are your results.
+                        </span>) : (
+                          <span>You have used up all your attempts. Here are your results.</span>
+                        )
+                      }
+                    </div>
 
                 <div className='flex justify-center'>
                       <div className='flex flex-col gap-8 bg-white border shadow rounded-md p-12 py-8'>

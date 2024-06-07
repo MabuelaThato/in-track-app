@@ -34,18 +34,18 @@ const LearnerPdfAssignments = ({assignments, classId, assessmentId, lastPdf, isP
     }, [assignments]);
     
     return (
-       <div className='flex flex-col gap-20'>
+       <div className='flex flex-col gap-10 lg:gap-20'>
 
         <div className='flex flex-col gap-6'>
             <div>
-                <h1 className='text-4xl font-medium mb-1'>Written assignment</h1>
-                <p className='text-sm text-gray-600'>Here are your questions and instructions to your assignment. Click to download then click 'submit assignment' to upload your pdf.</p>
+                <h1 className='text-xl md:text-2xl lg:text-4xl font-medium '>Written assignment</h1>
+                <p className='text-xs md:text-sm text-gray-500 lg:mb-6'>Here are your questions and instructions to your assignment. Click to download then click 'submit assignment' to upload your pdf.</p>
             </div>
         <div className='flex gap-4'>
             {assignments?.map((assignment:any, index:any) => {
                 const downloadUrl = downloadUrls[index];
                 return (
-                    <div key={index} className='w-96'>
+                    <div key={index} className='w-full md:w-96'>
                         <div>
                             {downloadUrl ? (
                                 <div>

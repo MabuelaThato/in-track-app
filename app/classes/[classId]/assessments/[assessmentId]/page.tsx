@@ -3,7 +3,6 @@ import AdminAssessment from '@/components/assessments/adminAssessment';
 import LearnerAssessment from '@/components/assessments/learnerAssessment';
 import LearnerPdfAssignments from '@/components/assessments/learnerPdfAssignments';
 import Results from '@/components/assessments/results';
-import { isBefore, isEqual, parse } from 'date-fns';
 import { redirect } from 'next/navigation';
 import React from 'react'
 
@@ -20,7 +19,6 @@ const Assessment = async({ params }: { params: { classId: string, assessmentId: 
   const dueTime = assessment?.duetime;
   const submissions = await getLearnerQuizSubmissions(classId, assessmentId); //learner quiz attempts
   const submissionsLength = submissions?.length;
-  console.log("submissions length: ", submissionsLength)
   const lastIndex = submissionsLength ? submissionsLength - 1 : 0;
   const lastResult = submissions ? submissions[lastIndex] : null;
   const assignments = await getPdfQuestion(classId, assessmentId); //the ones that the teacher uploaded
@@ -64,19 +62,19 @@ const isPassed = hasDateTimePassed(fetchedDate, fetchedTime);
                     {
                       isPassed === 'true' ? (
                         <div>
-                          {submissionsLength !== undefined && submissionsLength == attempts ? (
-                            <Results classId={classId} lastResult={lastResult}/>
+                          {submissionsLength !== undefined && submissionsLength >= attempts ? (
+                            <Results classId={classId} lastResult={lastResult} isPassed={isPassed}/>
                           ) : (
                             <div className='text-center text-zinc-500 flex justify-center items-center h-screen'>
-                              You have missed the due date. You are not able to make any subissions for this assessment
+                              You have missed the due date. You are not able to make any submissions for this assessment.
                             </div>
 
                           )}
                         </div>
                       ) : (
                         <div>
-                          {submissionsLength !== undefined && submissionsLength == attempts ? (
-                            <Results classId={classId} lastResult={lastResult}/>
+                          {submissionsLength !== undefined && submissionsLength >= attempts ? (
+                            <Results classId={classId} lastResult={lastResult} isPassed={isPassed}/>
                           ) : (
                             <LearnerAssessment classId={classId} assessmentId={assessmentId} attempts={attempts} submissionsLength={submissionsLength}/>
 

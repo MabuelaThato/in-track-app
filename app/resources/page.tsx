@@ -1,11 +1,11 @@
 import React from 'react'
 import { getUser } from '@/actions/actions';
 import { redirect } from 'next/navigation';
-import AdminHome from '@/components/live/adminHome';
-import LearnerHome from '@/components/live/learnerHome';
+import AdminHome from '@/components/resources/adminHome';
+import LearnerHome from '@/components/resources/learnerHome';
 
 
-const Live = async () => {
+const Resources = async () => {
   const user = await getUser();
   if (!user) redirect("/");
   const userRole = user?.role;
@@ -25,4 +25,4 @@ const Live = async () => {
   )
 }
 
-export default Live
+export default Resources
