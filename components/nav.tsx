@@ -3,6 +3,7 @@ import { getUser } from '@/actions/actions';
 import SignOut from './sign-out';
 import { Concert_One } from "next/font/google";
 import { Separator } from './ui/separator';
+import { RiRobot2Fill } from "react-icons/ri";
 import Link from 'next/link';
 
 const concertOne = Concert_One({weight: ['400'],style: ['normal'],subsets: ['latin']});
@@ -18,6 +19,15 @@ const Nav = async () => {
           <div className={concertOne.className}>
             <Link href="/classes" className='font-black'>
                 <span className='text-[#A5BE00] text-sm md:text-base lg:text-lg'>in</span><span  className='text-base md:text-lg lg:text-xl text-[#064789]'>Track</span>
+            </Link>
+          </div>
+          <div>
+            <Link 
+            href={`/chatbot`}
+            className='flex gap-1 items-center text-sm md:text-base lg:text-lg'
+            >
+              <RiRobot2Fill />
+              <span>Tibbey</span>
             </Link>
           </div>
 

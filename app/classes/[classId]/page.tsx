@@ -16,6 +16,8 @@ import {
 } from "@/components/ui/tooltip"
 import { redirect } from 'next/navigation';
 import DeleteLearner from '@/components/learners/deleteLearner';
+import firebaseAdmin from '@/components/firebaseAdmin';
+import { cookies } from 'next/headers';
 
 
 const Learners = async ({ params }: { params: { classId: string } }) => {
@@ -37,6 +39,9 @@ const Learners = async ({ params }: { params: { classId: string } }) => {
   const division = currentClass?.division;
   const subject = currentClass?.subject;
 
+  const token = cookies().get("token")?.value!;
+  const currentUser = await firebaseAdmin.auth().verifyIdToken(token);
+
   return (
     <div className="p-4 md:p-6 lg:p-12 min-h-screen ">
         <div className="flex flex-col gap-6 lg:gap-0 mb-6 lg:mb-0 lg:flex-row md:justify-between">
@@ -51,7 +56,7 @@ const Learners = async ({ params }: { params: { classId: string } }) => {
           <div className='flex items-center gap-2'>
             <TooltipProvider>
               <Tooltip>
-                <TooltipTrigger><RegisterLearner classId={classId} /></TooltipTrigger>
+                <TooltipTrigger><RegisterLearner classId={classId} user={currentUser}/></TooltipTrigger>
                 <TooltipContent>
                   <p className='text-xs md:text-base'>
                     For new learners who don't have an account

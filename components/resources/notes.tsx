@@ -9,12 +9,13 @@ import { FaFilePdf } from 'react-icons/fa6';
 interface Note {
     noteid: string;
     filename: string;
-    date: string;
+    day: string;
   }
   
   interface CustomQueryResultRow {
     noteid: string;
     filename: string;
+    day: string;
   }
 
   interface PdfNotesProps {
@@ -34,20 +35,20 @@ const PdfNotes: React.FC<PdfNotesProps> = ({ classId, userRole }) => {
             const notesArray: Note[] = (fetchedNotes || []).map((row) => ({
                 noteid: row.noteid,
                 filename: row.filename,
-                date: row.date,
+                day: row.day,
               }));
 
               notesArray.sort((a, b) => {
-                const getDate = (date: string) => {
-                  const parts = date.split('-');
-                  const day = parseInt(parts[0]);
+                const getDate = (day: string) => {
+                  const parts = day.split('-');
+                  const date = parseInt(parts[0]);
                   const month = parseInt(parts[1]) - 1;
                   const year = parseInt(parts[2]);
-                  return new Date(year, month, day);
+                  return new Date(year, month, date);
                 };
         
-                const dateA = getDate(a.date);
-                const dateB = getDate(b.date);
+                const dateA = getDate(a.day);
+                const dateB = getDate(b.day);
         
                 return dateB.getTime() - dateA.getTime();
               });

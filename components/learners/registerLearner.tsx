@@ -16,7 +16,9 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import { addLearner, registerLearner } from '@/actions/actions';
+import { addLearner
+  
+  , registerLearner } from '@/actions/actions';
 import { createUserWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth';
 import { fireAuth } from '../provider';
 
@@ -26,7 +28,7 @@ const formSchema = z.object({
     email: z.string().min(5).max(50),
   })
 
-const RegisterLearner = ({classId}: {classId: string}) => {
+const RegisterLearner = ({classId, user}: {classId: string, user: any}) => {
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -55,27 +57,32 @@ const RegisterLearner = ({classId}: {classId: string}) => {
     const password = generatePassword();
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
+
+      setUploading(true);
+
       try{
         await createUserWithEmailAndPassword(fireAuth, values.email, password);
+
         await registerLearner(values);
         await addLearner(values, classId);
-        
-        sendPasswordResetEmail(fireAuth, values.email)
+        const auth = fireAuth;
+
+        sendPasswordResetEmail(auth, values.email)
         .then(async() => {
-          alert("Account successfully created. A password reset email has been sent to the learner email so that they can set their own password.");
+          alert("A password reset email has been sent to your email.");
+          window.location.reload();
         })
         .catch((error: any) => {
           const errorCode = error.code;
           const errorMessage = error.message;
             console.log("Error Message:  ",errorMessage)
+            setUploading(false);
         });
 
-        setUploading(true);
-        window.location.reload();
       } catch(err){
         console.log(err);
-        console.log("USER ALREADY HAS AN ACCOUNT");
         alert("Email already in use, try add learner instead.")
+        setUploading(false);
       }
       }
 

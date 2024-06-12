@@ -25,8 +25,6 @@ export async function redirectUser(){
     return redirect('/');
   }
 
-
-
 export async function registerUser(form: any) {
     const token = cookies().get("token")?.value!;
     if (!token) return redirect("/");
@@ -51,10 +49,17 @@ export async function registerLearner(form: any) {
     console.log("Token", token);
     if (token) {
         const user = await firebaseAdmin.auth().getUserByEmail(form.email);
+        let name = form.firstname;
+        name = name.trim();
+        const firstName = name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
+
+        let surname = form.lastname;
+        surname = surname.trim();
+        const lastName = surname.charAt(0).toUpperCase() + surname.slice(1).toLowerCase();
         
         try {
             await sql`INSERT INTO users (userid, lastname, firstname, role)
-                VALUES (${user.uid}, ${form.lastname}, ${form.firstname}, 'learner');`;
+                VALUES (${user.uid}, ${lastName}, ${firstName}, 'learner');`;
                 
       } catch (error) {
         
@@ -71,13 +76,20 @@ export async function addLearner(form: any, classId: string) {
 
     if (token) {
         const user = await firebaseAdmin.auth().verifyIdToken(token);
+        let name = form.firstname;
+        name = name.trim();
+        const firstName = name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
+
+        let surname = form.lastname;
+        surname = surname.trim();
+        const lastName = surname.charAt(0).toUpperCase() + surname.slice(1).toLowerCase();
+        
             try {
               const userRecord = await firebaseAdmin.auth().getUserByEmail(form.email);
               await sql`INSERT INTO learners (classid, teacherid, name, surname, learnerid)
-                VALUES (${classId}, ${user.uid}, ${form.firstname}, ${form.lastname}, ${userRecord.uid});`;
+                VALUES (${classId}, ${user.uid}, ${firstName}, ${lastName}, ${userRecord.uid});`;
             } catch (error) {
-              console.error('Error fetching user data:', error);
-              return null;
+              console.error('Error adding learner:', error);
             }
         
     } else {      
