@@ -17,6 +17,7 @@ import { sendPasswordResetEmail, updatePassword } from 'firebase/auth'
 import Link from 'next/link'
 import { RedirectHome, redirectUser } from '@/actions/actions'
 import firebaseAdmin from '@/components/firebaseAdmin'
+import toast from 'react-hot-toast'
 
 
 const formSchema = z.object({
@@ -44,13 +45,18 @@ const ResetPassword = () => {
 
             sendPasswordResetEmail(auth, values.email)
             .then(async() => {
-              alert("A password reset email has been sent to your email.");
+              toast.success("A password reset email has been sent to your email.",{
+                duration: 5000
+              })
               await RedirectHome()
             })
             .catch((error: any) => {
               const errorCode = error.code;
               const errorMessage = error.message;
                 console.log("Error Message:  ",errorMessage)
+                toast.error("Password reset unsuccessful, please try again.",{
+                  duration: 5000
+                })
             });
 
         } catch (error) {
@@ -95,7 +101,7 @@ const ResetPassword = () => {
           disabled={submitting}
           className='w-full rounded-md '
           >
-            {submitting? "..." : "Reset"}
+            {submitting? "Reseting..." : "Reset"}
             </Button>
         </form>
       </Form>

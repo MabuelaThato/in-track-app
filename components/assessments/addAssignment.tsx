@@ -34,7 +34,7 @@ const AddAssignment = ({classId, assessmentId}: {classId: string, assessmentId: 
         throw new Error('Please select a PDF file.');
       }
 
-      const fileRef = ref(storage, `files/${pdfFile.name}`);
+      const fileRef = ref(storage, `files/${classId}/${pdfFile.name}`);
       const uploadTask = uploadBytesResumable(fileRef, pdfFile);
 
       uploadTask.on(

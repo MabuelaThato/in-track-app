@@ -21,6 +21,7 @@ import { addLearner
   , registerLearner } from '@/actions/actions';
 import { createUserWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth';
 import { fireAuth } from '../provider';
+import toast from 'react-hot-toast';
 
 const formSchema = z.object({
     firstname: z.string().min(2).max(50),
@@ -69,7 +70,9 @@ const RegisterLearner = ({classId, user}: {classId: string, user: any}) => {
 
         sendPasswordResetEmail(auth, values.email)
         .then(async() => {
-          alert("A password reset email has been sent to your email.");
+          toast.success("A password reset email has been sent to the learner's email.",{
+            duration: 5000
+          })
           window.location.reload();
         })
         .catch((error: any) => {
@@ -81,7 +84,9 @@ const RegisterLearner = ({classId, user}: {classId: string, user: any}) => {
 
       } catch(err){
         console.log(err);
-        alert("Email already in use, try add learner instead.")
+        toast.error("Email already in use, try add learner instead.",{
+          duration: 5000
+        })
         setUploading(false);
       }
       }

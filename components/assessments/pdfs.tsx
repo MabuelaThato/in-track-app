@@ -38,7 +38,7 @@ const Pdfs = ({pdf, classId, assessmentId, isPassed} : {pdf: any, classId: strin
         try {
             setDeleting(true);
             await deleteLearnerAssignment(classId, assessmentId);
-            const desertRef = ref(storage, `learners/${pdf.filename}`);
+            const desertRef = ref(storage, `learners/${classId}/${pdf.filename}`);
     
             deleteObject(desertRef).then(() => {
             console.log("FILE DELETED SUCCESSFULLY")

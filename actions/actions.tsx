@@ -25,6 +25,13 @@ export async function redirectUser(){
     return redirect('/');
   }
 
+  export async function getToken(){
+    const token = cookies().get("token")?.value!;
+    const user = await firebaseAdmin.auth().verifyIdToken(token);
+
+    return user;
+  }
+
 export async function registerUser(form: any) {
     const token = cookies().get("token")?.value!;
     if (!token) return redirect("/");
@@ -183,6 +190,20 @@ export async function getLearners(classId: string){
  
      const { rows } = await sql`SELECT * FROM learners
      WHERE classid = ${classId} AND teacherid = ${currentUser.uid};`;
+     const currentClass = rows;
+ 
+     return currentClass;
+   } catch (error) {
+    console.log(error);
+   }
+}
+export async function getClassLearners(classId: string){
+    const token = cookies().get("token")?.value!;
+    if (!token) return redirect("/");
+   try {
+ 
+     const { rows } = await sql`SELECT * FROM learners
+     WHERE classid = ${classId};`;
      const currentClass = rows;
  
      return currentClass;

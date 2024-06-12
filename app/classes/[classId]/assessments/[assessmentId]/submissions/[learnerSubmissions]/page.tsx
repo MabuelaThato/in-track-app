@@ -28,6 +28,7 @@ const LearnerSubmissions: React.FC<LearnerSubmissionProps> = ({ params }) => {
 
     useEffect(() => {
       const fetchData = async () => {
+        
           try {
               const assignmentData = await getEachLearnerAssignments(classId, learnerSubmissions);
               const quizData = await getLearnerQuizzes(classId, learnerSubmissions);

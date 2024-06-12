@@ -18,7 +18,7 @@ const LearnerPdfAssignments = ({assignments, classId, assessmentId, lastPdf, isP
                 assignments.map(async (assignment: any) => {
                    
                     try {
-                        const pathReference = ref(storage, `files/${assignment.filename}`);
+                        const pathReference = ref(storage, `files/${classId}/${assignment.filename}`);
                         const url = await getDownloadURL(pathReference);
                         return url;
                     } catch (error) {

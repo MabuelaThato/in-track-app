@@ -33,7 +33,7 @@ const PdfSubmission = ({classId, assessmentId}: {classId: string, assessmentId: 
         throw new Error('Please select a PDF file.');
       }
 
-      const fileRef = ref(storage, `learners/${pdfFile.name}`);
+      const fileRef = ref(storage, `learners/${classId}/${pdfFile.name}`);
       const uploadTask = uploadBytesResumable(fileRef, pdfFile);
 
       uploadTask.on(
