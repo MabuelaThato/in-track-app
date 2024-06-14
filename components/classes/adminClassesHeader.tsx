@@ -26,7 +26,7 @@ const AdminClassesHeader = () => {
           <p className='text-xs md:text-sm text-gray-500 lg:mb-6'>Here is a list of all your classes.</p>
         </div>
         
-          <div className='flex items-center gap-2 mb-6 lg:mb-0'>
+          <div className='flex flex-wrap items-center gap-2 mb-6 lg:mb-0'>
             <AddClass />
             <Link 
             href={`/resources`}

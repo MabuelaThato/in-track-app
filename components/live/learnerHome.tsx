@@ -38,7 +38,7 @@ const LearnerHome = async () => {
                     Announcements
                   </Link>
                   <Link
-                  href={``}
+                  href={`/live/${grade?.classid}/chat`}
                   className='hover:text-[#064789] text-white hover:bg-white bg-[#064789] hover:text-[#064789] border rounded-md border-[#064789] md:px-2 p-1'
                   >
                     Chat

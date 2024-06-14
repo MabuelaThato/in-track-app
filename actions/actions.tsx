@@ -29,7 +29,7 @@ export async function redirectUser(){
     const token = cookies().get("token")?.value!;
     const user = await firebaseAdmin.auth().verifyIdToken(token);
 
-    return user;
+    return user.uid;
   }
 
 export async function registerUser(form: any) {
