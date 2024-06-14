@@ -28,7 +28,7 @@ const AdminAssessment = async ({classId, assessmentId}: {classId: string, assess
             <p className='text-xs md:text-sm text-gray-500 lg:mb-6'>{assessment?.instruction}</p>
         </div>
         <div>
-            <div className='flex flex-row gap-4 mb-4 md:mb-0'>
+            <div className='flex  gap-4 mb-4 md:mb-0'>
               {
                 assessment?.assessmenttype === "quiz" ? (
                 <div className='w-40'>

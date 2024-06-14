@@ -7,6 +7,7 @@ import { storage } from '../provider';
 import { getDownloadURL, ref } from 'firebase/storage';
 import { QueryResultRow } from '@vercel/postgres';
 import AdminPdfDownload from './adminPdfDownload';
+import Stats from './stats';
 
 const AdminSubmissions = ({ classId, assessmentId }: { classId: string, assessmentId: string }) => {
     const [assignmentSubmissions, setAssignmentSubmissions] = useState<any[]>([]);
@@ -94,10 +95,10 @@ const AdminSubmissions = ({ classId, assessmentId }: { classId: string, assessme
           </p>
         </div>
 
-        <div className=" border bg-white rounded-lg p-2 pb-6 md:p-6">
+        <div>
             {
             quizType === "assignment" ? (
-                <div>
+                <div className=" border bg-white rounded-lg p-2 pb-6 md:p-6">
                     <Table>
                         <TableCaption>Written assignment submissions.</TableCaption>
                         <TableHeader>
@@ -126,6 +127,9 @@ const AdminSubmissions = ({ classId, assessmentId }: { classId: string, assessme
                 </div>
             ) : (
                 <div>
+                  <Stats submissions={quizSubmissions} classId={classId} />
+                  <h2 className='text-lg md:text-xl lg:text-2xl font-medium mb-2 lg:mb-4'>Results</h2>
+                  <div className=" border bg-white rounded-lg p-2 pb-6 md:p-6">
                     <Table>
                         <TableCaption>Quiz submissions.</TableCaption>
                         <TableHeader>
@@ -155,6 +159,7 @@ const AdminSubmissions = ({ classId, assessmentId }: { classId: string, assessme
                         })}
                         </TableBody>
                     </Table>
+                    </div>
                 </div>
             )
             }
