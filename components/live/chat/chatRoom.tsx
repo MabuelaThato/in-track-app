@@ -16,6 +16,7 @@ import EmojiPicker from 'emoji-picker-react';
 import moment from 'moment';
 import { addDoc, collection, doc, onSnapshot, orderBy, query, serverTimestamp, updateDoc, where } from "firebase/firestore";
 import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 const ForwardedFaImage = forwardRef<HTMLDivElement, any>((props, ref: Ref<HTMLDivElement>) => {
   return (
@@ -166,20 +167,20 @@ useEffect(() => {
 
 
   return (
-  <div className="w-full h-full flex flex-col gap-4">
+  <div className="w-11/12 md:w-3/4 lg:w-2/3 h-5/6 lg:h-5/6 flex flex-col border border-gray-200 bg-white rounded-lg chat-shadow">
 
     {/*MESSAGES */}
 
-
-     <div ref={messagesContainerRef} className='h-4/5 flex-1 overflow-y-auto mt-6 p-10 h-2/4 w-full bg-white border border-gray-200 rounded-lg'>
+    <ScrollArea className="h-auto my-2 rounded-t-lg grow">
+     <div ref={messagesContainerRef} className='bg-white h-4/5 flex-1 overflow-y-auto p-4 md:p-6 lg:p-10 h-2/4 w-full text-white'>
       {messages?.map((message: any) => (
         <div key={message.id} className={`flex mb-4 ${message.sender === userId ? 'justify-end' : 'justify-start'}`}>
   
 
-        <div className={` text-white p-2 rounded-md ${message.sender === userId ? 'bg-[#064789] self-end' : 'bg-[#A5BE00] self-start'}`}>
+        <div className={`p-2 rounded-md max-w-48 md:max-w-80 lg:max-w-96 ${message.sender === userId ? 'bg-[#4D6273] self-end' : 'bg-[#245501] self-start'}`}>
           {
             message.image && <a href={message.image} download target='blank'>
-              <img src={message.image} className='max-h-60 w-60 mb-4' alt="user-image" />
+              <img src={message.image} className='max-h-60 max-w-40 md:max-w-60 mb-4' alt="user-image" />
             </a>
           }
           <p>{message.content}</p>
@@ -188,14 +189,15 @@ useEffect(() => {
       </div>
       ))}
     </div>
+    </ScrollArea>
 
 
     {/*MESSAGE INPUT */}
 
 
-    <div className='relative flex items-center py-2 px-6 rounded-full text-gray-500 justify-end bg-white mb-6 text-lg'>
+    <div className='relative flex items-center py-2 px-6 border-t border-gray-200 text-lg bg-white rounded-b-lg shadow-inner'>
       <Dialog>
-        <DialogTrigger asChild className={`${image ? "text-[#064789]":"text-gray-500"} mr-2 cursor-pointer`}>
+        <DialogTrigger asChild className={`${image ? "text-[#064789]":"text-[#525354]"} mr-2 cursor-pointer`}>
           <ForwardedFaImage />
         </DialogTrigger>
         <DialogContent id="dialog" className="w-[300px] md:w-[350px] rounded">
@@ -229,7 +231,7 @@ useEffect(() => {
       
       <BsEmojiLaughingFill 
       onClick={() => setShowEmojiPicker(!showEmojiPicker)}
-      className="mr-2 cursor-pointer"
+      className="cursor-pointer text-[#525354]"
       />
 
       <input
@@ -237,10 +239,10 @@ useEffect(() => {
         onChange={(e) => setMessage(e.target.value)}
         type='text'
         placeholder='Type a message...'
-        className='flex-1 border-none p-2 outline-none ml-4 text-base'
+        className='w-3/5 md:flex-1 border-none p-2 outline-none ml-4 text-base'
       />
 
-      <span onClick={() => sendMessage()} className='cursor-pointer ml-2 text-[#064789]' >
+      <span onClick={() => sendMessage()} className='cursor-pointer ml-2 text-[#525354]' >
         <FaPaperPlane />
       </span>
 

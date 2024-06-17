@@ -65,7 +65,7 @@ const AdminAnnouncements: React.FC<AnnouncementsProps> = ({ classId }) => {
                 <p className='text-sm md:text-base'>{announcement.details}</p>
               </CardContent>
               <CardFooter className='flex justify-end'>
-                  <DeleteAnnouncement classId={classId} announcementId={announcement.announcementid} />
+                <DeleteAnnouncement classId={classId} announcementId={announcement.announcementid} />
               </CardFooter>
             </Card>
           )

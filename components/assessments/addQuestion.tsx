@@ -56,7 +56,7 @@ const AddQuestion = ({classId, assessmentId}: {classId: string, assessmentId: st
 
   return (
     <Dialog>
-    <DialogTrigger asChild className='hover:cursor-pointer border border-[#A5BE00] bg-[#A5BE00] text-white hover:bg-white hover:text-[#A5BE00] rounded-md py-1.5 p-2 rounded-md flex items-center justify-center w-40 gap-2'>
+    <DialogTrigger asChild className='hover:cursor-pointer border border-[#A5BE00] bg-[#A5BE00] text-white hover:bg-white hover:text-[#A5BE00] rounded-md py-1.5 p-2 rounded-md flex items-center justify-center w-36 md:w-40 gap-2'>
       <div className='grow text-sm'>
         <FaPlus />
         <span>Add Question</span>

@@ -28,7 +28,7 @@ const AdminAssessment = async ({classId, assessmentId}: {classId: string, assess
             <p className='text-xs md:text-sm text-gray-500 lg:mb-6'>{assessment?.instruction}</p>
         </div>
         <div>
-            <div className='flex  gap-4 mb-4 md:mb-0'>
+            <div className='flex gap-2 md:gap-4'>
               {
                 assessment?.assessmenttype === "quiz" ? (
                 <div className='w-40'>
@@ -48,12 +48,12 @@ const AdminAssessment = async ({classId, assessmentId}: {classId: string, assess
                   </div>
                 )
               }
-               
-            </div>
             <div>
-              <Link href={`/classes/${classId}/assessments/${assessmentId}/submissions`} className="p-1 px-2 rounded-md bg-[#064789] border border-[#064789] text-white hover:bg-white hover:text-[#064789] text-xm md:text-base flex justify-center w-40">
+              <Link href={`/classes/${classId}/assessments/${assessmentId}/submissions`} className="p-1 px-2 rounded-md bg-[#064789] border border-[#064789] text-white hover:bg-white hover:text-[#064789] text-xm md:text-base flex justify-center w-32 md:w-40">
                   <div>Submissions</div>
               </Link>
+            </div>
+               
             </div>
         </div>
     </div>

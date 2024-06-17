@@ -11,7 +11,7 @@ const Room = async({params}: {params: {roomId: string}}) => {
   const currentUser = await getToken();
   
  return ( 
-  <div className="w-full h-screen px-24 bg-gray-200">
+  <div className="w-full h-screen flex justify-center items-center bg-[#F1F1F2]">
     <ChatRoom roomId={roomId} userId={currentUser}/>
   </div>
   )

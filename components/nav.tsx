@@ -5,6 +5,8 @@ import { Concert_One } from "next/font/google";
 import { Separator } from './ui/separator';
 import { RiRobot2Fill } from "react-icons/ri";
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import GetTibbey from './getTibbey';
 
 const concertOne = Concert_One({weight: ['400'],style: ['normal'],subsets: ['latin']});
 
@@ -21,15 +23,7 @@ const Nav = async () => {
                 <span className='text-[#A5BE00] text-sm md:text-base lg:text-lg'>in</span><span  className='text-base md:text-lg lg:text-xl text-[#064789]'>Track</span>
             </Link>
           </div>
-          <div>
-            <Link 
-            href={`/chatbot`}
-            className='flex gap-1 items-center text-sm md:text-base lg:text-lg'
-            >
-              <RiRobot2Fill />
-              <span>Tibbey</span>
-            </Link>
-          </div>
+          <GetTibbey />
 
           <div className='flex gap-1 lg:gap-2 items-center'>
             <div className='text-gray-400 font-medium lg:font-semibold text-sm md:text-base lg:text-lg'>{user?.role.toUpperCase()}</div>

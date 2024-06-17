@@ -75,10 +75,10 @@ const AdminHome = () => {
                   >
                     Chat
                   </Link>
-                  <Link href={``} 
+                  {/*<Link href={``} 
                   className="bg-gray-400 hover:border hover:border-gray-400 hover:text-gray-400 hover:bg-white rounded-md px-2 py-1 text-white">
                     <span>Live class</span>
-                  </Link>
+                  </Link>*/}
                 </TableCell>
               </TableRow>
             );

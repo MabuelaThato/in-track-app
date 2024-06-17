@@ -10,7 +10,7 @@ const Questions = ({questions, classId, assessmentId} : {questions:any, classId:
       You do not have any questions for this assessment. Click add question.
       </div>
       ) : (
-        <div className='bg-white p-12 border rounded-lg mt-10'>
+        <div className='bg-white p-12 border rounded-lg mt-6 md:mt-8'>
             <h1 className='font-bold text-2xl mb-6'>Questions</h1>
             <div className='flex flex-col gap-6'>
             {questions?.map((question:any, index:any) => {

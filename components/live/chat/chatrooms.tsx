@@ -32,7 +32,7 @@ const ChatRooms = ({classId, userId} : {classId: string, userId: string}) => {
     },[classId])
 
   return (
-    <div className='mt-4'>
+    <div className='mt-6 lg:mt-4'>
       {
         loading ? (
           <div className='w-full flex justify-center items-center gap-2 mt-12'>
