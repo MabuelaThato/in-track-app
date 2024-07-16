@@ -1,7 +1,7 @@
 "use client"
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link';
-import { getAdminClasses, getUser } from '@/actions/actions';
+import { getAdminClasses } from '@/actions/actions';
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '../ui/table';
 import { QueryResultRow } from '@vercel/postgres';
 

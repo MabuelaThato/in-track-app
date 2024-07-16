@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { QueryResultRow } from '@vercel/postgres';
 import { getDownloadURL, ref } from 'firebase/storage';
-import { getClass, getEachLearnerAssignments, getLearner, getLearnerQuizzes } from '@/actions/actions';
+import { getEachLearnerAssignments, getLearner, getLearnerQuizzes } from '@/actions/actions';
 import { storage } from '@/components/provider';
 import AdminPdfDownload from '@/components/submissions/adminPdfDownload';
 

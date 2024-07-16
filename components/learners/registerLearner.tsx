@@ -16,9 +16,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import { addLearner
-  
-  , registerLearner } from '@/actions/actions';
+import { addLearner, registerLearner } from '@/actions/actions';
 import { createUserWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth';
 import { fireAuth } from '../provider';
 import toast from 'react-hot-toast';

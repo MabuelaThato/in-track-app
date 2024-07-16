@@ -1,7 +1,7 @@
 import { getToken, getUser } from "@/actions/actions";
 import ChatRoom from "@/components/live/chat/chatRoom";
 import { redirect } from "next/navigation";
-import React, { useState } from "react";
+import React from "react";
 
 const Room = async({params}: {params: {roomId: string}}) => {
   const { roomId } = params;

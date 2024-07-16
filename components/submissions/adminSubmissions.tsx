@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from 'react';
 import { getAdminAssessment, getClass, getAssignmentSubmissions, getLearnerQuizSubmissions } from '@/actions/actions';
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '../ui/table';
-import { Button } from '../ui/button';
 import { storage } from '../provider';
 import { getDownloadURL, ref } from 'firebase/storage';
 import { QueryResultRow } from '@vercel/postgres';

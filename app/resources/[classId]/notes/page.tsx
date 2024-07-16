@@ -1,14 +1,6 @@
 import React from 'react'
-import {
-    Card,
-    CardContent,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-  } from "@/components/ui/card"
 import { getClass, getUser } from '@/actions/actions';
 import { redirect } from 'next/navigation';
-import { GetNotes } from '@/actions/resourcesActions';
 import PdfNotes from '@/components/resources/notes';
 import AddNote from '@/components/resources/addNote';
 

@@ -3,10 +3,7 @@ import React from 'react'
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import Link from 'next/link';
 import { getClass, getLearners, getUser } from '@/actions/actions';
-import { Button } from '@/components/ui/button';
-import { FaPlus } from 'react-icons/fa6';
 import AddLearner from '@/components/learners/addLearner';
-import { IoSettingsSharp } from "react-icons/io5";
 import RegisterLearner from '@/components/learners/registerLearner';
 import {
   Tooltip,

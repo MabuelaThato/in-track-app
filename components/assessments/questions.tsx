@@ -1,5 +1,4 @@
 import React from 'react'
-import { FaTrashCan } from 'react-icons/fa6'
 import DeleteQuestion from './deleteQuestion'
 
 const Questions = ({questions, classId, assessmentId} : {questions:any, classId: string, assessmentId: string}) => {

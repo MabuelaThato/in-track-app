@@ -15,7 +15,6 @@ import { Input } from "@/components/ui/input"
 import { fireAuth } from "@/components/provider"
 import { createUserWithEmailAndPassword } from 'firebase/auth'
 import {  registerUser } from '@/actions/actions'
-import Image from 'next/image'
 import Link from 'next/link'
 
 

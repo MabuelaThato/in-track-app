@@ -11,8 +11,7 @@ import {
 import { db, storage } from "@/components/provider";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { FaImage, FaPaperPlane } from "react-icons/fa6";
-import { BsEmojiLaughing, BsEmojiLaughingFill, BsEmojiSunglasses } from "react-icons/bs";
-import EmojiPicker from 'emoji-picker-react';
+import { BsEmojiLaughingFill } from "react-icons/bs";
 import moment from 'moment';
 import { addDoc, collection, doc, onSnapshot, orderBy, query, serverTimestamp, updateDoc, where } from "firebase/firestore";
 import { Button } from "@/components/ui/button";
@@ -150,15 +149,6 @@ useEffect(() => {
 
   };
 
-  const handleEmojiClick = (emojiData: any, event: any) => {
-    event.preventDefault();
-    setMessage((prevMessage: any) => prevMessage + emojiData.emoji);
-    const modal = document.getElementById('emoji-picker');
-    if (modal && typeof (modal as any).close === 'function') {
-      (modal as any).close();
-    }
-  }
-
   const formatTimeAgo = (timestamp: any) => {
     const date = timestamp?.toDate();
     const momentDate = moment(date);
@@ -246,11 +236,6 @@ useEffect(() => {
         <FaPaperPlane />
       </span>
 
-      {showEmojiPicker && (
-        <div className='absolute right-0 bottom-full p-2' id="emoji-picker">
-          <EmojiPicker onEmojiClick={handleEmojiClick} />
-        </div>
-      )}
     </div>
   </div>
   );

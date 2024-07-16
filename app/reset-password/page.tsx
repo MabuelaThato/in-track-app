@@ -13,10 +13,8 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { fireAuth } from "@/components/provider"
-import { sendPasswordResetEmail, updatePassword } from 'firebase/auth'
-import Link from 'next/link'
-import { RedirectHome, redirectUser } from '@/actions/actions'
-import firebaseAdmin from '@/components/firebaseAdmin'
+import { sendPasswordResetEmail } from 'firebase/auth'
+import { RedirectHome } from '@/actions/actions'
 import toast from 'react-hot-toast'
 
 

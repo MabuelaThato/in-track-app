@@ -1,6 +1,5 @@
-import { getAdminAssessment, getUser, submitQuizResult } from '@/actions/actions';
+import { getAdminAssessment, getUser } from '@/actions/actions';
 import React, { useEffect, useState } from 'react';
-import { Button } from '../ui/button';
 import Link from 'next/link';
 import { FaArrowLeft } from 'react-icons/fa6';
 

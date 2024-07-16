@@ -2,7 +2,7 @@
 import { destroyCookie } from 'nookies';
 import { fireAuth } from './provider';
 import { LuLogOut } from "react-icons/lu";
-import { useCallback, useEffect } from 'react';
+import { useEffect } from 'react';
 
 const SignOut = () => {
   useEffect(() => {

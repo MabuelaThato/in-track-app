@@ -14,11 +14,8 @@ import {
 import { Input } from "@/components/ui/input"
 import { fireAuth } from "@/components/provider"
 import { signInWithEmailAndPassword } from 'firebase/auth'
-
 import Link from 'next/link'
 import { redirectUser } from '@/actions/actions'
-import Image from 'next/image'
-
 
 const formSchema = z.object({
     email: z.string().min(2, {

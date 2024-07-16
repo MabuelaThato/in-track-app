@@ -8,8 +8,6 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
-import { BsPaperclip } from "react-icons/bs";
-import { addPdfQuestion } from '@/actions/actions';
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { storage } from '../provider';
 import { Button } from '../ui/button';

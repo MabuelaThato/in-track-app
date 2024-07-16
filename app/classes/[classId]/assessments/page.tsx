@@ -1,5 +1,5 @@
 
-import { deleteAdminAssignment, deleteQuiz, getAdminAssessments, getClass, getUser, getlearnerAssessments, getlearnerAssignments } from '@/actions/actions';
+import { getAdminAssessments, getClass, getUser, getlearnerAssessments } from '@/actions/actions';
 import React from 'react'
 import {
   Card,

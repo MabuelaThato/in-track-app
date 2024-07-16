@@ -1,6 +1,5 @@
 "use client"
 import React, { useState } from 'react';
-import { FaTrash } from 'react-icons/fa6';
 import { deleteQuiz } from '@/actions/actions';
 import {
   AlertDialog,

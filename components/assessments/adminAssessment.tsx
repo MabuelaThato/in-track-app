@@ -1,11 +1,6 @@
-import { deleteAdminAssignment, getAdminAssessment, getPdfQuestion, getQuestions } from '@/actions/actions';
+import { getAdminAssessment, getPdfQuestion, getQuestions } from '@/actions/actions';
 import React from 'react'
 import AddQuestion from './addQuestion';
-import { Button } from '../ui/button';
-import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
-import { FaPlus } from 'react-icons/fa6';
-import { Label } from '../ui/label';
-import { Separator } from '../ui/separator';
 import AddAssignment from './addAssignment';
 import Questions from './questions';
 import PdfQuestions from './pdfQuestions';
